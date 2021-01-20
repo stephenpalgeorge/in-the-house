@@ -1,26 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Message } from '@in-the-house/api-interfaces';
+import * as React from 'react';
 
 export const App = () => {
-  const [m, setMessage] = useState<Message>({ message: '' });
-
-  useEffect(() => {
-    fetch('/api')
-      .then((r) => r.json())
-      .then(setMessage);
-  }, []);
-
   return (
-    <>
-      <div style={{ textAlign: 'center' }}>
-        <h1>Welcome to in-the-house!</h1>
-        <img
-          width="450"
-          src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png"
-        />
-      </div>
-      <div>{m.message}</div>
-    </>
+    <main>
+      <h1>Welcome to in-the-house!</h1>        
+    </main>
   );
 };
 

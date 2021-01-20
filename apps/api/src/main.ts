@@ -6,6 +6,8 @@ import * as mongoose from 'mongoose';
 import * as path from 'path';
 import { Message } from '@in-the-house/api-interfaces';
 
+import { authRouter } from './app/routes';
+
 // define initial variables
 const app = express();
 const PORT = process.env.port || 3333;
@@ -32,15 +34,12 @@ mongoose.connect(URI, {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(compression());
   app.use(cookieParser());
-  
-  const greeting: Message = { message: 'Welcome to api!' };
+
   // API ROUTES
-  app.get('/api', (_, res: express.Response) => {
-    res.send(greeting);
-  });
+  app.use('/auth', authRouter);
   
   // Catch all other routes and serve the React app:
-  app.get('/*', (_, res: express.Response) => {
+  app.get('*', (_, res: express.Response) => {
     res.sendFile(path.join(__dirname, '..', 'in-the-house', 'index.html'));
   });
   

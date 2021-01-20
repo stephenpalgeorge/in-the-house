@@ -1,3 +1,4 @@
+import { Request } from 'express';
 import { Document } from 'mongoose';
 
 export interface IProduct {
@@ -22,4 +23,28 @@ export interface IUser extends Document {
   usage?: IRecord[],
   encryptPassword(pw: string): string,
   comparePassword(pw: string): boolean,
+}
+
+export interface IErrorObject {
+  type: string,
+  message: string,
+}
+
+export interface IAuthToken {
+  userId: string,
+  iat: number,
+  exp: number,
+  tokenId?: string,
+}
+
+export interface IDataRequest extends Request {
+  accessToken?: string,
+  refreshToken?: string,
+  userId?: string,
+  tokenId?: string,
+}
+
+export interface IAuthRouteReturn {
+  user: IUser,
+  accessToken?: string,
 }
