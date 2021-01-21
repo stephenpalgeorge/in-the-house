@@ -17,7 +17,6 @@ export interface IUser extends Document {
   email: string,
   username: string,
   password: string,
-  tokenId: string,
   api_key?: string,
   projects?: IProduct[],
   usage?: IRecord[],
@@ -54,4 +53,11 @@ export interface IAuthRouteReturn {
 export interface IBasicResponse {
   status: 'success'|'error',
   payload: string,
+}
+
+export interface ILoginResponse {
+  message: string,
+  userId: string|undefined,
+  accessToken: string|undefined,
+  refreshToken: string|undefined,
 }

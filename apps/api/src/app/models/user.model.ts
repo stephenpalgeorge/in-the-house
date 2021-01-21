@@ -8,7 +8,6 @@ const userSchema: Schema = new Schema({
   email: { type: String, required: true, unique: true },
   username: { type: String, required: true },
   password: { type: String, required: true },
-  tokenId: { type: String, default: '' },
   api_key: { type: String, default: '' },
   projects: { type: Array, default: [] },
   usage: { type: Array, default: [] },

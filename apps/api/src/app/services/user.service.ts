@@ -1,5 +1,6 @@
 import { User } from '../models';
-import { IBasicResponse, IUser } from '@in-the-house/api-interfaces';
+import { tokens } from '../helpers';
+import { IBasicResponse, ILoginResponse, IUser } from '@in-the-house/api-interfaces';
 
 /**
  * CREATE USER
@@ -24,6 +25,34 @@ export async function createUser(email: string, password: string, username: stri
   }
 }
 
+export async function authenticate(username, password): Promise<ILoginResponse> {
+  try {
+    // find user by username, error if no document is found:
+    const user: IUser = await User.findOne({ username }).exec();
+    if (!user) throw `No user exists for user: ${username}`;
+
+    // validate password
+    const isValidPassword: boolean = user.comparePassword(password);
+    if (!isValidPassword) throw 'Password is incorrect...';
+
+    // sign tokens and return user, accessToken, refreshToken
+    const [accessToken, refreshToken] = tokens.signTokens(user.id);
+    return {
+      message: 'successfully created user',
+      userId: user.id,
+      accessToken,
+      refreshToken,
+    };
+  } catch (err) {
+    return {
+      message: err,
+      userId: undefined,
+      accessToken: undefined,
+      refreshToken: undefined,
+    };
+  }
+}
+
 /**
  * FETCH USER
  * ----------
@@ -37,7 +66,6 @@ export async function fetchUser(userId: string): Promise<IUser|undefined> {
   // clean user data so sensitive stuff isn't returned:
   user.password = "";
   user.api_key = "";
-  user.tokenId = "";
   user.projects = [];
   return user;
 }

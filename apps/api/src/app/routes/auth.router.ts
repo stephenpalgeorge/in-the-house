@@ -23,7 +23,7 @@ router.get('/', (req: Request, res: Response) => {
  * The response includes a simple success message and the userId,
  * we don't send the full user data at this point as we would now
  * require the user to login after having created their account.
- * The login route will return the full user object.
+ * The user/:id route will return the full user object.
  * 
  */
 router.post('/signup', [
@@ -55,6 +55,35 @@ router.post('/signup', [
   } catch (err) {
     const error: IErrorObject = { type: 'Unprocessable Entity', message: err };
     res.status(422).json({ error });
+  }
+});
+
+/**
+ * LOGIN - AUTHENTICATE USER
+ * ----------
+ * @method 'POST'
+ * '/api/auth/login'
+ * The res includes the userId and a success message,
+ * the full user data is returned by the user/:id route.
+ * 
+ */
+router.post('/login', async (req: Request, res: Response) => {
+  try {
+    // username and password must exist on body:
+    const { username, password } = req.body;
+    if (!username || !password) throw 'missing credentials';
+
+    // authenticate user and generate tokens
+    const { userId, accessToken, message, refreshToken } = await userService.authenticate(username, password);
+    if (!userId || !accessToken || !refreshToken) throw message;
+    else res.status(200).cookie('refreshToken', refreshToken, {
+      // ms in 10 days
+      maxAge: 864_000_000,
+      httpOnly: true,
+    }).json({ userId, accessToken });
+  } catch (err) {
+    const error: IErrorObject = { type: 'Unauthorized', message: err };
+    res.status(401).json(error);
   }
 });
 
