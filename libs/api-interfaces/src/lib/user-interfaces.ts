@@ -48,3 +48,10 @@ export interface IAuthRouteReturn {
   user: IUser,
   accessToken?: string,
 }
+
+// if 'success', the payload will be the user,
+// if 'error', the payload will be a message
+export interface ISignupResponse {
+  status: 'success'|'error',
+  payload: string,
+}
