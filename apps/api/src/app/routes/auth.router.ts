@@ -4,9 +4,9 @@ import { authMiddleware } from '../middleware';
 import { userService } from '../services';
 import {
   IAuthRouteReturn,
+  IBasicResponse,
   IDataRequest,
   IErrorObject,
-  ISignupResponse,
 } from '@in-the-house/api-interfaces';
 
 const router = Router();
@@ -49,7 +49,7 @@ router.post('/signup', [
     if (!errors.isEmpty()) res.status(422).json(errors.array());
     // create the user and return depending on success or error:
     const { email, password, username } = req.body;
-    const newUser: ISignupResponse = await userService.createUser(email, password, username);
+    const newUser: IBasicResponse = await userService.createUser(email, password, username);
     if (newUser.status === 'error') throw newUser.payload;
     else res.status(201).json({ user: newUser.payload });
   } catch (err) {

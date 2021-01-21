@@ -1,5 +1,5 @@
 import { User } from '../models';
-import { ISignupResponse, IUser } from '@in-the-house/api-interfaces';
+import { IBasicResponse, IUser } from '@in-the-house/api-interfaces';
 
 /**
  * CREATE USER
@@ -10,7 +10,7 @@ import { ISignupResponse, IUser } from '@in-the-house/api-interfaces';
  * @param username {String} text will be the display name for the user
  * 
  */
-export async function createUser(email: string, password: string, username: string): Promise<ISignupResponse> {
+export async function createUser(email: string, password: string, username: string): Promise<IBasicResponse> {
   try {
     // check that the email isn't already in use/associated with the account:
     const user: IUser = await User.findOne({ email }).exec();

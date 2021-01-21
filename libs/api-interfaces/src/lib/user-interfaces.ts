@@ -51,7 +51,7 @@ export interface IAuthRouteReturn {
 
 // if 'success', the payload will be the user,
 // if 'error', the payload will be a message
-export interface ISignupResponse {
+export interface IBasicResponse {
   status: 'success'|'error',
   payload: string,
 }
