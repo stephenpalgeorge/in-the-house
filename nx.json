@@ -1,14 +1,9 @@
 {
   "npmScope": "in-the-house",
-  "affected": {
-    "defaultBase": "master"
-  },
+  "affected": { "defaultBase": "master" },
   "implicitDependencies": {
     "workspace.json": "*",
-    "package.json": {
-      "dependencies": "*",
-      "devDependencies": "*"
-    },
+    "package.json": { "dependencies": "*", "devDependencies": "*" },
     "tsconfig.base.json": "*",
     "tslint.json": "*",
     ".eslintrc.json": "*",
@@ -19,32 +14,20 @@
       "runner": "@nrwl/nx-cloud",
       "options": {
         "accessToken": "MWQwYmU4ZGYtYTFkMi00M2QyLTlmNWQtYTQ1OGEzZDQ1MTA2fHJlYWQtd3JpdGU=",
-        "cacheableOperations": [
-          "build",
-          "test",
-          "lint",
-          "e2e"
-        ],
+        "cacheableOperations": ["build", "test", "lint", "e2e"],
         "canTrackAnalytics": false,
         "showUsageWarnings": true
       }
     }
   },
   "projects": {
-    "in-the-house": {
-      "tags": []
-    },
+    "in-the-house": { "tags": [] },
     "in-the-house-e2e": {
       "tags": [],
-      "implicitDependencies": [
-        "in-the-house"
-      ]
+      "implicitDependencies": ["in-the-house"]
     },
-    "api": {
-      "tags": []
-    },
-    "api-interfaces": {
-      "tags": []
-    }
+    "api": { "tags": [] },
+    "api-interfaces": { "tags": [] },
+    "ith-ui": { "tags": [] }
   }
 }

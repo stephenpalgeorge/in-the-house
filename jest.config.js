@@ -1,3 +1,7 @@
 module.exports = {
-  projects: ['<rootDir>/apps/in-the-house', '<rootDir>/apps/api'],
+  projects: [
+    '<rootDir>/apps/in-the-house',
+    '<rootDir>/apps/api',
+    '<rootDir>/libs/ith-ui',
+  ],
 };
