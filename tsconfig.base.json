@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@in-the-house/api-interfaces": ["libs/api-interfaces/src/index.ts"]
+      "@in-the-house/api-interfaces": ["libs/api-interfaces/src/index.ts"],
+      "@in-the-house/ui": ["libs/ui/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

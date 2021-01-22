@@ -1,14 +1,9 @@
 {
   "npmScope": "in-the-house",
-  "affected": {
-    "defaultBase": "master"
-  },
+  "affected": { "defaultBase": "master" },
   "implicitDependencies": {
     "workspace.json": "*",
-    "package.json": {
-      "dependencies": "*",
-      "devDependencies": "*"
-    },
+    "package.json": { "dependencies": "*", "devDependencies": "*" },
     "tsconfig.base.json": "*",
     "tslint.json": "*",
     ".eslintrc.json": "*",
@@ -26,18 +21,13 @@
     }
   },
   "projects": {
-    "in-the-house": {
-      "tags": []
-    },
+    "in-the-house": { "tags": [] },
     "in-the-house-e2e": {
       "tags": [],
       "implicitDependencies": ["in-the-house"]
     },
-    "api": {
-      "tags": []
-    },
-    "api-interfaces": {
-      "tags": []
-    }
+    "api": { "tags": [] },
+    "api-interfaces": { "tags": [] },
+    "ui": { "tags": [] }
   }
 }
