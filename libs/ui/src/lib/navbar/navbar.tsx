@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import './navbar.module.scss';
+import './navbar.scss';
 
 export interface ILink {
   path: string,
@@ -20,13 +20,13 @@ export function Navbar(props: NavbarProps) {
       <ul className="menu">
         {
           (menu.length > 0) &&
-          menu.map(item => <li><Link to={item.path}>{ item.label }</Link></li>)
+          menu.map((item, i) => <li key={i}><Link to={item.path}>{ item.label }</Link></li>)
         }
       </ul>
       {
         (actions && actions.length > 0 && actions.length < 3) &&
         <ul className="actions">
-          { actions.map(action => <li><Link to={action.path}>{ action.label }</Link></li>) }
+          { actions.map((action, i) => <li key={i}><Link to={action.path}>{ action.label }</Link></li>) }
         </ul>
       }
     </nav>
