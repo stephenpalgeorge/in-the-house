@@ -1,1 +1,1 @@
-export * from './lib/test/test';
+export * from './lib/navbar/navbar';
