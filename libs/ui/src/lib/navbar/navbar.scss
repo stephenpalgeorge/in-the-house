@@ -1,110 +1,18 @@
-.navbar.open {
-  box-shadow: none;
-}
 .navbar {
-  $nav-height--breakpoint-small: 3.5rem;
-
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: $nav-height--breakpoint-small;
-  box-shadow: $box-shadow--base-top;
+  a {
+    font-size: $font-size--large;
+    text-decoration: none;
+    color: $color--light;
+  }
 
   ul {
     list-style-type: none;
     display: flex;
-  }
-
-  ul.menu.open {
-    left: 0;
-  }
-  ul.menu {
-    position: absolute;
-    padding: 0.5rem 0;
-    width: 100%;
-    left: -100vw;
-    bottom: $nav-height--breakpoint-small;
-    flex-direction: column;
-    background-color: $color--dark;
-    box-shadow: $box-shadow--base-top;
-
-    transition: left 0.4s ease-out;
 
     li {
       display: flex;
-    }
-
-    li a {
-      padding: 1rem 0;
-      width: 100%;
-      text-align: center;
-      font-family: $font-family--sans-serif;
-      font-weight: 300;
-      font-size: $font-size--large;
-      text-decoration: none;
-      color: $color--light;
-    }
-
-    li.active a {
-      font-weight: $font-weight--heavy;
-      text-decoration: underline;
-    }
-  }
-
-  ul.actions {
-    height: 100%;
-    display: flex;
-
-    li {
-      height: 100%;
-      display: flex;
-    }
-
-    .action {
-      flex-grow: 1;
-
-      a {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-family: $font-family--serif;
-        font-size: $font-size--large;
-        color: $color--light;
-        text-decoration: none;
-      }
-    }
-
-    #menu-icon {
-      position: relative;
-      width: 25%;
-      background-color: #000;
-
-      > .icon-bar {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        height: 0.2rem;
-        width: 50%;
-        max-width: 2rem;
-        background-color: $color--light;
-        transition: top 0.1s ease-out;
-      }
-      #icon-bar--top {
-        top: 30%;
-      }
-      #icon-bar--bottom {
-        top: 70%;
-      }
-
-      &.open {
-        #icon-bar--top,
-        #icon-bar--bottom {
-          top: 50%;
-        }
-      }
     }
   }
 }
+
+@import './navbar-breakpoint-small.scss';
