@@ -1,0 +1,53 @@
+// RESET:
+
+// remove padding and margin, we'll set these on the components
+// when we need them:
+* {
+  padding: 0;
+  margin: 0;
+}
+
+// border-box for literally everything (inc. pseudo elements):
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+// body defaults:
+body {
+  scroll-behavior: smooth;
+  text-rendering: optimizeSpeed;
+}
+
+// links that don't have a link should not be clickable:
+a:not([href]) {
+  pointer-events: none;
+}
+
+// make images a little easier to work with:
+// - they should never overflow on the x-axis
+// - they should default to block
+img {
+  max-width: 100%;
+  display: block;
+}
+
+// inherit font styles for all form elements:
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+// remove animations and transitions for people that set
+// this on their system:
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
