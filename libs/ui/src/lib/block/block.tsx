@@ -5,13 +5,16 @@ import './block.scss';
 /* eslint-disable-next-line */
 export interface BlockProps {
   contents?: 'full-width'|'narrow'|'very-narrow',
+  children: React.ReactNode[]
 }
 
-export function Block({ contents = 'full-width'}: BlockProps) {
+export function Block({ contents = 'full-width', children }: BlockProps) {
   return (
-    <div>
-      <h1>Welcome to block!</h1>
-    </div>
+    <section className="block">
+      <div className={`contents contents--${contents}`}>
+        { children }
+      </div>
+    </section>
   );
 }
 
