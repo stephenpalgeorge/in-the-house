@@ -58,13 +58,28 @@
 
     li {
       height: 100%;
+      display: flex;
+    }
+
+    .action {
+      flex-grow: 1;
+
+      a {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: $font-family--serif;
+        font-size: $font-size--large;
+        color: $color--light;
+        text-decoration: none;
+      }
     }
 
     #menu-icon {
       position: relative;
       width: 25%;
       background-color: #000;
-      display: flex;
 
       > .icon-bar {
         position: absolute;
@@ -75,7 +90,7 @@
         width: 50%;
         max-width: 2rem;
         background-color: $color--light;
-        transition: top 0.2s ease-out;
+        transition: top 0.1s ease-out;
       }
       #icon-bar--top {
         top: 30%;

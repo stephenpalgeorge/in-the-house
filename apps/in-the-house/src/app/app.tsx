@@ -9,6 +9,10 @@ export const App = () => {
       { path: '/', label: 'Home' },
       { path: '/demo', label: 'Demo' },
       { path: '/decs', label: 'Docs' }
+    ],
+    actions: [
+      { path: '/signup', label: 'Sign up', color: 'accent-bright' },
+      { path: '/login', label: 'Login', color: 'accent-muted' },
     ]
   }
 

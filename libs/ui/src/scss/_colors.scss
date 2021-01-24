@@ -2,8 +2,14 @@
   %color--#{$name} {
     color: $color;
   }
-
   .color--#{$name} {
     @extend %color--#{$name};
+  }
+
+  %background-color--#{$name} {
+    background-color: $color;
+  }
+  .background-color--#{$name} {
+    @extend %background-color--#{$name};
   }
 }
