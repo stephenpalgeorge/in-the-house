@@ -1,16 +1,14 @@
 import React from 'react';
 
-import './block.scss';
-
-/* eslint-disable-next-line */
 export interface BlockProps {
   contents?: 'full-width'|'narrow'|'very-narrow',
-  children: React.ReactNode[]
+  children: React.ReactNode[],
+  padding?: 'padding--base'|'padding--none'|'padding--large',
 }
 
-export function Block({ contents = 'full-width', children }: BlockProps) {
+export function Block({ contents = 'full-width', children, padding = 'padding--base' }: BlockProps) {
   return (
-    <section className="block">
+    <section className={`block ${padding}`}>
       <div className={`contents contents--${contents}`}>
         { children }
       </div>

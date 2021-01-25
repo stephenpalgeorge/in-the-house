@@ -1,7 +1,17 @@
+/* FRAMEWORK */
+// we must import 'reset' and 'variables' first, as it makes
+// sense that they would need to be at the top of the cascade.
+// After that, the imports proceed alphabetically.
 @import './reset';
 @import './variables';
 @import './colors';
+@import './layout';
 @import './typography';
 
-// module imports
+/* COMPONENTS */
+// Each component's styles are encapsulated and should not
+// leak into any other component, therefore the order of imports
+// here shoudl not affect anything, but are listed alphabetically
+// for ease of use.
+@import '../lib/block/block.scss';
 @import '../lib/navbar/navbar.scss';

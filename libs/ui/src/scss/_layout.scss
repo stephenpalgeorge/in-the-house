@@ -1,0 +1,9 @@
+@each $name, $padding in $paddings {
+  %padding--#{$name} {
+    padding: $padding;
+  }
+
+  .padding--#{$name} {
+    @extend %padding--#{$name};
+  }
+}

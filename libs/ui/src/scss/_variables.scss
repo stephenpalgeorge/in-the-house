@@ -11,6 +11,19 @@ $colors: (
   'accent-muted': $color--accent-muted,
 );
 
+/* PADDING */
+$vertical-flow: 1.5rem;
+
+$padding--none: 0;
+$padding--base: $vertical-flow;
+$padding--large: $padding--base * 2;
+
+$paddings: (
+  'none': $padding--none,
+  'base': $padding--base,
+  'large': $padding--large,
+);
+
 /* SHADOWS */
 $box-shadow--base-bottom: 0 0.25rem 0.5rem 0 rgba($color--dark, 0.24);
 $box-shadow--base-top: 0 -0.25rem 0.5rem 0 rgba($color--dark, 0.24);

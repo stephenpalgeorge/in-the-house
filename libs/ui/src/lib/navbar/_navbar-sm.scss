@@ -5,6 +5,10 @@
   .navbar {
     $nav-height--breakpoint-small: 3.5rem;
 
+    a {
+      color: $color--light;
+    }
+
     position: fixed;
     bottom: 0;
     left: 0;
