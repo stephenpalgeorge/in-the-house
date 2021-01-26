@@ -7,3 +7,44 @@
     @extend %padding--#{$name};
   }
 }
+
+%contents {
+  width: 100%;
+  margin: 0 auto;
+}
+.contents {
+  @extend %contents;
+}
+
+%contents--full-width {
+  max-width: 100%;
+}
+.contents--full-width {
+  @extend %contents--full-width;
+}
+
+%contents--narrow {
+  max-width: 100%;
+  @media screen and (min-width: 768px) {
+    max-width: 80%;
+  }
+  @media screen and (min-width: 1024px) {
+    max-width: 38rem;
+  }
+}
+.contents--narrow {
+  @extend %contents--narrow;
+}
+
+%contents--very-narrow {
+  max-width: 100%;
+  @media screen and (min-width: 768px) {
+    max-width: 65%;
+  }
+  @media screen and (min-width: 1024px) {
+    max-width: 30rem;
+  }
+}
+.contents--very-narrow {
+  @extend %contents--very-narrow;
+}

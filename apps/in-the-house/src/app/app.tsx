@@ -1,4 +1,4 @@
-import './app.module.scss';
+import './app.scss';
 import * as React from 'react';
 import { Navbar, NavbarProps } from '@in-the-house/ui';
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -18,12 +18,14 @@ export const App = () => {
 
   return (
     <Router>
-      <main>
+      <div className="app">
         <header>
           <Navbar { ...navItems } />
         </header>
-        <h1>Welcome</h1>
-      </main>
+        <main className="page contents contents--narrow">
+          <h1>Welcome</h1>
+        </main>
+      </div>
     </Router>
   );
 };

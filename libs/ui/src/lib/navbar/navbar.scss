@@ -1,4 +1,7 @@
 .navbar {
+  display: flex;
+  justify-content: space-between;
+
   a {
     font-size: $font-size--large;
     text-decoration: none;
@@ -10,8 +13,50 @@
 
     li {
       display: flex;
+      a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     }
+  }
+
+  ul.menu li {
+    a {
+      width: 6rem;
+      font-family: $font-family--sans-serif;
+      font-weight: $font-weight--light;
+      color: $color--dark;
+      justify-content: flex-start;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    &.active a {
+      font-weight: $font-weight--heavy;
+      text-decoration: underline;
+    }
+  }
+
+  ul.actions .action {
+    border: 0.125rem solid #fff;
+    box-shadow: $box-shadow--small-bottom;
+
+    a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      font-family: $font-family--serif;
+      color: $color--light;
+    }
+  }
+
+  ul.actions .action + .action {
+    margin-left: 1rem;
   }
 }
 
-@import './navbar-sm.scss';
+@import './navbar--breakpoint-down-sm';
