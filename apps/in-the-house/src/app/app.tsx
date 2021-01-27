@@ -23,7 +23,7 @@ export const App = () => {
           <Navbar { ...navItems } />
         </header>
         <main className="page contents contents--narrow">
-          <h1>Welcome</h1>
+          <h1>In the House</h1>
         </main>
       </div>
     </Router>

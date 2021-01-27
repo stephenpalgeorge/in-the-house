@@ -3,7 +3,7 @@
   justify-content: space-between;
 
   a {
-    font-size: $font-size--large;
+    font-size: $font-size--base;
     text-decoration: none;
   }
 
@@ -43,6 +43,10 @@
   ul.actions .action {
     border: 0.125rem solid #fff;
     box-shadow: $box-shadow--small-bottom;
+    transition: box-shadow 0.4s ease, background-color 0.2s ease;
+    &:hover {
+      box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
 
     a {
       display: flex;
