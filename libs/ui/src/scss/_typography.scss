@@ -7,6 +7,12 @@
     @extend %font-size--#{$name};
   }
 }
+.font-size--base {
+  line-height: 1.8;
+}
+.font-size--large {
+  line-height: 1.5;
+}
 
 @each $name, $family in $font-families {
   %font-family--#{$name} {
