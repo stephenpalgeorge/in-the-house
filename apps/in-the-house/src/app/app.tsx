@@ -1,6 +1,6 @@
 import './app.scss';
 import * as React from 'react';
-import { Navbar, NavbarProps, Stack } from '@in-the-house/ui';
+import { Navbar, NavbarProps, SignupForm, Stack } from '@in-the-house/ui';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 export const App = () => {
@@ -8,7 +8,7 @@ export const App = () => {
     menu: [
       { path: '/', label: 'Home' },
       { path: '/demo', label: 'Demo' },
-      { path: '/decs', label: 'Docs' }
+      { path: '/docs', label: 'Docs' }
     ],
     actions: [
       { path: '/signup', label: 'Sign up', color: 'accent-bright' },
@@ -35,6 +35,7 @@ export const App = () => {
               we have collated and into one developer-friendly API with consistent 
               request and response structures.
             </p>
+            <SignupForm />
           </Stack>
         </main>
       </div>
