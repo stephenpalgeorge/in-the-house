@@ -1,7 +1,9 @@
 import './app.scss';
 import * as React from 'react';
-import { Navbar, NavbarProps, SignupForm, Stack } from '@in-the-house/ui';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
+import { Navbar, NavbarProps } from '@in-the-house/ui';
+import { LandingPage } from './pages/LandingPage';
 
 export const App = () => {
   const navItems: NavbarProps = {
@@ -22,22 +24,11 @@ export const App = () => {
         <header>
           <Navbar { ...navItems } />
         </header>
-        <main className="page contents contents--narrow">
-          <Stack>
-            <h1>In the House</h1>
-            <p className="font-size--large font-weight--light">
-              The In The House API defines a series of endpoints for accessing data 
-              on UK Members of Parliament. If you’re building something that needs 
-              political data for the UK, the In The House API has you covered.
-            </p>
-            <p className="font-size--large font-weight--light">
-              All our data comes from publicly available, government resources, which 
-              we have collated and into one developer-friendly API with consistent 
-              request and response structures.
-            </p>
-            <SignupForm />
-          </Stack>
-        </main>
+        <Switch>
+          <Route path="/">
+            <LandingPage />
+          </Route>
+        </Switch>
       </div>
     </Router>
   );

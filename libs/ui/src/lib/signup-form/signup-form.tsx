@@ -1,8 +1,8 @@
 import React from 'react';
-
-// export interface SignupFormProps {}
+import { useHistory } from 'react-router-dom';
 
 export function SignupForm() {
+  const history = useHistory();
   const [email, setEmail] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
   const [passwordConf, setPasswordConf] = React.useState<string>('');
@@ -61,9 +61,13 @@ export function SignupForm() {
     setPasswordConf(v);
   }
 
+  const closeSignupForm = () => history.goBack();
 
   return (
     <form className="form signup-form" onSubmit={handleSubmit}>
+      <button className="close-signup-form" onClick={closeSignupForm}>
+        x
+      </button>
       <div className="form__form-field">
         <label htmlFor="username" className="form__form-field--label">Username</label>
         <input
