@@ -1,0 +1,52 @@
+.form {
+  label {
+    font-family: $font-family--serif;
+    color: $color--light;
+  }
+
+  .form-title {
+    font-size: $font-size--large;
+    font-family: $font-family--serif;
+    margin-bottom: $vertical-flow;
+    color: $color--light;
+  }
+
+  &__form-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.5rem;
+
+    label {
+      margin-bottom: 0.25rem;
+    }
+
+    input {
+      border: 0.125rem solid darken($color--accent-bright, 10%);
+      padding: 0.5rem;
+
+      &:focus {
+        outline-style: solid;
+        outline-width: 0.25rem;
+        outline-color: darken($color--accent-bright, 10%);
+      }
+    }
+  }
+
+  fieldset {
+    border: none;
+
+    legend.hidden {
+      display: none;
+    }
+  }
+
+  button[type='submit'] {
+    margin-top: 1rem;
+    width: 100%;
+    padding: 0.5rem 0;
+    background-color: $color--dark;
+    color: $color--light;
+    font-family: $font-family--serif;
+    font-size: $font-size--large;
+  }
+}

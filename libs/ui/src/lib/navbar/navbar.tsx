@@ -57,7 +57,11 @@ export function Navbar(props: NavbarProps) {
         </li>
         {
           (actions && actions.length > 0 && actions.length < 3) &&
-          actions.map((action, i) => <li className={`action ${'background-color--' + action.color || ''}`} key={i}><Link to={action.path}>{ action.label }</Link></li>)
+          actions.map((action, i) => {
+            return <li className={`action ${'background-color--' + action.color || ''} ${location.pathname === action.path ? 'active' : ''}`} key={i}>
+              <Link to={action.path}>{ action.label }</Link>
+            </li>
+          })
         }
       </ul>
     </nav>

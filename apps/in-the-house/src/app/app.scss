@@ -13,6 +13,10 @@ h6 {
   font-family: $font-family--serif;
 }
 
+main {
+  position: relative;
+}
+
 .app {
   padding-top: 5rem;
   header {

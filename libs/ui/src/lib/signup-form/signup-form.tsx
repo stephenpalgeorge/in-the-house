@@ -66,10 +66,13 @@ export function SignupForm() {
   return (
     <form className="form signup-form" onSubmit={handleSubmit}>
       <button className="close-signup-form" onClick={closeSignupForm}>
-        x
+        <div className="cross-bar"></div>
+        <div className="cross-bar"></div>
       </button>
+
+      <p className="form-title">Create an account</p>
       <div className="form__form-field">
-        <label htmlFor="username" className="form__form-field--label">Username</label>
+        <label htmlFor="username" className="form__form-field--label">Username:</label>
         <input
           id="username"
           name="username"
@@ -85,7 +88,7 @@ export function SignupForm() {
       </div>
 
       <div className="form__form-field">
-        <label htmlFor="email" className="form__form-field--label">Email address</label>
+        <label htmlFor="email" className="form__form-field--label">Email address:</label>
         <input
           id="email"
           name="email"
@@ -101,8 +104,9 @@ export function SignupForm() {
       </div>
       
       <fieldset className="form__fieldset">
+        <legend className="hidden">Set password</legend>
         <div className="form__form-field">
-          <label htmlFor="password" className="form__form-field--label">Password</label>
+          <label htmlFor="password" className="form__form-field--label">Password:</label>
           <input
             id="password"
             name="password"
@@ -117,7 +121,7 @@ export function SignupForm() {
           }
         </div>
         <div className="form__form-field">
-          <label htmlFor="password-conf" className="form__form-field--label">Re-type Password</label>
+          <label htmlFor="password-conf" className="form__form-field--label">Re-type Password:</label>
           <input
             id="password-conf"
             name="password-conf"

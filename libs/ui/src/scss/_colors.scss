@@ -9,7 +9,8 @@
   %background-color--#{$name} {
     background-color: $color;
     transition: background-color 0.2s ease;
-    &:hover {
+    &:hover,
+    &.active {
       background-color: darken($color, 10%);
     }
   }

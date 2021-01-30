@@ -5,6 +5,10 @@ import { SignupForm, Stack } from '@in-the-house/ui';
 export function LandingPage() {
   return (
     <main className="page contents contents--narrow">
+      <Route path="/signup">
+        <SignupForm />
+      </Route>
+
       <Stack>
         <h1>In the House</h1>
         <p className="font-size--large font-weight--light">
@@ -17,9 +21,6 @@ export function LandingPage() {
           we have collated and into one developer-friendly API with consistent 
           request and response structures.
         </p>
-        <Route path="/signup">
-          <SignupForm />
-        </Route>
       </Stack>
     </main>
   );
