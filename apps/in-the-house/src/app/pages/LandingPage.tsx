@@ -1,21 +1,22 @@
 import * as React from 'react';
-import { Route } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { ActionsProps, Actions, SignupForm, Stack } from '@in-the-house/ui';
 
 export function LandingPage() {
+  const location = useLocation();
   const landingPageActions: ActionsProps = {
     actions: [
-      { label: 'Create my account', path: '/signup', color: 'accent-bright' },
+      { label: 'Create my account', path: `${location.pathname}?signup`, color: 'accent-bright' },
       { label: 'Find out more', path: '/demo', color: 'dark' },
     ],
   }
   return (
     <main className="page contents contents--narrow">
-      <Route path="/signup">
-        {/* update callback to hit the api */}
+      {
+        /signup/.test(location.search) &&
         <SignupForm submissionCallback={() => null} />
-      </Route>
-
+      }
+      
       <Stack>
         <h1>In the House</h1>
         <p className="font-size--large font-weight--light">
