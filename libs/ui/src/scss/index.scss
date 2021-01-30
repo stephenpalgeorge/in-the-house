@@ -4,6 +4,7 @@
 // After that, the imports proceed alphabetically.
 @import './reset';
 @import './variables';
+@import './buttons';
 @import './colors';
 @import './forms';
 @import './layout';
@@ -14,6 +15,7 @@
 // leak into any other component, therefore the order of imports
 // here shoudl not affect anything, but are listed alphabetically
 // for ease of use.
+@import '../lib/actions/actions.scss';
 @import '../lib/block/block.scss';
 @import '../lib/layout/layout.scss';
 @import '../lib/navbar/navbar.scss';

@@ -1,0 +1,21 @@
+@each $name, $color in $colors {
+  %button-outline--#{$name} {
+    border: 0.125rem solid $color;
+    color: $color;
+
+    &:hover {
+      border-color: darken($color, 10%);
+      color: darken($color, 10%);
+      text-decoration: underline;
+    }
+    &:focus {
+      outline-style: solid;
+      outline-width: 0.25rem;
+      outline-color: $color;
+    }
+  }
+
+  .button-outline--#{$name} {
+    @extend %button-outline--#{$name};
+  }
+}

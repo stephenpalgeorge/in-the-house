@@ -1,12 +1,19 @@
 import * as React from 'react';
 import { Route } from 'react-router-dom';
-import { SignupForm, Stack } from '@in-the-house/ui';
+import { ActionsProps, Actions, SignupForm, Stack } from '@in-the-house/ui';
 
 export function LandingPage() {
+  const landingPageActions: ActionsProps = {
+    actions: [
+      { label: 'Create my account', path: '/signup', color: 'accent-bright' },
+      { label: 'Find out more', path: '/demo', color: 'dark' },
+    ],
+  }
   return (
     <main className="page contents contents--narrow">
       <Route path="/signup">
-        <SignupForm />
+        {/* update callback to hit the api */}
+        <SignupForm submissionCallback={() => null} />
       </Route>
 
       <Stack>
@@ -21,6 +28,7 @@ export function LandingPage() {
           we have collated and into one developer-friendly API with consistent 
           request and response structures.
         </p>
+        <Actions {...landingPageActions} />
       </Stack>
     </main>
   );
