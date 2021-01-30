@@ -1,7 +1,16 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
-export function SignupForm() {
+interface BareFunction {
+  (): void
+}
+
+export interface SignupFormProps {
+  closeForm?: BareFunction,
+  submissionCallback(email: string, password: string, username: string): any,
+}
+
+export function SignupForm({ closeForm, submissionCallback }: SignupFormProps) {
   const history = useHistory();
   const [email, setEmail] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
@@ -15,19 +24,29 @@ export function SignupForm() {
     email: '',
   });
 
+  // every time an error message is set, check if the form is now valid:
   React.useEffect(() => { checkValidForm() }, [errors]);
 
+  // form submission, does some final validation and then calls whatever
+  // callback has been provided in the props:
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (
+      email.length === 0 || password.length === 0 ||
+      passwordConf.length === 0 || username.length === 0
+    ) return;
+    submissionCallback(email, password, username);
   }
 
+  // if there are any error messages, or if any of the form fields
+  // are emyty strings, then the form is not valid.
   const checkValidForm = () => {
     const errorMessages: string[] = [];
-    let isRequiredError: boolean = false;
     for (const value of Object.values(errors)) {
       if (value.length > 0) errorMessages.push(value);
     }
-
+    
+    let isRequiredError: boolean = false;
     if (
       email.length === 0 ||
       password.length === 0 ||
@@ -38,6 +57,7 @@ export function SignupForm() {
     setInvalidForm(errorMessages.length > 0 || isRequiredError);
   }
 
+  // function validates any field that has to have a value:
   const handleRequired = (v: string, field: 'username'|'email') => {
     // if there's no value for the field, set an error:
     if (v.length === 0) setErrors({...errors, [field]: `${field} is required`});
@@ -47,21 +67,25 @@ export function SignupForm() {
     field === 'email' ? setEmail(v) : setUsername(v);
   }
 
+  // validates the password field, checks that it is at least 8 characters:
   const handlePassword = (v: string) => {
     if (v.length < 8) setErrors({...errors, password: 'password must be at least 8 characters'});
-    else if (!/[a-z]/.test(password)) setErrors({...errors, password: 'password must contain at least one lowercase letter'});
-    else if (!/[A-Z]/.test(password)) setErrors({...errors, password: 'password must contain at least one uppercase letter'});
+    // else if (!/[a-z]/.test(password)) setErrors({...errors, password: 'password must contain at least one lowercase letter'});
+    // else if (!/[A-Z]/.test(password)) setErrors({...errors, password: 'password must contain at least one uppercase letter'});
     else if (errors.password.length > 0) setErrors({...errors, password: ''});
     setPassword(v);
   }
 
+  // confirm that the re-typed password matches the original password, helps users catch typos:
   const handlePasswordConf = (v: string) => {
     if (password.length > 0 && v !== password) setErrors({...errors, passwordConf: 'passwords do not match, check for typos :)'});
     else setErrors({...errors, passwordConf: ''});
     setPasswordConf(v);
   }
 
-  const closeSignupForm = () => history.goBack();
+  // signup form loads on the /signup route, by moving back to the previous url
+  // the form will no longer be rendered:
+  const closeSignupForm = () => { closeForm ? closeForm() : history.goBack() };
 
   return (
     <form className="form signup-form" onSubmit={handleSubmit}>
