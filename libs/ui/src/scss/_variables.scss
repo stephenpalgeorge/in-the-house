@@ -2,13 +2,17 @@
 $color--dark: #000;
 $color--light: #fff;
 $color--accent-bright: #fe59c2;
+$color--accent-bright--darkened: darken($color--accent-bright, 10%);
 $color--accent-muted: #59c2fe;
+$color--accent-muted--darkened: darken($color--accent-muted, 10%);
 
 $colors: (
   'dark': $color--dark,
   'light': $color--light,
   'accent-bright': $color--accent-bright,
   'accent-muted': $color--accent-muted,
+  'accent-bright--darkened': $color--accent-bright--darkened,
+  'accent-muted--darkened': $color--accent-muted--darkened,
 );
 
 /* PADDING + MARGIN */

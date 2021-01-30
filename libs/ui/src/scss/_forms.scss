@@ -21,13 +21,13 @@
     }
 
     input {
-      border: 0.125rem solid darken($color--accent-bright, 10%);
+      border: 0.125rem solid $color--accent-bright--darkened;
       padding: 0.5rem;
 
       &:focus {
         outline-style: solid;
         outline-width: 0.25rem;
-        outline-color: darken($color--accent-bright, 10%);
+        outline-color: $color--accent-bright--darkened;
       }
     }
   }
@@ -44,9 +44,24 @@
     margin-top: 1rem;
     width: 100%;
     padding: 0.5rem 0;
+    border: none;
     background-color: $color--dark;
     color: $color--light;
     font-family: $font-family--serif;
     font-size: $font-size--large;
+
+    &:disabled {
+      opacity: 0.5;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+    &:focus {
+      text-decoration: underline;
+      outline-style: solid;
+      outline-width: 0.25rem;
+      outline-color: $color--accent-bright--darkened;
+    }
   }
 }
