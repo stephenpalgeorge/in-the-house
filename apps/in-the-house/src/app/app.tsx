@@ -4,6 +4,7 @@ import { Route, Switch, useLocation } from 'react-router-dom';
 
 import { Navbar, NavbarProps } from '@in-the-house/ui';
 import { LandingPage } from './pages/LandingPage';
+import { LoginPage } from './pages/LoginPage';
 
 export const App = () => {
   const location = useLocation();
@@ -25,6 +26,10 @@ export const App = () => {
         <Navbar { ...navItems } />
       </header>
       <Switch>
+        <Route path="/login">
+          <LoginPage />
+        </Route>
+
         <Route path="/">
           <LandingPage />
         </Route>
