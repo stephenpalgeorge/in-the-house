@@ -2,6 +2,8 @@ import * as React from 'react';
 import { useLocation } from 'react-router-dom';
 import { ActionsProps, Actions, SignupForm, Stack } from '@in-the-house/ui';
 
+import { signUp } from '../fetch';
+
 export function LandingPage() {
   const location = useLocation();
   const landingPageActions: ActionsProps = {
@@ -14,7 +16,7 @@ export function LandingPage() {
     <main className="page contents contents--narrow">
       {
         /signup/.test(location.search) &&
-        <SignupForm submissionCallback={() => null} />
+        <SignupForm submit={signUp} />
       }
       
       <Stack>

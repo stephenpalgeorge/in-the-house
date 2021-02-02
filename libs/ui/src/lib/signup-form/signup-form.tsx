@@ -7,10 +7,10 @@ interface BareFunction {
 
 export interface SignupFormProps {
   closeForm?: BareFunction,
-  submissionCallback(email: string, password: string, username: string): any,
+  submit(email: string, password: string, username: string): any,
 }
 
-export function SignupForm({ closeForm, submissionCallback }: SignupFormProps) {
+export function SignupForm({ closeForm, submit }: SignupFormProps) {
   const history = useHistory();
   const [email, setEmail] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
@@ -35,7 +35,7 @@ export function SignupForm({ closeForm, submissionCallback }: SignupFormProps) {
       email.length === 0 || password.length === 0 ||
       passwordConf.length === 0 || username.length === 0
     ) return;
-    submissionCallback(email, password, username);
+    submit(email, password, username);
   }
 
   // if there are any error messages, or if any of the form fields

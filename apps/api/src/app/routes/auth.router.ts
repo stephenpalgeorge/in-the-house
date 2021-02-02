@@ -51,6 +51,7 @@ router.post('/signup', [
     const { email, password, username } = req.body;
     const newUser: IBasicResponse = await userService.createUser(email, password, username);
     if (newUser.status === 'error') throw newUser.payload;
+    // payload will be the userId in this scenario:
     else res.status(201).json({ user: newUser.payload });
   } catch (err) {
     const error: IErrorObject = { type: 'Unprocessable Entity', message: err };
