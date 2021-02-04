@@ -1,10 +1,8 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import { Navbar, NavbarProps } from '../navbar/navbar';
 import { SignupForm } from '../signup-form/signup-form';
 
-// import './basic-page.module.scss';
-
-/* eslint-disable-next-line */
 export interface BasicPageProps {
   children: React.ReactNode|React.ReactNode[],
   contentsWidth?: 'full-width'|'narrow'|'very-narrow',
@@ -13,6 +11,7 @@ export interface BasicPageProps {
 }
 
 export function BasicPage({ children, contentsWidth = 'narrow', handleSignup, navItems }: BasicPageProps) {
+  const location = useLocation();
   return (
     <React.Fragment>
       <header>

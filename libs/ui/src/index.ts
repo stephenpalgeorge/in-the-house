@@ -1,3 +1,4 @@
+export * from './lib/modals/modals';
 export * from './lib/basic-page/basic-page';
 export * from './lib/login-form/login-form';
 export * from './lib/actions/actions';
