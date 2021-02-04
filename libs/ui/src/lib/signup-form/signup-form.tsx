@@ -29,13 +29,13 @@ export function SignupForm({ closeForm, submit }: SignupFormProps) {
 
   // form submission, does some final validation and then calls whatever
   // callback has been provided in the props:
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (
       email.length === 0 || password.length === 0 ||
       passwordConf.length === 0 || username.length === 0
     ) return;
-    submit(email, password, username);
+    await submit(email, password, username);
   }
 
   // if there are any error messages, or if any of the form fields

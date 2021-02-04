@@ -1,24 +1,30 @@
 import * as React from 'react';
 import { useLocation } from 'react-router-dom';
-import { ActionsProps, Actions, SignupForm, Stack } from '@in-the-house/ui';
+import { ActionsProps, Actions, BasicPage, NavbarProps, Stack } from '@in-the-house/ui';
 
+import { defaultNav } from '../config/nav-items';
 import { signUp } from '../fetch';
 
 export function LandingPage() {
   const location = useLocation();
+
   const landingPageActions: ActionsProps = {
     actions: [
       { label: 'Create my account', path: `${location.pathname}?signup`, color: 'accent-bright' },
       { label: 'Find out more', path: '/demo', color: 'dark' },
     ],
   }
+
+  const handleSignup = async (email: string, password: string, username: string) => {
+    const response = await signUp(email, password, username);
+    if (response.status === 'error') {
+      // handle errors
+    } else {
+      // navigate to login page (with success message)
+    }
+  }
   return (
-    <main className="page contents contents--narrow">
-      {
-        /signup/.test(location.search) &&
-        <SignupForm submit={signUp} />
-      }
-      
+    <BasicPage handleSignup={handleSignup} navItems={defaultNav}>
       <Stack>
         <h1>In the House</h1>
         <p className="font-size--large font-weight--light">
@@ -33,6 +39,6 @@ export function LandingPage() {
         </p>
         <Actions {...landingPageActions} />
       </Stack>
-    </main>
+    </BasicPage>
   );
 }

@@ -1,15 +1,18 @@
 import React from 'react';
 
-export interface LoginFormProps {}
+export interface LoginFormProps {
+  submit(password: string, username: string): any,
+}
 
-export function LoginForm(props: LoginFormProps) {
+export function LoginForm({ submit }: LoginFormProps) {
   const [username, setUsername] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // some basic validation
     // hit the api login endpoint with username and password:
+    await submit(password, username);
   }
 
   return (
@@ -37,6 +40,8 @@ export function LoginForm(props: LoginFormProps) {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
         />
       </div>
+
+      <button type="submit">Login</button>
     </form>
   );
 }

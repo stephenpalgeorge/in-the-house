@@ -50,7 +50,7 @@ export function Navbar(props: NavbarProps) {
       {/* ACTIONS */}
       <ul className="actions">
         {/* even if there are no actions, we include the menu toggle button */}
-        <li ref={ menuIconRef } id="menu-icon" onClick={ toggleMenu }>
+        <li ref={ menuIconRef } id="menu-icon" className={!actions || actions.length <= 0 ? 'icon-full-width' : null} onClick={ toggleMenu }>
           <div className="icon-bar" id="icon-bar--top"></div>
           <div className="icon-bar" id="icon-bar--middle"></div>
           <div className="icon-bar" id="icon-bar--bottom"></div>

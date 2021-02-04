@@ -1,18 +1,21 @@
 import * as React from 'react';
-import { useLocation } from 'react-router-dom';
-import { LoginForm, SignupForm } from '@in-the-house/ui';
-import { signUp } from '../fetch';
+import { BasicPage, LoginForm } from '@in-the-house/ui';
+
+import { menuNav } from '../config/nav-items';
+import { login } from '../fetch';
 
 export function LoginPage() {
-  const location = useLocation();
-
+  const handleLogin = async (password: string, username: string) => {
+    const response = await login(password, username);
+    if (response.status === 'error') {
+      // handtle error
+    } else {
+      // success -> navigate to dashboard page
+    }
+  }
   return (
-    <main>
-      {
-        /signup/.test(location.search) &&
-        <SignupForm submit={signUp} />
-      }
-      <LoginForm />
-    </main>
+    <BasicPage navItems={menuNav}>
+      <LoginForm submit={handleLogin} />
+    </BasicPage>
   )
 }

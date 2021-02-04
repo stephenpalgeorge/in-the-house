@@ -22,9 +22,9 @@ export const App = () => {
 
   return (
     <div className="app">
-      <header>
+      {/* <header>
         <Navbar { ...navItems } />
-      </header>
+      </header> */}
       <Switch>
         <Route path="/login">
           <LoginPage />

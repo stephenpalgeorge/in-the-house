@@ -1,4 +1,13 @@
-export default async function signUp(email: string, password: string, username: string) {
+interface SignUpData {
+  userId: string,
+}
+
+interface SignUpResponse {
+  status: 'success'|'error',
+  data: string,
+}
+
+export default async function signUp(email: string, password: string, username: string): Promise<SignUpResponse> {
   try {
     const response = await window.fetch('/auth/signup', {
       method: 'POST',
@@ -8,9 +17,16 @@ export default async function signUp(email: string, password: string, username: 
       body: JSON.stringify({ email, password, username }),
     });
   
-    const data = await response.json();
-    console.log(data);
+    const data: SignUpData = await response.json();
+    return {
+      status: 'success',
+      data: data.userId
+    };
   } catch (err) {
     console.error(err);
+    if (err.message) return {
+      status: 'error',
+      data: err.message,
+    };
   }
 }
