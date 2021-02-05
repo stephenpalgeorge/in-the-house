@@ -5,7 +5,8 @@
   width: 100%;
   padding: $vertical-flow $horizontal-flow;
   box-shadow: $box-shadow--large-bottom;
-  background-color: $color--primary;
+  background-color: rgba($color--primary, 0.8);
+  backdrop-filter: blur(0.125rem);
 
   button.close-signup-form {
     position: absolute;

@@ -1,12 +1,15 @@
 import * as React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { ActionsProps, Actions, BasicPage, NavbarProps, Stack } from '@in-the-house/ui';
 
 import { defaultNav } from '../config/nav-items';
 import { signUp } from '../fetch';
+import { ModalsContext } from '../contexts/modals.context';
 
 export function LandingPage() {
   const location = useLocation();
+  const history = useHistory();
+  const modalsContext = React.useContext(ModalsContext);
   const navItems = defaultNav(location.pathname);
 
   const landingPageActions: ActionsProps = {
@@ -20,8 +23,23 @@ export function LandingPage() {
     const response = await signUp(email, password, username);
     if (response.status === 'error') {
       // handle errors
+      modalsContext.addModal({
+        name: 'Signup error',
+        code: 400,
+        type: 'error',
+        message: response.data,
+        isDismissible: true,
+      });
     } else {
       // navigate to login page (with success message)
+      modalsContext.addModal({
+        name: 'Account Created!',
+        code: 200,
+        type: 'success',
+        message: 'Successfully created your account, now you can login:',
+        isDismissible: true,
+      });
+      history.push('/login');
     }
   }
   return (

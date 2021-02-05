@@ -9,7 +9,7 @@ $color--secondary--darkened: darken($color--secondary, 10%);
 $color--status-success: #50e486;
 $color--status-info: #50e4d0;
 $color--status-warning: #e4d050;
-$color--status-warning: #e45064;
+$color--status-error: #e45064;
 
 $colors: (
   'dark': $color--dark,

@@ -1,5 +1,9 @@
 interface SignUpData {
-  userId: string,
+  userId?: string,
+  error?: {
+    message: string,
+    type: string,
+  }
 }
 
 interface SignUpResponse {
@@ -16,8 +20,9 @@ export default async function signUp(email: string, password: string, username: 
       },
       body: JSON.stringify({ email, password, username }),
     });
-  
+    
     const data: SignUpData = await response.json();
+    if (!response.ok) throw data.error;
     return {
       status: 'success',
       data: data.userId
