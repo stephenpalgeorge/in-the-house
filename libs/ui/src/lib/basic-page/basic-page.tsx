@@ -8,16 +8,17 @@ export interface BasicPageProps {
   contentsWidth?: 'full-width'|'narrow'|'very-narrow',
   handleSignup?(email: string, password: string, username: string): any,
   navItems: NavbarProps,
+  pageName?: string,
 }
 
-export function BasicPage({ children, contentsWidth = 'narrow', handleSignup, navItems }: BasicPageProps) {
+export function BasicPage({ children, contentsWidth = 'narrow', handleSignup, navItems, pageName = '' }: BasicPageProps) {
   const location = useLocation();
   return (
     <React.Fragment>
       <header>
         <Navbar { ...navItems } />
       </header>
-      <main className={`page contents contents--${contentsWidth}`}>
+      <main className={`page contents contents--${contentsWidth} ${pageName !== '' ? `page--${pageName}` : ''}`}>
         {
           (/signup/.test(location.search) && handleSignup) &&
           <SignupForm submit={handleSignup} />

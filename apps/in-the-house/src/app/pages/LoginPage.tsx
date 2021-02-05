@@ -14,7 +14,7 @@ export function LoginPage() {
     }
   }
   return (
-    <BasicPage navItems={menuNav}>
+    <BasicPage navItems={menuNav} pageName="login" contentsWidth="full-width">
       <LoginForm submit={handleLogin} />
     </BasicPage>
   )
