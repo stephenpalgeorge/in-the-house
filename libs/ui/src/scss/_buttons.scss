@@ -1,10 +1,13 @@
 @each $name, $color in $colors {
   %button-outline--#{$name} {
     border: 0.125rem solid $color;
+    box-shadow: $box-shadow--base-bottom;
     color: $color;
+    transition: box-shadow 0.2s ease;
 
     &:hover {
       border-color: darken($color, 10%);
+      box-shadow: none;
       color: darken($color, 10%);
       text-decoration: underline;
     }

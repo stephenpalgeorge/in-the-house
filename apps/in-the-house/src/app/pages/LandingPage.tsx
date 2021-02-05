@@ -7,10 +7,11 @@ import { signUp } from '../fetch';
 
 export function LandingPage() {
   const location = useLocation();
+  const navItems = defaultNav(location.pathname);
 
   const landingPageActions: ActionsProps = {
     actions: [
-      { label: 'Create my account', path: `${location.pathname}?signup`, color: 'accent-bright' },
+      { label: 'Create my account', path: `${location.pathname}?signup`, color: 'primary' },
       { label: 'Find out more', path: '/demo', color: 'dark' },
     ],
   }
@@ -24,7 +25,7 @@ export function LandingPage() {
     }
   }
   return (
-    <BasicPage handleSignup={handleSignup} navItems={defaultNav}>
+    <BasicPage handleSignup={handleSignup} navItems={navItems}>
       <Stack>
         <h1>In the House</h1>
         <p className="font-size--large font-weight--light">

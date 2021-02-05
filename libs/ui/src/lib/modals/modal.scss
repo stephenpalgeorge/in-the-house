@@ -1,0 +1,42 @@
+.modal {
+  position: relative;
+  padding: 0.5rem $horizontal-flow 1rem;
+  border: 1px solid $color--grey;
+  border-radius: 0.125rem;
+  backdrop-filter: blur(0.125rem);
+  box-shadow: $box-shadow--large-bottom;
+
+  button {
+    position: absolute;
+    top: 1rem;
+    right: $horizontal-flow;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transform: rotate(45deg);
+
+    > * {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      height: 20%;
+      background-color: darken($color--status-success, 20%);
+
+      &:nth-last-child(1) {
+        transform: translate(-50%, -50%) rotate(90deg);
+      }
+    }
+  }
+
+  &--success {
+    background-color: rgba($color--status-success, 0.5);
+  }
+}
+
+/// This file is required by modals.scss
+/// @see './modals.scss' - this file is not imported by index.scss like most
+/// component styles.

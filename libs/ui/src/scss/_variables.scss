@@ -2,18 +2,22 @@
 $color--dark: #000;
 $color--light: #fff;
 $color--grey: #f6f6f6;
-$color--accent-bright: #fe59c2;
-$color--accent-bright--darkened: darken($color--accent-bright, 10%);
-$color--accent-muted: #59c2fe;
-$color--accent-muted--darkened: darken($color--accent-muted, 10%);
+$color--primary: #fe59c2;
+$color--primary--darkened: darken($color--primary, 10%);
+$color--secondary: #59c2fe;
+$color--secondary--darkened: darken($color--secondary, 10%);
+$color--status-success: #50e486;
+$color--status-info: #50e4d0;
+$color--status-warning: #e4d050;
+$color--status-warning: #e45064;
 
 $colors: (
   'dark': $color--dark,
   'light': $color--light,
-  'accent-bright': $color--accent-bright,
-  'accent-muted': $color--accent-muted,
-  'accent-bright--darkened': $color--accent-bright--darkened,
-  'accent-muted--darkened': $color--accent-muted--darkened,
+  'primary': $color--primary,
+  'secondary': $color--secondary,
+  'primary--darkened': $color--primary--darkened,
+  'secondary--darkened': $color--secondary--darkened,
 );
 
 /* PADDING + MARGIN */

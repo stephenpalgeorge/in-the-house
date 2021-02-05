@@ -2,16 +2,21 @@ import React from 'react';
 
 // INDIVIDUAL MODAL:
 export interface ModalProps {
-  closeModal(): any,
+  closeModal(name: string): any,
   modal: ModalData,
 }
 
 export function Modal({ modal, closeModal }: ModalProps) {
   return (
-    <div className={`modal modal--${modal.type}`}>
-      { modal.isDismissible && <button onClick={closeModal}>x</button> }
-      <p className="modal__pre-title">{modal.type}</p>
-      <h3>{modal.name} - {modal.code}</h3>
+    <div className={`modal modal--${modal.type}`} data-status={modal.type}>
+      {
+        modal.isDismissible &&
+        <button onClick={() => closeModal(modal.name)}>
+          <div className="close-icon--bar"></div>
+          <div className="close-icon--bar"></div>
+        </button>
+      }
+      <p className="font-size--h4 font-family--serif">{modal.name} - {modal.code}</p>
       <p className="modal__message">{modal.message}</p>
     </div>
   );
@@ -27,17 +32,16 @@ export interface ModalData {
 }
 
 export interface ModalsProps {
-  closeModal(): any,
+  closeModal(name: string): any,
   modals: ModalData[],
 }
 
 export function Modals({ modals, closeModal }: ModalsProps) {
   return modals.length <= 0 ? null : (
-    <aside>
+    <aside className="modals contents contents--narrow">
       <Modal modal={modals[modals.length - 1]} closeModal={closeModal} />
     </aside>
   );
 }
-
 
 export default Modals;

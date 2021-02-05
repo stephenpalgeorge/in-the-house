@@ -5,9 +5,10 @@ export interface ModalsProviderProps {
   children: React.ReactNode|React.ReactNode[],
 }
 
+export const ModalsContext = React.createContext(null);
+
 export function ModalsProvider(props: ModalsProviderProps) {
   const [modals, setModals] = React.useState<ModalData[]>([]);
-  const ModalsContext = React.createContext(null);
   // expose functions for add error, delete error:
   const addModal = (modal: ModalData) => {
     setModals([...modals, modal]);
@@ -24,11 +25,11 @@ export function ModalsProvider(props: ModalsProviderProps) {
     setModals(subset);
   }
 
-  return <ModalsContext.Provider value={[
+  return <ModalsContext.Provider value={{
     modals,
     addModal,
     deleteModal,
-  ]}>
+  }}>
     {props.children}
   </ModalsContext.Provider>
 }

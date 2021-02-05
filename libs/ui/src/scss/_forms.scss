@@ -21,13 +21,13 @@
     }
 
     input {
-      border: 0.125rem solid $color--accent-bright--darkened;
+      border: 0.125rem solid $color--primary--darkened;
       padding: 0.5rem;
 
       &:focus {
         outline-style: solid;
         outline-width: 0.25rem;
-        outline-color: $color--accent-bright--darkened;
+        outline-color: $color--primary--darkened;
       }
     }
   }
@@ -61,13 +61,13 @@
       text-decoration: underline;
       outline-style: solid;
       outline-width: 0.25rem;
-      outline-color: $color--accent-bright--darkened;
+      outline-color: $color--primary--darkened;
     }
   }
 
   span.error {
     padding: 0.25rem;
-    background-color: $color--accent-bright--darkened;
+    background-color: $color--primary--darkened;
     color: $color--light;
     font-family: $font-family--sans-serif;
     font-weight: $font-weight--light;

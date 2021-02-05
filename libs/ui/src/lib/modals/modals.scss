@@ -1,0 +1,9 @@
+aside.modals {
+  position: fixed;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+// import styles for individual modal:
+@import './modal.scss';

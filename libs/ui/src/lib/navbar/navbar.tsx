@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 export interface ILink {
   path: string,
   label: string,
-  color?: 'light'|'dark'|'accent-bright'|'accent-muted',
+  color?: 'light'|'dark'|'primary'|'secondary',
 }
 
 export interface NavbarProps {

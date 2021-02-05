@@ -1,3 +1,7 @@
+/// this file is imported by navbar.scss
+/// @see './navbar.scss' - this file is not imported by index.scss
+/// like most component styles.
+
 @media screen and (max-width: 767px) {
   .navbar.open {
     box-shadow: none;
