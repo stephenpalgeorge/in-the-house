@@ -1,7 +1,12 @@
 .navbar {
   display: flex;
   justify-content: space-between;
+  min-height: 2.5rem;
   z-index: 1;
+  background-color: $color--light;
+  border: 1px solid $color--dark;
+  border-top-width: 0;
+  border-bottom-width: 0;
 
   a {
     font-size: $font-size--base;
@@ -28,7 +33,7 @@
       font-family: $font-family--sans-serif;
       font-weight: $font-weight--light;
       color: $color--dark;
-      justify-content: flex-start;
+      justify-content: center;
 
       &:hover {
         text-decoration: underline;

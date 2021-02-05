@@ -7,6 +7,7 @@ interface LoginResponse {
   status: 'success'|'error',
   accessToken?: string,
   userId?: string,
+  message?: string,
 }
 
 export default async function login(password: string, username: string): Promise<LoginResponse> {
@@ -20,6 +21,8 @@ export default async function login(password: string, username: string): Promise
     });
 
     const data: LoginData = await response.json();
+    console.log(response);
+    if (!response.ok) throw data;
     return {
       status: 'success',
       accessToken: data.accessToken,
@@ -27,6 +30,9 @@ export default async function login(password: string, username: string): Promise
     }
   } catch (err) {
     console.error(err);
-    return { status: 'error' }
+    return {
+      status: 'error',
+      message: err.message || 'unspecified error with api /login route.',
+    }
   }
 }

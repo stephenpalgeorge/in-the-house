@@ -5,9 +5,12 @@
   }
 
   .form-title {
+    margin-bottom: $vertical-flow;
+    padding: 0.25rem 0.5rem;
+    width: fit-content;
     font-size: $font-size--large;
     font-family: $font-family--serif;
-    margin-bottom: $vertical-flow;
+    background-color: $color--dark;
     color: $color--light;
   }
 
@@ -21,13 +24,12 @@
     }
 
     input {
-      border: 0.125rem solid $color--primary--darkened;
+      border: 0.125rem solid;
       padding: 0.5rem;
 
       &:focus {
         outline-style: solid;
         outline-width: 0.25rem;
-        outline-color: $color--primary--darkened;
       }
     }
   }
@@ -61,7 +63,6 @@
       text-decoration: underline;
       outline-style: solid;
       outline-width: 0.25rem;
-      outline-color: $color--primary--darkened;
     }
   }
 
@@ -73,5 +74,11 @@
     font-weight: $font-weight--light;
     font-size: $font-size--small;
     letter-spacing: 1px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .form .form-title {
+    font-size: $font-size--h5;
   }
 }

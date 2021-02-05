@@ -1,4 +1,29 @@
 .page--login {
   background-color: $color--grey;
   padding: $vertical-flow $horizontal-flow !important;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    padding-top: $vertical-flow;
+
+    > * + * {
+      margin-top: $vertical-flow;
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .page--login {
+    padding-top: $vertical-flow !important;
+
+    > div {
+      align-items: flex-end;
+
+      p {
+        text-align: right;
+        width: 50%;
+      }
+    }
+  }
 }

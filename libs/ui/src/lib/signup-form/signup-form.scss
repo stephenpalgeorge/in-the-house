@@ -8,6 +8,21 @@
   background-color: rgba($color--primary, 0.8);
   backdrop-filter: blur(0.125rem);
 
+  .form__form-field input {
+    border-color: $color--primary--darkened;
+    &:focus {
+      outline-color: $color--primary--darkened;
+    }
+  }
+
+  span.error {
+    background-color: $color--primary--darkened;
+  }
+
+  button[type='submit']:focus {
+    outline-color: $color--primary--darkened;
+  }
+
   button.close-signup-form {
     position: absolute;
     top: 0.8rem;
@@ -28,7 +43,7 @@
       transform-origin: center;
       width: 80%;
       height: 20%;
-      background-color: $color--dark;
+      background-color: darken($color--primary, 40%);
 
       &:nth-last-child(1) {
         transform: translate(-50%, -50%) rotate(90deg);

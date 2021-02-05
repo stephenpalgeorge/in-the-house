@@ -16,6 +16,8 @@
     width: 100%;
     height: $nav-height--breakpoint-small;
     box-shadow: $box-shadow--base-top;
+    border: none;
+    background: none;
 
     ul.menu.open {
       left: 0;

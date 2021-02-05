@@ -8,10 +8,13 @@ export function LoginForm({ submit }: LoginFormProps) {
   const [username, setUsername] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
 
+  const usernameRef = React.useRef<HTMLInputElement>(null);
+  React.useEffect(() => {
+    usernameRef.current.focus();
+  }, [usernameRef]);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // some basic validation
-    // hit the api login endpoint with username and password:
     await submit(password, username);
   }
 
@@ -21,6 +24,7 @@ export function LoginForm({ submit }: LoginFormProps) {
       <div className="form__form-field">
         <label htmlFor="username">Username:</label>
         <input
+          ref={usernameRef}
           id="username"
           name="username"
           type="text"
@@ -41,7 +45,7 @@ export function LoginForm({ submit }: LoginFormProps) {
         />
       </div>
 
-      <button type="submit">Login</button>
+      <button type="submit" disabled={username.length === 0 || password.length === 0}>Login</button>
     </form>
   );
 }

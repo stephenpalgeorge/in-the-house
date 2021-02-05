@@ -11,7 +11,12 @@ export function ModalsProvider(props: ModalsProviderProps) {
   const [modals, setModals] = React.useState<ModalData[]>([]);
   // expose functions for add error, delete error:
   const addModal = (modal: ModalData) => {
-    setModals([...modals, modal]);
+    // custom behaviour - loop over all modals and remove
+    // dismissable ones. This will prevent a stack of messages
+    // building up over time, but will retain the undismissible
+    // messages.
+    const persistentModals = modals.filter(m => !m.isDismissible);
+    setModals([...persistentModals, modal]);
   }
 
   const deleteModal = (modalName: string) => {

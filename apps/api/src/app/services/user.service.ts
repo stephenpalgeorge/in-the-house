@@ -32,7 +32,7 @@ export async function authenticate(username, password): Promise<ILoginResponse> 
     if (!user) throw `No user exists for user: ${username}`;
 
     // validate password
-    const isValidPassword: boolean = user.comparePassword(password);
+    const isValidPassword: boolean = await user.comparePassword(password);
     if (!isValidPassword) throw 'Password is incorrect...';
 
     // sign tokens and return user, accessToken, refreshToken
