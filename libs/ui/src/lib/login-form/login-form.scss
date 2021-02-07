@@ -29,7 +29,7 @@
   .login-form {
     position: absolute;
     max-width: 16rem;
-    top: $vertical-flow;
-    left: $horizontal-flow;
+    top: $vertical-flow * 2;
+    left: $horizontal-flow * 2;
   }
 }

@@ -1,5 +1,10 @@
 .page--login {
-  background-color: $color--grey;
+  border-top: 1px solid $color--dark;
+  border-bottom: 1px solid $color--dark;
+  background: linear-gradient(
+    rgba($color--primary, 0.1),
+    rgba($color--grey, 0.8)
+  );
   padding: $vertical-flow $horizontal-flow !important;
 
   > div {
