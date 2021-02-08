@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { ActionsProps, Actions, BasicPage, NavbarProps, Stack } from '@in-the-house/ui';
+import { ActionsProps, Actions, BasicPage, Icon, Stack } from '@in-the-house/ui';
 
+import MessageIcon from '../assets/message.svg';
+import TwitterIcon from '../assets/twitter.svg';
 import { defaultNav } from '../config/nav-items';
 import { signUp } from '../fetch';
 import { ModalsContext } from '../contexts/modals.context';
@@ -18,6 +20,12 @@ export function LandingPage() {
       { label: 'Find out more', path: '/demo', color: 'dark' },
     ],
   }
+
+  const BetaFormIcons: Icon[] = [
+    // @todo - UPDATE URLs FOR PROD
+    { path: MessageIcon, name: 'message', size: 'sm', url: 'https://twitter.com' },
+    { path: TwitterIcon, name: 'twitter', size: 'sm', url: 'https://google.co.uk' },
+  ];
 
   const handleSignup = async (email: string, password: string, username: string) => {
     const response = await signUp(email, password, username);
@@ -43,7 +51,7 @@ export function LandingPage() {
     }
   }
   return (
-    <BasicPage handleSignup={handleSignup} navItems={navItems}>
+    <BasicPage handleSignup={handleSignup} navItems={navItems} version="beta" formIcons={BetaFormIcons}>
       <Stack>
         <h1>In the House</h1>
         <p className="font-size--large font-weight--light">

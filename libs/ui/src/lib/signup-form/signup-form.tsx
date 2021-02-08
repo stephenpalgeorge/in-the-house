@@ -71,8 +71,6 @@ export function SignupForm({ closeForm, submit }: SignupFormProps) {
   // validates the password field, checks that it is at least 8 characters:
   const handlePassword = (v: string) => {
     if (v.length < 8) setErrors({...errors, password: 'password must be at least 8 characters'});
-    // else if (!/[a-z]/.test(password)) setErrors({...errors, password: 'password must contain at least one lowercase letter'});
-    // else if (!/[A-Z]/.test(password)) setErrors({...errors, password: 'password must contain at least one uppercase letter'});
     else if (errors.password.length > 0) setErrors({...errors, password: ''});
     setPassword(v);
   }

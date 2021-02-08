@@ -1,6 +1,9 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
+
+import { Icon } from '../icons-row/icons-row';
 import { Navbar, NavbarProps } from '../navbar/navbar';
+import { RequestAccessForm } from '../request-access-form/request-access-form';
 import { SignupForm } from '../signup-form/signup-form';
 
 export interface BasicPageProps {
@@ -9,9 +12,19 @@ export interface BasicPageProps {
   handleSignup?(email: string, password: string, username: string): any,
   navItems: NavbarProps,
   pageName?: string,
+  version?: 'beta'|'production',
+  formIcons?: Icon[],
 }
 
-export function BasicPage({ children, contentsWidth = 'narrow', handleSignup, navItems, pageName = '' }: BasicPageProps) {
+export function BasicPage({
+  children,
+  contentsWidth = 'narrow',
+  handleSignup,
+  navItems,
+  pageName = '',
+  version = 'production',
+  formIcons = [],
+}: BasicPageProps) {
   const location = useLocation();
   return (
     <React.Fragment>
@@ -20,8 +33,12 @@ export function BasicPage({ children, contentsWidth = 'narrow', handleSignup, na
       </header>
       <main className={`page contents contents--${contentsWidth} ${pageName !== '' ? `page--${pageName}` : ''}`}>
         {
-          (/signup/.test(location.search) && handleSignup) &&
+          (version === 'production' && /signup/.test(location.search) && handleSignup) &&
           <SignupForm submit={handleSignup} />
+        }
+        {
+          (version === 'beta' && /signup/.test(location.search)) &&
+          <RequestAccessForm icons={formIcons} />
         }
         {children}
       </main>

@@ -1,3 +1,5 @@
+export * from './lib/icons-row/icons-row';
+export * from './lib/request-access-form/request-access-form';
 export * from './lib/modals/modals';
 export * from './lib/basic-page/basic-page';
 export * from './lib/login-form/login-form';
