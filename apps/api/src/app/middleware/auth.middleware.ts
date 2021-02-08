@@ -20,6 +20,7 @@ export async function accessMiddleware(req: IDataRequest, res: Response, next: N
 
     const { userId } = <IAuthToken>jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
     req.userId = userId;
+    next();
   } catch (err) { next(); }
 }
 
@@ -52,6 +53,6 @@ export async function refreshMiddleware(req: IDataRequest, res: Response, next: 
     } next(); // <-- proceed to the route
   } catch (err) {
     const error: IErrorObject = { type: 'Unauthorized', message: err || 'Could not verify user identity' };
-    res.status(401).json(error);
+    res.status(401).clearCookie('refreshToken').json(error);
   }
 }

@@ -3,12 +3,14 @@ import { useHistory } from 'react-router-dom';
 import { BasicPage, LoginForm } from '@in-the-house/ui';
 
 import { menuNav } from '../config/nav-items';
+import { AuthContext } from '../contexts/auth.context';
 import { ModalsContext } from '../contexts/modals.context';
 import { login } from '../fetch';
 
 export function LoginPage() {
   const history = useHistory();
   const modalsContext = React.useContext(ModalsContext);
+  const authContext = React.useContext(AuthContext);
 
   const handleLogin = async (password: string, username: string) => {
     const response = await login(password, username);
@@ -31,7 +33,10 @@ export function LoginPage() {
         isDismissible: true,
       });
 
-      if (response.userId) history.push(`/dashboard/${response.userId}`);
+      // set access token and user id to authcontext
+      authContext.setUserId(response.userId);
+      authContext.setAccessToken(response.accessToken);
+      history.push(`/dashboard/${response.userId}`);
     }
   }
   return (

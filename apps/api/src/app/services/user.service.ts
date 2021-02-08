@@ -61,11 +61,16 @@ export async function authenticate(username, password): Promise<ILoginResponse> 
  * 
  */
 export async function fetchUser(userId: string): Promise<IUser|undefined> {
-  const user: IUser = await User.findById(userId);
-  if (!user) return undefined;
-  // clean user data so sensitive stuff isn't returned:
-  user.password = "";
-  user.api_key = "";
-  user.projects = [];
-  return user;
+  try {
+    const user: IUser = await User.findById(userId);
+    if (!user) return undefined;
+    // clean user data so sensitive stuff isn't returned:
+    user.password = "";
+    user.api_key = "";
+    user.projects = [];
+    return user;
+  } catch (err) {
+    console.error(err);
+    return undefined;
+  }
 }

@@ -21,7 +21,6 @@ export default async function login(password: string, username: string): Promise
     });
 
     const data: LoginData = await response.json();
-    console.log(response);
     if (!response.ok) throw data;
     return {
       status: 'success',
