@@ -1,3 +1,4 @@
+export * from './lib/auth-page/auth-page';
 export * from './lib/icons-row/icons-row';
 export * from './lib/request-access-form/request-access-form';
 export * from './lib/modals/modals';

@@ -89,6 +89,17 @@ router.post('/login', async (req: Request, res: Response) => {
 });
 
 /**
+ * LOGOUT - UN-AUTHENTICATE USER
+ * ----------
+ * @method 'POST'
+ * `/api/auth/logout`
+ * Logout route simply removes the refreshToken cookie
+ */
+router.post('/logout', (req: Request, res: Response) => {
+  res.clearCookie('refreshToken').status(204).end();
+});
+
+/**
  * FETCH SINGLE USER
  * ----------
  * @method 'GET'
@@ -99,8 +110,7 @@ router.post('/login', async (req: Request, res: Response) => {
  */
 router.get(
   '/user/:id',
-  authMiddleware.accessMiddleware,
-  authMiddleware.refreshMiddleware,
+  [authMiddleware.accessMiddleware, authMiddleware.refreshMiddleware],
   async (req: IDataRequest, res: Response) => {
     const { id: userId } = req.params;
     const user = await userService.fetchUser(userId);
@@ -110,6 +120,11 @@ router.get(
     } else {
       const data: IAuthRouteReturn = { user };
       if (req.accessToken) data.accessToken = req.accessToken;
+      if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
+        // miliseconds in 10 days
+        maxAge: 864_000_000,
+        httpOnly: true,
+      });
       res.status(200).json(data);
     }
   }

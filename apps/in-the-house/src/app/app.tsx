@@ -5,6 +5,7 @@ import { Route, Switch } from 'react-router-dom';
 import { DashboardPage } from './pages/DashboardPage';
 import { LandingPage } from './pages/LandingPage';
 import { LoginPage } from './pages/LoginPage';
+import { LogoutPage } from './pages/LogoutPage';
 import { ModalsContext } from './contexts/modals.context';
 
 import { Modals } from '@in-the-house/ui';
@@ -21,6 +22,10 @@ export const App = () => {
         
         <Route path="/login">
           <LoginPage />
+        </Route>
+
+        <Route path="/logout">
+          <LogoutPage />
         </Route>
 
         <Route path="/">

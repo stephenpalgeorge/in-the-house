@@ -14,6 +14,16 @@ export function defaultNav(pathname): NavbarProps {
   }
 } 
 
+export const authNav: NavbarProps = {
+  menu: [
+    { path: '/demo', label: 'Demo' },
+    { path: '/docs', label: 'Docs' },
+  ],
+  actions: [
+    { path: '/logout', label: 'Logout', color: 'secondary' }
+  ]
+}
+
 export const menuNav: NavbarProps = {
   menu: [
     { path: '/', label: 'Home' },

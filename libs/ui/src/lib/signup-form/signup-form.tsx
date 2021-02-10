@@ -35,7 +35,6 @@ export function SignupForm({ closeForm, submit }: SignupFormProps) {
       email.length === 0 || password.length === 0 ||
       passwordConf.length === 0 || username.length === 0
     ) return;
-    console.log('sign up');
     await submit(email, password, username);
   }
 

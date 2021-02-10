@@ -5,13 +5,9 @@ import { IAuthToken, IDataRequest, IErrorObject } from '@in-the-house/api-interf
 
 import { tokens } from '../helpers';
 
-export async function accessMiddleware(req: IDataRequest, res: Response, next: NextFunction) {
+export function accessMiddleware(req: IDataRequest, res: Response, next: NextFunction) {
   try {
     const accessToken: string|undefined = req.headers.authorization?.split('Bearer ')[1];
-    if (!accessToken) {
-      const error: IErrorObject = { type: 'Unauthorized', message: 'Could not verify user identity' };
-      res.status(401).json(error);
-    }
 
     if (!process.env.ACCESS_TOKEN_SECRET) {
       const error: IErrorObject = { type: 'Internal server error', message: 'required environment variable is not defined' }
@@ -24,7 +20,7 @@ export async function accessMiddleware(req: IDataRequest, res: Response, next: N
   } catch (err) { next(); }
 }
 
-export async function refreshMiddleware(req: IDataRequest, res: Response, next: NextFunction) {
+export function refreshMiddleware(req: IDataRequest, res: Response, next: NextFunction) {
   try {
     // only check the refresh token if there is NOT a userId already on the request object.
     // The presence of the userId would mean the user has already been verified in the
@@ -38,20 +34,23 @@ export async function refreshMiddleware(req: IDataRequest, res: Response, next: 
         const error: IErrorObject = { type: 'Internal server error', message: 'required environment variable is not defined' }
         res.status(500).json(error);
       }
-  
+      
       // verify the token and add return values
-      const { userId } = <IAuthToken>jwt.verify(JSON.parse(refreshTokenValue), process.env.REFRESH_TOKEN_SECRET);
-      const [accessToken, refreshToken] = await tokens.signTokens(userId);
+      const { userId } = <IAuthToken>jwt.verify(refreshTokenValue, process.env.REFRESH_TOKEN_SECRET);
+      const [accessToken, refreshToken] = tokens.signTokens(userId);
       // set auth data on request inc. new tokens:
       req.userId = userId;
-      req.accessToken = accessToken
-      res.cookie('refreshToken', refreshToken, {
-        // milliseconds in 10 days:
-        maxAge: 864_000_000,
-        httpOnly: true
-      });
-    } next(); // <-- proceed to the route
+      req.accessToken = accessToken;
+      req.refreshToken = refreshToken;
+      // res.cookie('refreshToken', refreshToken, {
+      //   // milliseconds in 10 days:
+      //   maxAge: 864_000_000,
+      //   httpOnly: true
+      // });
+    }
+    next(); // <-- proceed to the route
   } catch (err) {
+    console.log(err);
     const error: IErrorObject = { type: 'Unauthorized', message: err || 'Could not verify user identity' };
     res.status(401).clearCookie('refreshToken').json(error);
   }

@@ -1,5 +1,4 @@
 export default async function fetchUser(id: string, accessToken: string) {
-  console.log(id, accessToken);
   const response = await window.fetch(`/auth/user/${id}`, {
     method: 'GET',
     headers: {
@@ -8,8 +7,8 @@ export default async function fetchUser(id: string, accessToken: string) {
     },
     credentials: 'same-origin',
   });
-  console.log('response: ', response);
 
   const data = await response.json();
-  console.log('data: ', data);
+  if (response.ok) return { status: 'success', data }
+  else return { status: 'error', data }
 }
