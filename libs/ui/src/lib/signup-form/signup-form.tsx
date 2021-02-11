@@ -1,12 +1,8 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
-interface BareFunction {
-  (): void
-}
-
 export interface SignupFormProps {
-  closeForm?: BareFunction,
+  closeForm?(): any,
   submit(email: string, password: string, username: string): any,
 }
 
