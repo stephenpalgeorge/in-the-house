@@ -1,0 +1,38 @@
+.card {
+  padding: $vertical-flow $horizontal-flow;
+  box-shadow: $box-shadow--base-bottom;
+  border: 1px solid;
+
+  &--theme-dark {
+    background-color: $color--dark;
+    border-color: $color--grey;
+    color: $color--light;
+  }
+
+  &--theme-dark-grey {
+    background-color: $color--dark-grey;
+    border-color: $color--dark;
+  }
+
+  &--theme-grey {
+    background-color: $color--grey;
+    border-color: $color--dark-grey;
+  }
+
+  &--theme-light {
+    background-color: $color--light;
+    border-color: $color--grey;
+  }
+
+  &--theme-primary {
+    background-color: $color--primary;
+    border-color: $color--primary--darkened;
+    color: $color--light;
+  }
+
+  &--theme-secondary {
+    background-color: $color--secondary;
+    border-color: $color--secondary--darkened;
+    color: $color--light;
+  }
+}

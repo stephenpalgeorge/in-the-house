@@ -2,6 +2,7 @@
 $color--dark: #000;
 $color--light: #fff;
 $color--grey: #f6f6f6;
+$color--dark-grey: #c2c2c2;
 $color--primary: #fe59c2;
 $color--primary--darkened: darken($color--primary, 10%);
 $color--secondary: #59c2fe;
@@ -14,6 +15,8 @@ $color--status-error: #e45064;
 $colors: (
   'dark': $color--dark,
   'light': $color--light,
+  'grey': $color--grey,
+  'dark-grey': $color--dark-grey,
   'primary': $color--primary,
   'secondary': $color--secondary,
   'primary--darkened': $color--primary--darkened,

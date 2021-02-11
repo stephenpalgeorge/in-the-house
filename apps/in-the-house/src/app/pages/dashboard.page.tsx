@@ -1,13 +1,14 @@
 import * as React from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { Switch, Route, useHistory, useParams } from 'react-router-dom';
 
-import { IUser } from '@in-the-house/api-interfaces';
-import { AuthPage } from '@in-the-house/ui';
+import { AuthPage, Card, Stack, SubNav } from '@in-the-house/ui';
 
-import { authNav } from '../config/nav-items';
+import { authNav, dashboardSubNav } from '../config/nav-items';
 import { AuthContext } from '../contexts/auth.context';
 import { ModalsContext } from '../contexts/modals.context';
 import { fetchUser } from '../fetch';
+
+import { Account } from './dashboard-sections/account';
 
 interface DashboardParams {
   userId: string,
@@ -16,10 +17,13 @@ interface DashboardParams {
 export function DashboardPage() {
   const history = useHistory();
   const params = useParams<DashboardParams>();
+  const navItems = dashboardSubNav(`/dashboard/${params.userId}`);
+
   const authContext = React.useContext(AuthContext);
   const modalsContext = React.useContext(ModalsContext);
 
   const [user, setUser] = React.useState({ username: '' });
+  console.log(user);
   
   React.useEffect(() => {
     const authenticateUser = async (id: string, accessToken: string) => {
@@ -47,7 +51,26 @@ export function DashboardPage() {
 
   return (
     <AuthPage navItems={authNav}>
-        <h1>Welcome, {user.username}</h1>
+      <Stack>
+        {
+          (user.username && user.username.length > 0) &&
+          <h1>Welcome, {user.username}</h1>
+        }
+        <p className="font-size--large font-weight--light">
+          This is your dashboard, from whence you can control and edit your account. Use 
+          the menu below to view and update the different areas of your profile including your 
+          personal details, your API keys and billing information.
+        </p>
+
+        <SubNav navItems={navItems} />
+        <Switch>
+          <Route path={`/dashboard/${params.userId}/account`}>
+            <Card themeColor="grey">
+              <Account />
+            </Card>
+          </Route>
+        </Switch>
+      </Stack>
     </AuthPage>
   );
 }

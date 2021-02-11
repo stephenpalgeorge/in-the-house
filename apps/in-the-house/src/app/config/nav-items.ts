@@ -1,6 +1,6 @@
-import { NavbarProps } from '@in-the-house/ui';
+import { ILink, NavbarProps } from '@in-the-house/ui';
 
-export function defaultNav(pathname): NavbarProps {
+export function defaultNav(pathname: string): NavbarProps {
   return {
     menu: [
       { path: '/', label: 'Home' },
@@ -30,4 +30,13 @@ export const menuNav: NavbarProps = {
     { path: '/demo', label: 'Demo' },
     { path: '/docs', label: 'Docs' }
   ]
+}
+
+export function dashboardSubNav(pathname: string): ILink[] {
+  return [
+    { path: `${pathname}/account`, label: 'Account' },
+    { path: `${pathname}/usage`, label: 'Your API usage' },
+    { path: `${pathname}/keys`, label: 'API & Project Keys' },
+    { path: `${pathname}/billing`, label: 'Billing details' },
+  ];
 }

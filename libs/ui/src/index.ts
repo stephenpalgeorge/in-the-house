@@ -1,3 +1,5 @@
+export * from './lib/card/card';
+export * from './lib/sub-nav/sub-nav';
 export * from './lib/auth-page/auth-page';
 export * from './lib/icons-row/icons-row';
 export * from './lib/request-access-form/request-access-form';

@@ -16,6 +16,8 @@ export interface IUser extends Document {
   created_at?: number,
   email: string,
   username: string,
+  firstname?: string,
+  lastname?: string,
   password: string,
   api_key?: string,
   projects?: IProduct[],

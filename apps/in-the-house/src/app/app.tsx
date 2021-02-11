@@ -2,10 +2,10 @@ import './app.scss';
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import { DashboardPage } from './pages/DashboardPage';
-import { LandingPage } from './pages/LandingPage';
-import { LoginPage } from './pages/LoginPage';
-import { LogoutPage } from './pages/LogoutPage';
+import { DashboardPage } from './pages/dashboard.page';
+import { LandingPage } from './pages/landing.page';
+import { LoginPage } from './pages/login.page';
+import { LogoutPage } from './pages/logout.page';
 import { ModalsContext } from './contexts/modals.context';
 
 import { Modals } from '@in-the-house/ui';

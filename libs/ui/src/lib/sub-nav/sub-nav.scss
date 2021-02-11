@@ -1,0 +1,41 @@
+.sub-nav {
+  margin-top: $vertical-flow * 2;
+  position: relative;
+  display: flex;
+  background-color: $color--light;
+  border: 1px solid $color--dark-grey;
+  border-top-width: 0;
+  border-bottom-width: 0;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    border-bottom: 1px solid $color--dark-grey;
+    z-index: -1;
+  }
+
+  > a {
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    color: $color--dark;
+    font-weight: $font-weight--light;
+
+    &.active {
+      font-weight: $font-weight--heavy;
+      color: $color--primary;
+      text-decoration: underline;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  > a + a {
+    margin-left: 1rem;
+  }
+}
