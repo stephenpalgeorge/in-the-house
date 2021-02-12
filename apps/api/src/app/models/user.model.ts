@@ -4,6 +4,7 @@ import * as bcrypt from 'bcrypt';
 import { IUser } from '@in-the-house/api-interfaces';
 
 const userSchema: Schema = new Schema({
+  account_type: { type: String, default: "free" },
   created_at: { type: Date, default: Date.now() },
   email: { type: String, required: true, unique: true },
   username: { type: String, required: true },

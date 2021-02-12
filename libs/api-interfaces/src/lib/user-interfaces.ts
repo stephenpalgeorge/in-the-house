@@ -13,6 +13,7 @@ export interface IRecord {
 }
 
 export interface IUser extends Document {
+  account_type?: 'free'|'tier-1'|'tier-2',
   created_at?: number,
   email: string,
   username: string,

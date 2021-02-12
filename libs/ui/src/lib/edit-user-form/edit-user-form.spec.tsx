@@ -1,11 +1,11 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-import UserInfo from './user-info';
+import EditUserForm from './edit-user-form';
 
-describe('UserInfo', () => {
+describe('EditUserForm', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<UserInfo />);
+    const { baseElement } = render(<EditUserForm />);
     expect(baseElement).toBeTruthy();
   });
 });

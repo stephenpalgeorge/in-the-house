@@ -42,6 +42,25 @@
     }
   }
 
+  &__fieldset--inline {
+    display: flex;
+    justify-content: space-between;
+
+    > * {
+      width: 48%;
+      flex-basis: 48%;
+    }
+
+    @media screen and (max-width: 767px) {
+      flex-direction: column;
+
+      > * {
+        width: 100%;
+        flex-basis: 100%;
+      }
+    }
+  }
+
   button[type='submit'] {
     margin-top: 1rem;
     width: 100%;

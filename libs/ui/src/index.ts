@@ -1,4 +1,4 @@
-export * from './lib/user-info/user-info';
+export * from './lib/edit-user-form/edit-user-form';
 export * from './lib/card/card';
 export * from './lib/sub-nav/sub-nav';
 export * from './lib/auth-page/auth-page';

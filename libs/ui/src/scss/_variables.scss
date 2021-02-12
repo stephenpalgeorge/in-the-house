@@ -7,10 +7,14 @@ $color--primary: #fe59c2;
 $color--primary--darkened: darken($color--primary, 10%);
 $color--secondary: #59c2fe;
 $color--secondary--darkened: darken($color--secondary, 10%);
-$color--status-success: #50e486;
-$color--status-info: #50e4d0;
-$color--status-warning: #e4d050;
-$color--status-error: #e45064;
+$color--amber: #e4d050;
+$color--green: #50e486;
+$color--blue: #50e4d0;
+$color--red: #e45064;
+$color--status-success: $color--green;
+$color--status-info: $color--blue;
+$color--status-warning: $color--amber;
+$color--status-error: $color--red;
 
 $colors: (
   'dark': $color--dark,
@@ -21,6 +25,10 @@ $colors: (
   'secondary': $color--secondary,
   'primary--darkened': $color--primary--darkened,
   'secondary--darkened': $color--secondary--darkened,
+  'amber': $color--amber,
+  'green': $color--green,
+  'blue': $color--blue,
+  'red': $color--red,
 );
 
 /* PADDING + MARGIN */

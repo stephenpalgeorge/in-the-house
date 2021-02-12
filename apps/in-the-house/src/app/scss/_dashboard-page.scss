@@ -1,5 +1,36 @@
-.section-title {
-  font-size: $font-size--large;
-  font-weight: $font-weight--heavy;
-  text-decoration: underline;
+.account-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  button {
+    padding: 0.5rem 1rem;
+    box-shadow: $box-shadow--base-bottom;
+    border: 0.125rem solid $color--light;
+    background-color: $color--status-warning;
+    color: $color--dark;
+    font-family: $font-family--serif;
+    cursor: pointer;
+
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+    &:hover {
+      box-shadow: none;
+      background-color: darken($color--status-warning, 10%);
+    }
+
+    &:focus {
+      outline: 0.125rem solid darken($color--status-warning, 10%);
+    }
+  }
+}
+
+.user-info {
+  mark {
+    font-family: $font-family--serif;
+    background-color: rgba($color--amber, 0.5);
+  }
+
+  span {
+    text-decoration: underline;
+  }
 }

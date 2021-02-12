@@ -2,10 +2,12 @@
   margin-top: $vertical-flow * 2;
   position: relative;
   display: flex;
+  flex-flow: row nowrap;
   background-color: $color--light;
   border: 1px solid $color--dark-grey;
   border-top-width: 0;
   border-bottom-width: 0;
+  overflow-x: scroll;
 
   &::after {
     content: '';
@@ -19,6 +21,7 @@
   }
 
   > a {
+    flex-shrink: 0;
     padding: 0.5rem 1rem;
     text-decoration: none;
     color: $color--dark;

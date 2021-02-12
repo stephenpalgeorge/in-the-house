@@ -22,7 +22,7 @@ export function DashboardPage() {
   const authContext = React.useContext(AuthContext);
   const modalsContext = React.useContext(ModalsContext);
 
-  const [user, setUser] = React.useState({ username: '' });
+  const [user, setUser] = React.useState({ username: '', email: '', firstname: '', lastname: '' });
   console.log(user);
   
   React.useEffect(() => {
@@ -66,7 +66,12 @@ export function DashboardPage() {
         <Switch>
           <Route path={`/dashboard/${params.userId}/account`}>
             <Card themeColor="grey">
-              <Account />
+              <Account
+                email={user.email}
+                firstName={user.firstname}
+                lastName={user.lastname}
+                username={user.username}
+              />
             </Card>
           </Route>
         </Switch>
