@@ -13,8 +13,9 @@ export function SubNav({ navItems }: SubNavProps) {
     <nav className="sub-nav">
       {
         navItems.map(item => {
-          const pattern = new RegExp(location.pathname);
-          const active = pattern.test(item.path) ? 'active' : null;
+          const partials = item.path.split('/');
+          const pattern = new RegExp(partials[partials.length - 1]);
+          const active = pattern.test(location.pathname) ? 'active' : null;
           return <Link key={item.label} to={item.path} className={active}>{item.label}</Link>
         })
       }
