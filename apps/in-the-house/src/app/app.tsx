@@ -29,7 +29,7 @@ export const App = () => {
         </Route>
 
         <Route path="/">
-          <LandingPage />
+          <LandingPage version="beta 0.0.1" />
         </Route>
       </Switch>
     </div>

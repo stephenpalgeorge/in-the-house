@@ -8,7 +8,11 @@ import { defaultNav } from '../config/nav-items';
 import { signUp } from '../fetch';
 import { ModalsContext } from '../contexts/modals.context';
 
-export function LandingPage() {
+export interface LandingPageProps {
+  version: string,
+}
+
+export function LandingPage({ version }: LandingPageProps) {
   const location = useLocation();
   const history = useHistory();
   const modalsContext = React.useContext(ModalsContext);
@@ -51,9 +55,9 @@ export function LandingPage() {
     }
   }
   return (
-    <BasicPage handleSignup={handleSignup} navItems={navItems} version="beta" formIcons={BetaFormIcons}>
+    <BasicPage handleSignup={handleSignup} navItems={navItems} pageName="landing" version="beta" formIcons={BetaFormIcons}>
       <Stack>
-        <h1>In the House</h1>
+        <h1>In the House { window.innerWidth < 768 && <br />} <span>{`{ ${version} }`}</span></h1>
         <p className="font-size--large font-weight--light">
           The In The House API defines a series of endpoints for accessing data 
           on UK Members of Parliament. If you’re building something that needs 
