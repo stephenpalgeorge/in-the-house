@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Switch, Route, useHistory, useParams } from 'react-router-dom';
 
 import { AuthPage, Card, Stack, SubNav } from '@in-the-house/ui';
+import { IUser } from '@in-the-house/api-interfaces';
 
 import { authNav, dashboardSubNav } from '../config/nav-items';
 import { AuthContext } from '../contexts/auth.context';
@@ -10,11 +11,15 @@ import { fetchUser } from '../fetch';
 
 import { Account } from './dashboard-sections/account';
 
+interface DashboardPageProps {
+  user: IUser,
+}
+
 interface DashboardParams {
   userId: string,
 }
 
-export function DashboardPage() {
+export const DashboardPage = React.memo(({ user }: DashboardPageProps) => {
   const history = useHistory();
   const params = useParams<DashboardParams>();
   const navItems = dashboardSubNav(`/dashboard/${params.userId}`);
@@ -22,7 +27,7 @@ export function DashboardPage() {
   const authContext = React.useContext(AuthContext);
   const modalsContext = React.useContext(ModalsContext);
 
-  const [user, setUser] = React.useState({ username: '', email: '', firstname: '', lastname: '' });
+  // const [user, setUser] = React.useState({ username: '', email: '', firstname: '', lastname: '' });
   console.log(user);
   
   React.useEffect(() => {
@@ -41,20 +46,23 @@ export function DashboardPage() {
       } else {
         // handle success -> set authContext values
         if (authResponse.data.accessToken) authContext.setAccessToken(authResponse.data.accessToken);
-        if (authResponse.data.user._id) authContext.setUserId(authResponse.data.user._id);
-        setUser(authResponse.data.user);
+        if (authResponse.data.user) {
+          authContext.setUser(authResponse.data.user);
+          authContext.setUserId(authResponse.data.user._id);
+        }
+        // authsetUser(authResponse.data.user);
       }
     }
     
     authenticateUser(params.userId, authContext.accessToken);
-  }, [params.userId, authContext.accessToken]);
+  }, [params.userId]);
 
   return (
     <AuthPage navItems={authNav}>
       <Stack>
         {
           (user.username && user.username.length > 0) &&
-          <h1>Welcome, {user.username}</h1>
+          <h1>Hi, {user.username}</h1>
         }
         <p className="font-size--large font-weight--light">
           This is your dashboard, from whence you can control and edit your account. Use 
@@ -78,4 +86,4 @@ export function DashboardPage() {
       </Stack>
     </AuthPage>
   );
-}
+});

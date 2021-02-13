@@ -7,6 +7,8 @@ const userSchema: Schema = new Schema({
   account_type: { type: String, default: "free" },
   created_at: { type: Date, default: Date.now() },
   email: { type: String, required: true, unique: true },
+  firstname: { type: String },
+  lastname: { type: String },
   username: { type: String, required: true },
   password: { type: String, required: true },
   api_key: { type: String, default: '' },

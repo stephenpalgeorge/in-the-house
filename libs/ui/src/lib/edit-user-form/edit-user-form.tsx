@@ -1,11 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { IUserProfile } from '@in-the-house/api-interfaces';
 
 export interface EditUserFormProps {
   email: string,
   firstname: string,
   lastname: string,
   username: string,
-  submit(): any,
+  submit(updates: IUserProfile): any,
 }
 
 export function EditUserForm({
@@ -28,7 +30,13 @@ export function EditUserForm({
   return (
     <form className="form edit-user-form" onSubmit={(e: React.FormEvent) => {
       e.preventDefault();
-      submit();
+      const updates: IUserProfile = {};
+      if (editEmail !== email) updates.email = editEmail;
+      if (editFirstname !== firstname) updates.firstname = editFirstname;
+      if (editLastname !== lastname) updates.lastname = editLastname;
+      if (editUsername !== username) updates.username = editUsername;
+
+      submit(updates);
     }}>
       <p className="form-title">Edit your account</p>
       

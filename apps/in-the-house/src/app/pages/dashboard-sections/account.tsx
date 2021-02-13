@@ -1,5 +1,10 @@
 import * as React from 'react';
 import { EditUserForm, Stack } from '@in-the-house/ui';
+import { IUserProfile } from '@in-the-house/api-interfaces';
+
+import { AuthContext } from '../../contexts/auth.context';
+import { ModalsContext } from '../../contexts/modals.context';
+import { updateUserProfile } from '../../fetch';
 
 export interface AccountProps {
   email?: string,
@@ -14,6 +19,9 @@ export function Account({
   lastName = '',
   username = '',
 }: AccountProps) {
+  const authContext = React.useContext(AuthContext);
+  const modalsContext = React.useContext(ModalsContext);
+
   const [editable, setEditable] = React.useState<boolean>(false);
   const [accountInfo, setAccountInfo] = React.useState<AccountProps>({
     email, firstName, lastName, username
@@ -23,8 +31,42 @@ export function Account({
     setAccountInfo({ email, firstName, lastName, username});
   }, [email, firstName, lastName, username]);
 
-  const handleEditSubmission = () => {
-
+  const handleEditSubmission = async (updates: IUserProfile) => {
+    // check keys.length on updates object, if none, set modal and return
+    if (Object.keys(updates).length === 0) {
+      modalsContext.addModal({
+        name: 'No updates',
+        code: 304,
+        type: 'info',
+        message: 'The form data matches your current user details - there is nothing to update.',
+        isDismissible: true,
+      });
+    } else {
+      // if updates, hit the api and set modal on successful response
+      const response = await updateUserProfile(authContext.userId, updates, authContext.accessToken);
+      if (response.status === 'error') {
+        modalsContext.addModal({
+          name: 'Update error',
+          code: 400,
+          type: 'error',
+          message: 'Could not update your account...',
+          isDismissible: true,
+        });
+      } else {
+        modalsContext.addModal({
+          name: 'Details updated',
+          code: 200,
+          type: 'success',
+          message: 'Your account details have been changed.',
+          isDismissible: true,
+        });
+        if (response.data.accessToken) authContext.setAccessToken(response.data.accessToken);
+        if (response.data.user) {
+          authContext.setUser(response.data.user);
+          authContext.setUserId(response.data.user._id);
+        }
+      }
+    }
   }
 
   return (

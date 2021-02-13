@@ -19,7 +19,7 @@ router.get('/', (req: Request, res: Response) => {
  * CREATE NEW USER
  * ----------
  * @method 'POST'
- * '/api/auth/signup'
+ * '/auth/signup'
  * The response includes a simple success message and the userId,
  * we don't send the full user data at this point as we would now
  * require the user to login after having created their account.
@@ -63,7 +63,7 @@ router.post('/signup', [
  * LOGIN - AUTHENTICATE USER
  * ----------
  * @method 'POST'
- * '/api/auth/login'
+ * '/auth/login'
  * The res includes the userId and a success message,
  * the full user data is returned by the user/:id route.
  * 
@@ -92,7 +92,7 @@ router.post('/login', async (req: Request, res: Response) => {
  * LOGOUT - UN-AUTHENTICATE USER
  * ----------
  * @method 'POST'
- * `/api/auth/logout`
+ * `/auth/logout`
  * Logout route simply removes the refreshToken cookie
  */
 router.post('/logout', (req: Request, res: Response) => {
@@ -103,7 +103,7 @@ router.post('/logout', (req: Request, res: Response) => {
  * FETCH SINGLE USER
  * ----------
  * @method 'GET'
- * '/api/auth/user/:id' - where :id is a user's unique id.
+ * '/auth/user/:id' - where :id is a user's unique id.
  * The res includes the user data and, if the auth tokens were resigned,
  * the new access token to be stored on the front end.
  * 
@@ -129,5 +129,35 @@ router.get(
     }
   }
 );
+
+/**
+ * UPDATE SINGLE USER
+ * ----------
+ * '/auth/user/:id' - where :id is a user's unique id.
+ * The res includes the updated user data and, if the auth tokens were resigned,
+ * the new access token to be stored on the front end.
+ * 
+ */
+router.put(
+  '/user/:id',
+  [authMiddleware.accessMiddleware, authMiddleware.refreshMiddleware],
+  async (req: IDataRequest, res: Response) => {
+    const { id: userId } = req.params;
+    const user = await userService.updateUserProfile(userId, req.body);
+    if (!user) {
+      const error: IErrorObject = { type: 'Not foound', message: `No user found for id: ${userId}` }
+      res.status(404).json(error);
+    } else {
+      const data: IAuthRouteReturn = { user };
+      if (req.accessToken) data.accessToken = req.accessToken;
+      if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
+        // miliseconds in 10 days
+        maxAge: 864_000_000,
+        httpOnly: true,
+      });
+      res.status(200).json(data);
+    }
+  }
+)
 
 export default router;

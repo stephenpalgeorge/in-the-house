@@ -34,6 +34,13 @@ export function Navbar(props: NavbarProps) {
     menuIconRef.current.classList.toggle('open');
   }
 
+  const closeMenu = () => {
+    navBarRef.current.classList.remove('open');
+    menuRef.current.classList.remove('open');
+    menuIconRef.current.classList.remove('open');
+    window.scrollTo(0, 0);
+  }
+
   return (
     <nav ref={ navBarRef } className="navbar contents contents--narrow">
       {/* MENU */}
@@ -41,7 +48,7 @@ export function Navbar(props: NavbarProps) {
         {
           (menu.length > 0) &&
           menu.map((item, i) => {
-            return <li className={location.pathname === item.path ? 'active' : ''} key={i}>
+            return <li onClick={closeMenu} className={location.pathname === item.path ? 'active' : ''} key={i}>
               <Link to={item.path}>{ item.label }</Link>
             </li>
           })
@@ -58,7 +65,7 @@ export function Navbar(props: NavbarProps) {
         {
           (actions && actions.length > 0 && actions.length < 3) &&
           actions.map((action, i) => {
-            return <li className={`action ${'background-color--' + action.color || ''} ${location.pathname === action.path ? 'active' : ''}`} key={i}>
+            return <li onClick={closeMenu} className={`action ${'background-color--' + action.color || ''} ${location.pathname === action.path ? 'active' : ''}`} key={i}>
               <Link to={action.path}>{ action.label }</Link>
             </li>
           })

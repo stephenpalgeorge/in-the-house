@@ -1,6 +1,6 @@
 import { User } from '../models';
 import { tokens } from '../helpers';
-import { IBasicResponse, ILoginResponse, IUser } from '@in-the-house/api-interfaces';
+import { IBasicResponse, ILoginResponse, IUser, IUserProfile } from '@in-the-house/api-interfaces';
 
 /**
  * CREATE USER
@@ -63,6 +63,30 @@ export async function authenticate(username, password): Promise<ILoginResponse> 
 export async function fetchUser(userId: string): Promise<IUser|undefined> {
   try {
     const user: IUser = await User.findById(userId);
+    if (!user) return undefined;
+    // clean user data so sensitive stuff isn't returned:
+    user.password = "";
+    user.api_key = "";
+    user.projects = [];
+    return user;
+  } catch (err) {
+    console.error(err);
+    return undefined;
+  }
+}
+
+/**
+ * UPDATE USER
+ * ----------
+ * Query the database for an individual document, filtered by ID,
+ * and update it, return the new (updated) user document.
+ * @param userId {String} the unique identifier for the user that should be updated
+ * @param updates {Object} the updates that should be applied to the user
+ * 
+ */
+export async function updateUserProfile(userId: string, updates: IUserProfile): Promise<IUser|undefined> {
+  try {
+    const user: IUser = await User.findByIdAndUpdate(userId, updates, { new: true });
     if (!user) return undefined;
     // clean user data so sensitive stuff isn't returned:
     user.password = "";

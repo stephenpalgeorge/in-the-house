@@ -12,6 +12,13 @@ export interface IRecord {
   count: number,
 }
 
+export interface IUserProfile {
+  email?: string,
+  firstname?: string,
+  lastname?: string,
+  username?: string,
+}
+
 export interface IUser extends Document {
   account_type?: 'free'|'tier-1'|'tier-2',
   created_at?: number,
