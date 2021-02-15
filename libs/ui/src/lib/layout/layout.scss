@@ -1,3 +1,6 @@
+// ----------
+// STACK
+// ----------
 .stack {
   display: flex;
   flex-direction: column;
@@ -28,4 +31,11 @@
   &.stack--large * + * {
     margin-top: $vertical-flow * 2;
   }
+}
+
+// ----------
+// BLOCK
+// ----------
+section.block {
+  width: 100%;
 }

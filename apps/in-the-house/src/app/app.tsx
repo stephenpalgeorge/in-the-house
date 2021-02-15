@@ -3,14 +3,10 @@ import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import { AuthContext } from './contexts/auth.context';
-
-import { DashboardPage } from './pages/dashboard.page';
-import { LandingPage } from './pages/landing.page';
-import { LoginPage } from './pages/login.page';
-import { LogoutPage } from './pages/logout.page';
 import { ModalsContext } from './contexts/modals.context';
-
 import { Modals } from '@in-the-house/ui';
+
+import { DashboardPage, LandingPage, LoginPage, LogoutPage } from './pages';
 
 export const App = () => {
   const authContext = React.useContext(AuthContext);
