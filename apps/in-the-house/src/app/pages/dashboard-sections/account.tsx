@@ -79,7 +79,7 @@ export function Account({
       const response = await updateUserPassword(authContext.userId, authContext.accessToken, updates.current, updates.new);
       if (response.status === 'error') {
         modalsContext.addModal({
-          name: 'Update error',
+          name: 'Update password error',
           code: 500,
           type: 'error',
           message: response.data.message,

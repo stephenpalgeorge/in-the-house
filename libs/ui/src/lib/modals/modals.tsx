@@ -7,6 +7,15 @@ export interface ModalProps {
 }
 
 export function Modal({ modal, closeModal }: ModalProps) {
+  React.useEffect(() => {
+    let timeout = setTimeout(() => {
+      if (modal.isDismissible) closeModal(modal.name);
+    }, 4000);
+
+    return () => {
+      clearTimeout(timeout);
+    }
+  }, []);
   return (
     <div className={`modal modal--${modal.type}`} data-status={modal.type}>
       {
