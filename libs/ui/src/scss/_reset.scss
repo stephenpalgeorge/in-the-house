@@ -20,6 +20,13 @@ html {
   text-rendering: optimizeSpeed;
 }
 
+a,
+button,
+.button,
+*[role='button'] {
+  cursor: pointer;
+}
+
 // links that don't have a link should not be clickable:
 a:not([href]) {
   pointer-events: none;

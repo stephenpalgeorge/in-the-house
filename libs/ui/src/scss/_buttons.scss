@@ -20,5 +20,9 @@
 
   .button-outline--#{$name} {
     @extend %button-outline--#{$name};
+    &.active {
+      box-shadow: none;
+      text-decoration: underline;
+    }
   }
 }

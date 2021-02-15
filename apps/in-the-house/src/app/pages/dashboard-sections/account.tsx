@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { EditUserForm, Stack } from '@in-the-house/ui';
+import { PasswordForm, EditUserForm, Stack } from '@in-the-house/ui';
 import { IUserProfile } from '@in-the-house/api-interfaces';
 
 import { AuthContext } from '../../contexts/auth.context';
@@ -22,6 +22,7 @@ export function Account({
   const authContext = React.useContext(AuthContext);
   const modalsContext = React.useContext(ModalsContext);
 
+  const [editPassword, setEditPassword] = React.useState<boolean>(false);
   const [editable, setEditable] = React.useState<boolean>(false);
   const [accountInfo, setAccountInfo] = React.useState<AccountProps>({
     email, firstName, lastName, username
@@ -70,7 +71,7 @@ export function Account({
   }
 
   return (
-    <Stack>
+    <Stack sectionName="dashboard-account">
       <div className="account-header">
         <h2>Your account</h2>
         <button className={`edit-button ${editable ? 'active' : ''}`} onClick={() => setEditable(!editable)}>Edit</button>
@@ -90,6 +91,19 @@ export function Account({
       {
         (firstName.length <= 0 && lastName.length > 0) &&
         <p className="user-info">Your <span>last name</span> is <mark>{lastName}</mark></p>
+      }
+
+      <button
+        className={`button-outline--primary ${editPassword ? 'active' : ''}`}
+        id="change-password"
+        onClick={() => setEditPassword(!editPassword)}
+      >
+        Change your password
+      </button>
+
+      {
+        editPassword &&
+        <PasswordForm />
       }
 
       {

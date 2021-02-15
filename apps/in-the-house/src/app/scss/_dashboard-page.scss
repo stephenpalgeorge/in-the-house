@@ -1,36 +1,50 @@
-.account-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+.section--dashboard-account {
+  .account-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
 
-  button {
+    button {
+      padding: 0.5rem 1rem;
+      box-shadow: $box-shadow--base-bottom;
+      border: 0.125rem solid $color--light;
+      background-color: $color--status-warning;
+      color: $color--dark;
+      font-family: $font-family--serif;
+      cursor: pointer;
+
+      transition: background 0.2s ease, box-shadow 0.2s ease;
+      &:hover {
+        box-shadow: none;
+        background-color: darken($color--status-warning, 10%);
+      }
+
+      &:focus {
+        outline: 0.125rem solid darken($color--status-warning, 10%);
+      }
+    }
+  }
+
+  .user-info {
+    mark {
+      font-family: $font-family--serif;
+      background-color: rgba($color--amber, 0.5);
+    }
+
+    span {
+      text-decoration: underline;
+    }
+  }
+
+  button#change-password {
+    width: fit-content;
     padding: 0.5rem 1rem;
-    box-shadow: $box-shadow--base-bottom;
-    border: 0.125rem solid $color--light;
-    background-color: $color--status-warning;
-    color: $color--dark;
     font-family: $font-family--serif;
-    cursor: pointer;
-
-    transition: background 0.2s ease, box-shadow 0.2s ease;
-    &:hover {
-      box-shadow: none;
-      background-color: darken($color--status-warning, 10%);
-    }
-
-    &:focus {
-      outline: 0.125rem solid darken($color--status-warning, 10%);
-    }
-  }
-}
-
-.user-info {
-  mark {
-    font-family: $font-family--serif;
-    background-color: rgba($color--amber, 0.5);
+    background: $color--light;
   }
 
-  span {
-    text-decoration: underline;
+  > form {
+    padding-top: $vertical-flow;
+    border-top: 1px solid $color--dark-grey;
   }
 }

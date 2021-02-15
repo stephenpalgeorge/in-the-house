@@ -1,3 +1,4 @@
+export * from './lib/password-form/password-form';
 export * from './lib/edit-user-form/edit-user-form';
 export * from './lib/card/card';
 export * from './lib/sub-nav/sub-nav';
