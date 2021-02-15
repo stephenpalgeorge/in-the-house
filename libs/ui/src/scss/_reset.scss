@@ -25,6 +25,10 @@ button,
 .button,
 *[role='button'] {
   cursor: pointer;
+
+  &:disabled {
+    cursor: auto;
+  }
 }
 
 // links that don't have a link should not be clickable:

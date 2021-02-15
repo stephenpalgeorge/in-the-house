@@ -1,8 +1,10 @@
 import React from 'react';
 
-export interface PasswordFormProps {}
+export interface PasswordFormProps {
+  submit(updates: {current: string, new: string}): any,
+}
 
-export function PasswordForm(props: PasswordFormProps) {
+export function PasswordForm({ submit }: PasswordFormProps) {
   const [currentPassword, setCurrentPassword] = React.useState<string>('');
   const [newPassword, setNewPassword] = React.useState<string>('');
   const [confirmNewPassword, setConfirmNewPassword] = React.useState<string>('');
@@ -16,6 +18,7 @@ export function PasswordForm(props: PasswordFormProps) {
   return (
     <form className="form password-form" onSubmit={(e: React.FormEvent) => {
       e.preventDefault();
+      submit({ current: currentPassword, new: newPassword });
     }}>
       <p className="form-title">Update your password</p>
 
@@ -56,7 +59,12 @@ export function PasswordForm(props: PasswordFormProps) {
         </div>
       </fieldset>
 
-      <button type="submit">Change password</button>
+      <button type="submit" disabled={
+        confirmNewPassword.length === 0 ||
+        newPassword.length === 0 ||
+        currentPassword.length === 0 ||
+        newPassword !== confirmNewPassword
+      }>Change password</button>
     </form>
   );
 }

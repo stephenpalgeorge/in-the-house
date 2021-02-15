@@ -55,7 +55,7 @@ export function LandingPage({ version }: LandingPageProps) {
     }
   }
   return (
-    <BasicPage handleSignup={handleSignup} navItems={navItems} pageName="landing" version="beta" formIcons={BetaFormIcons}>
+    <BasicPage handleSignup={handleSignup} navItems={navItems} pageName="landing" version="production" formIcons={BetaFormIcons}>
       <Stack>
         <h1>In the House { window.innerWidth < 768 && <br />} <span>{`{ ${version} }`}</span></h1>
         <p className="font-size--large font-weight--light">

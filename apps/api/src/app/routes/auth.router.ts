@@ -145,8 +145,30 @@ router.put(
     const { id: userId } = req.params;
     const user = await userService.updateUserProfile(userId, req.body);
     if (!user) {
-      const error: IErrorObject = { type: 'Not foound', message: `No user found for id: ${userId}` }
+      const error: IErrorObject = { type: 'Not found', message: `No user found for id: ${userId}` }
       res.status(404).json(error);
+    } else {
+      const data: IAuthRouteReturn = { user };
+      if (req.accessToken) data.accessToken = req.accessToken;
+      if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
+        // miliseconds in 10 days
+        maxAge: 864_000_000,
+        httpOnly: true,
+      });
+      res.status(200).json(data);
+    }
+  }
+);
+
+router.put(
+  '/user/:id/change-password',
+  [authMiddleware.accessMiddleware, authMiddleware.refreshMiddleware],
+  async (req: IDataRequest, res: Response) => {
+    const { id: userId } = req.params;
+    const user = await userService.updateUserPassword(userId, req.body);
+    if (!user) {
+      const error: IErrorObject = { type: 'Internal server error', message: 'could not update the user password - check you correctly entered your current password.' }
+      res.status(500).json(error);
     } else {
       const data: IAuthRouteReturn = { user };
       if (req.accessToken) data.accessToken = req.accessToken;

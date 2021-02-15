@@ -4,7 +4,7 @@ import { IUserProfile } from '@in-the-house/api-interfaces';
 
 import { AuthContext } from '../../contexts/auth.context';
 import { ModalsContext } from '../../contexts/modals.context';
-import { updateUserProfile } from '../../fetch';
+import { updateUserPassword, updateUserProfile } from '../../fetch';
 
 export interface AccountProps {
   email?: string,
@@ -66,6 +66,34 @@ export function Account({
           authContext.setUser(response.data.user);
           authContext.setUserId(response.data.user._id);
         }
+        setEditable(false);
+      }
+    }
+  }
+
+  const handlePasswordSubmit = async (updates: {current: string, new: string}) => {
+    if (updates.new.length === 0 || updates.new === updates.current) {
+      // add a modal, nothing to update
+    } else {
+      // hit the 'change-password' endpoint with the current and new passwords
+      const response = await updateUserPassword(authContext.userId, authContext.accessToken, updates.current, updates.new);
+      if (response.status === 'error') {
+        modalsContext.addModal({
+          name: 'Update error',
+          code: 500,
+          type: 'error',
+          message: response.data.message,
+          isDismissible: true,
+        });
+      } else {
+        modalsContext.addModal({
+          name: 'Password updated',
+          code: 200,
+          type: 'success',
+          message: 'successfully changed your password',
+          isDismissible: true,
+        });
+        setEditPassword(false);
       }
     }
   }
@@ -103,7 +131,7 @@ export function Account({
 
       {
         editPassword &&
-        <PasswordForm />
+        <PasswordForm submit={handlePasswordSubmit} />
       }
 
       {

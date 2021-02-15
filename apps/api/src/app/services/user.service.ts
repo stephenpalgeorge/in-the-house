@@ -98,3 +98,31 @@ export async function updateUserProfile(userId: string, updates: IUserProfile): 
     return undefined;
   }
 }
+
+/**
+ * UPDATE USER PASSWORD
+ * ----------
+ * Query the database for an individual document, filtered by ID,
+ * and update the 'password' for it, having verified their current password.
+ * Return the document, do not need to set { new: true } as the only thing that will
+ * change is the password, and we never send the password in the response anyway.
+ * @param userId {String} the unique identifier for the usec that should be updated
+ * @param updates {Object} an object that must contait the user's current password, and their new password.
+ */
+export async function updateUserPassword(userId: string, updates: {current: string, new: string}): Promise<IUser|undefined> {
+  try {
+    // validate the user's current password.
+    const user: IUser = await User.findById(userId);
+    if (!user) return undefined;
+    const isValidPassword: boolean = await user.comparePassword(updates.current);
+    if (!isValidPassword) return undefined;
+    // if ok, update the user document with the hashed version of their new password
+    user.password = updates.new;
+    // save the document and return the user
+    user.save();
+    return user;
+  } catch (err) {
+    console.error(err);
+    return undefined;
+  }
+}
