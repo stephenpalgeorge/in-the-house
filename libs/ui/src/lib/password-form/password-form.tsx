@@ -3,11 +3,60 @@ import React from 'react';
 export interface PasswordFormProps {}
 
 export function PasswordForm(props: PasswordFormProps) {
+  const [currentPassword, setCurrentPassword] = React.useState<string>('');
+  const [newPassword, setNewPassword] = React.useState<string>('');
+  const [confirmNewPassword, setConfirmNewPassword] = React.useState<string>('');
+
+  const currentPasswordRef = React.useRef<HTMLInputElement>(null);
+
+  React.useEffect(() => {
+    currentPasswordRef.current.focus();
+  }, []);
+
   return (
-    <form className="form" onSubmit={(e: React.FormEvent) => {
+    <form className="form password-form" onSubmit={(e: React.FormEvent) => {
       e.preventDefault();
     }}>
       <p className="form-title">Update your password</p>
+
+      <div className="form__form-field">
+        <label htmlFor="current-password" className="form__form-field--label">Current password:</label>
+        <input
+          ref={currentPasswordRef}
+          type="password"
+          name="current-password"
+          id="current-password"
+          value={currentPassword}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCurrentPassword(e.target.value)}
+          required={true}
+        />
+      </div>
+
+      <fieldset className="form__fieldset form__fieldset--inline">
+        <div className="form__form-field">
+          <label htmlFor="new-password" className="form__form-field--label">New password:</label>
+          <input
+            type="password"
+            name="new-password"
+            id="new-password"
+            value={newPassword}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewPassword(e.target.value)}
+          />
+        </div>
+
+        <div className="form__form-field">
+          <label htmlFor="confirm-new-password" className="form__form-field--label">Re-type new password:</label>
+          <input
+            type="password"
+            name="confirm-new-password"
+            id="confirm-new-password"
+            value={confirmNewPassword}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmNewPassword(e.target.value)}
+          />
+        </div>
+      </fieldset>
+
+      <button type="submit">Change password</button>
     </form>
   );
 }

@@ -27,5 +27,9 @@
     &:focus {
       outline: 0.125rem solid darken($color--green, 10%);
     }
+
+    @media screen and (max-width: 767px) {
+      width: 100%;
+    }
   }
 }
