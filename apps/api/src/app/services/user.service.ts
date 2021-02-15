@@ -120,6 +120,9 @@ export async function updateUserPassword(userId: string, updates: {current: stri
     user.password = updates.new;
     // save the document and return the user
     user.save();
+    user.password = "";
+    user.api_key = "";
+    user.projects = [];
     return user;
   } catch (err) {
     console.error(err);

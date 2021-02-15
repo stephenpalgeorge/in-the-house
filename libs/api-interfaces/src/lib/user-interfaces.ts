@@ -8,7 +8,8 @@ export interface IProduct {
 }
 
 export interface IRecord {
-  month: string,
+  month: number,
+  day: number,
   count: number,
 }
 

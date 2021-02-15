@@ -10,6 +10,7 @@ import { ModalsContext } from '../contexts/modals.context';
 import { fetchUser } from '../fetch';
 
 import { Account } from './dashboard-sections/account';
+import { Usage } from './dashboard-sections/usage';
 
 interface DashboardPageProps {
   user: IUser,
@@ -80,6 +81,12 @@ export const DashboardPage = React.memo(({ user }: DashboardPageProps) => {
                 lastName={user.lastname}
                 username={user.username}
               />
+            </Card>
+          </Route>
+
+          <Route>
+            <Card themeColor="grey">
+              <Usage usage={user.usage} />
             </Card>
           </Route>
         </Switch>
