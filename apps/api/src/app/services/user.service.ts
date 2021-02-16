@@ -1,5 +1,5 @@
 import { User } from '../models';
-import { tokens } from '../helpers';
+import { keys, tokens } from '../helpers';
 import { IBasicResponse, ILoginResponse, IUser, IUserProfile } from '@in-the-house/api-interfaces';
 
 /**
@@ -106,8 +106,9 @@ export async function updateUserProfile(userId: string, updates: IUserProfile): 
  * and update the 'password' for it, having verified their current password.
  * Return the document, do not need to set { new: true } as the only thing that will
  * change is the password, and we never send the password in the response anyway.
- * @param userId {String} the unique identifier for the usec that should be updated
+ * @param userId {String} the unique identifier for the user that should be updated
  * @param updates {Object} an object that must contait the user's current password, and their new password.
+ * 
  */
 export async function updateUserPassword(userId: string, updates: {current: string, new: string}): Promise<IUser|undefined> {
   try {
@@ -119,11 +120,57 @@ export async function updateUserPassword(userId: string, updates: {current: stri
     // if ok, update the user document with the hashed version of their new password
     user.password = updates.new;
     // save the document and return the user
-    user.save();
+    await user.save();
     user.password = "";
     user.api_key = "";
     user.projects = [];
     return user;
+  } catch (err) {
+    console.error(err);
+    return undefined;
+  }
+}
+
+/**
+ * FETCH API KEY
+ * ----------
+ * Query the database for a single user document, filtered by id,
+ * and return only the api key of the given user.
+ * @param userId {String} the unique identifier for the user that should be updated
+ * 
+ */
+export async function fetchApiKey(userId: string): Promise<string|undefined> {
+  try {
+    const user: IUser = await User.findById(userId);
+    if (!user) return undefined;
+    // if we have a user, return only the api key:
+    return user.api_key;
+  } catch (err) {
+    console.error(err);
+    return undefined;
+  }
+}
+
+/**
+ * GENERATE API KEY
+ * ----------
+ * Query the database for a single user document, filtered by id,
+ * and generate an api key. This is then assigned to the user document,
+ * which is subsequently saved back to the db. The return is simply (and only) 
+ * the new api key.
+ * @param userId {String} the unique identifier for the user that should be updated
+ * 
+ */
+export async function generateApiKey(userId: string): Promise<string|undefined> {
+  try {
+    const user: IUser = await User.findById(userId);
+    if (!user) return undefined;
+    // if we have a user, update with a new api key, save the user
+    // and return the new key:
+    const newKey = keys.generateKey();
+    user.api_key = newKey;
+    await user.save();
+    return newKey;
   } catch (err) {
     console.error(err);
     return undefined;

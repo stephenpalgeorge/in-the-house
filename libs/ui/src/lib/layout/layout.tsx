@@ -12,7 +12,6 @@ export interface StackProps {
 }
 
 export function Stack({ background, children, recursive = false, sectionName = '', size = 'small' }: StackProps) {
-  console.log(sectionName);
   const classes = [
     'stack',
     `stack--${size}`,

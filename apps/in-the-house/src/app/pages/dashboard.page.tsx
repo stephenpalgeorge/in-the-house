@@ -83,13 +83,13 @@ export const DashboardPage = React.memo(({ user }: DashboardPageProps) => {
             </Card>
           </Route>
 
-          <Route>
+          <Route path={`/dashboard/${params.userId}/usage`}>
             <Card themeColor="grey">
               <Usage usage={user.usage} />
             </Card>
           </Route>
 
-          <Route>
+          <Route path={`/dashboard/${params.userId}/keys`}>
             <Card themeColor="grey">
               <Keys />
             </Card>

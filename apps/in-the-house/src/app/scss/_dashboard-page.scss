@@ -1,3 +1,6 @@
+// ----------
+// ACCOUNT
+// ----------
 .section--dashboard-account {
   .account-header {
     display: flex;
@@ -49,6 +52,9 @@
   }
 }
 
+// ----------
+// USAGE
+// ----------
 .section--usage {
   .chart {
     display: flex;
@@ -63,4 +69,10 @@
       font-family: $font-family--serif;
     }
   }
+}
+
+// ----------
+// KEYS
+// ----------
+.section--keys {
 }

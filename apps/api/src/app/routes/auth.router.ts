@@ -3,6 +3,7 @@ import { check, validationResult } from 'express-validator';
 import { authMiddleware } from '../middleware';
 import { userService } from '../services';
 import {
+  IAuthPropReturn,
   IAuthRouteReturn,
   IBasicResponse,
   IDataRequest,
@@ -160,6 +161,15 @@ router.put(
   }
 );
 
+/**
+ * UPDATE USER PASSWORD
+ * ----------
+ * '/auth/user/:id/change-password' - where :id is a user's unique id.
+ * This route is solely for updating the password of a single user. As this 
+ * requires extra checks and auth, it makes sense to separate it from the general
+ * `update single user` function.
+ * 
+ */
 router.put(
   '/user/:id/change-password',
   [authMiddleware.accessMiddleware, authMiddleware.refreshMiddleware],
@@ -173,6 +183,64 @@ router.put(
       const data: IAuthRouteReturn = { user };
       if (req.accessToken) data.accessToken = req.accessToken;
       if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
+        // miliseconds in 10 days
+        maxAge: 864_000_000,
+        httpOnly: true,
+      });
+      res.status(200).json(data);
+    }
+  }
+);
+
+/**
+ * FETCH API KEY
+ * ----------
+ * '/auth/user/:id/fetch-key' - where :id is a user's unique id.
+ * We have a dedicated route for retrieving the api_key. As this is sensitive
+ * information, we never send it back with the rest of the user data and should only
+ * load it when the relevant request is sent from the front end.
+ * 
+ */
+router.post(
+  '/user/:id/fetch-key',
+  [authMiddleware.accessMiddleware, authMiddleware.refreshMiddleware],
+  async (req: IDataRequest, res: Response) => {
+    const { id: userId } = req.params;
+    const apiKey = await userService.fetchApiKey(userId);
+    if (!apiKey || apiKey.length === 0) {
+      const error: IErrorObject = { type: 'Not found', message: 'We couldn\'t find an api key for you - do you need to generate one?' };
+      res.status(404).json(error);
+    } else {
+      const data: IAuthPropReturn = { apiKey };
+      if (req.accessToken) data.accessToken = req.accessToken;
+      if (req.refreshToken) res.cookie('refreshToken', {
+        // miliseconds in 10 days
+        maxAge: 864_000_000,
+        httpOnly: true,
+      });
+      res.status(200).json(data);
+    }
+  }
+);
+
+/**
+ * GENERATE API KEY
+ * ----------
+ * '/auth/user/:id/generate-key',
+ */
+router.post(
+  '/user/:id/generate-key',
+  [authMiddleware.accessMiddleware, authMiddleware.refreshMiddleware],
+  async (req: IDataRequest, res: Response) => {
+    const { id: userId } = req.params;
+    const apiKey = await userService.generateApiKey(userId);
+    if (!apiKey) {
+      const error: IErrorObject = { type: 'Server error', message: 'Could not create an API Key' };
+      res.status(500).json(error);
+    } else {
+      const data: IAuthPropReturn = { apiKey };
+      if (req.accessToken) data.accessToken = req.accessToken;
+      if (req.refreshToken) res.cookie('refreshToken', {
         // miliseconds in 10 days
         maxAge: 864_000_000,
         httpOnly: true,

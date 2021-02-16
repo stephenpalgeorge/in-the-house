@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import { Document } from 'mongoose';
 
-export interface IProduct {
+export interface IProject {
   name: string,
   origin: string,
   id: string,
@@ -29,7 +29,7 @@ export interface IUser extends Document {
   lastname?: string,
   password: string,
   api_key?: string,
-  projects?: IProduct[],
+  projects?: IProject[],
   usage?: IRecord[],
   encryptPassword(pw: string): string,
   comparePassword(pw: string): boolean,
@@ -56,6 +56,11 @@ export interface IDataRequest extends Request {
 
 export interface IAuthRouteReturn {
   user: IUser,
+  accessToken?: string,
+}
+
+export interface IAuthPropReturn {
+  apiKey?: string,
   accessToken?: string,
 }
 
