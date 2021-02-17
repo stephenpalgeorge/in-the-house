@@ -3,13 +3,14 @@ import * as React from 'react';
 import { AuthContext } from '../../contexts/auth.context';
 import { ModalsContext } from '../../contexts/modals.context';
 import { fetchApiKey, generateApiKey } from '../../fetch';
-import { Stack } from '@in-the-house/ui';
+import { InputCopy, Stack } from '@in-the-house/ui';
 
 /**
  * @todo fetch 'api_key' and 'projects' data for the current user when buttons are clicked.
  * This will require useParams hook and/or authContext to get logged in user id.
- *    - one button to view api_key
- *    - one button to generate new api key
+ *    - one button to view api_key DONE
+ *    - one button to generate new api key DONE
+ *    - display api key in an input that can be copied to clipboard.
  *    - one button to view projects - they should load in forms with a save button, to allow for
  *    inline editing of each project. Each one will also need the option to generate a new ID. Each
  *    project should have a delete button - require some auth (re-enter password? type project name?) 
@@ -23,6 +24,10 @@ export function Keys() {
   const [apiKey, setApiKey] = React.useState<string>('');
 
   const handleFetchApiKey = async () => {
+    if (apiKey.length > 0) {
+      setApiKey('');
+      return;
+    }
     const response = await fetchApiKey(authContext.userId, authContext.accessToken);
     if (response.status === 'error') {
       // set modal
@@ -68,18 +73,18 @@ export function Keys() {
       </p>
 
       <div className="keys__controls">
-        <button onClick={handleFetchApiKey} id="fetch-api-key">
-          See your API key
+        <button className="button-outline--red" onClick={handleFetchApiKey} id="fetch-api-key">
+          { (apiKey && apiKey.length > 0) ? "Hide your API key" : "See your API key" }
         </button>
 
-        <button onClick={handleGenerateApiKey} id="generate-api-key">
+        <button className="button-outline--green" onClick={handleGenerateApiKey} id="generate-api-key">
           Generate a new API Key
         </button>
       </div>
 
       {
         (apiKey && apiKey.length > 0) &&
-        <p>{apiKey}</p>
+        <InputCopy value={apiKey} />
       }
     </Stack>
   )

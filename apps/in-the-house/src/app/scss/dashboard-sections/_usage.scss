@@ -1,0 +1,15 @@
+.section--usage {
+  .chart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: $vertical-flow $horizontal-flow;
+    width: 100%;
+    background-color: $color--light;
+    border: 1px solid $color--secondary;
+
+    p {
+      font-family: $font-family--serif;
+    }
+  }
+}
