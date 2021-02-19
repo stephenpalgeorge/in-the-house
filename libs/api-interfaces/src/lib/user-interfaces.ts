@@ -2,7 +2,6 @@ import { Request } from 'express';
 import { Document } from 'mongoose';
 
 export interface IProject {
-  name: string,
   origin: string,
   id: string,
 }
@@ -11,6 +10,7 @@ export interface IRecord {
   month: number,
   day: number,
   count: number,
+  endpoint: string,
 }
 
 export interface IUserProfile {

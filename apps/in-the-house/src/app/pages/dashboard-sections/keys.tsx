@@ -1,9 +1,11 @@
 import * as React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 import { AuthContext } from '../../contexts/auth.context';
 import { ModalsContext } from '../../contexts/modals.context';
-import { fetchApiKey, generateApiKey } from '../../fetch';
+import { fetchFromUser } from '../../fetch';
 import { InputCopy, Stack } from '@in-the-house/ui';
+import { IProject } from '@in-the-house/api-interfaces';
 
 /**
  * @todo fetch 'api_key' and 'projects' data for the current user when buttons are clicked.
@@ -20,15 +22,19 @@ import { InputCopy, Stack } from '@in-the-house/ui';
 export function Keys() {
   const authContext = React.useContext(AuthContext);
   const modalsContext = React.useContext(ModalsContext);
+  const keyRef = React.useRef<HTMLDivElement>(null);
+  const projectsRef = React.useRef<HTMLDivElement>(null);
+  const location = useLocation();
 
   const [apiKey, setApiKey] = React.useState<string>('');
+  const [projects, setProjects] = React.useState<IProject[]>([]);
 
   const handleFetchApiKey = async () => {
     if (apiKey.length > 0) {
       setApiKey('');
       return;
     }
-    const response = await fetchApiKey(authContext.userId, authContext.accessToken);
+    const response = await fetchFromUser(authContext.accessToken, `/auth/user/${authContext.userId}/fetch-key`, "POST");
     if (response.status === 'error') {
       // set modal
       modalsContext.addModal({
@@ -45,7 +51,7 @@ export function Keys() {
   }
 
   const handleGenerateApiKey = async () => {
-    const response = await generateApiKey(authContext.userId, authContext.accessToken);
+    const response = await fetchFromUser(authContext.accessToken, `/auth/user/${authContext.userId}/generate-key`, "POST");
     if (response.status === 'error') {
       // set modal
       modalsContext.addModal({
@@ -61,31 +67,76 @@ export function Keys() {
     }
   }
 
+  const handleFetchProjects = async () => {
+    const response = await fetchFromUser(authContext.accessToken, `/auth/user/${authContext.userId}/projects`, "POST");
+    if (response.status === 'error') {
+      // set modal
+    } else {
+      // response will include array of projects, update local state and 
+      // accesstoken if there is one.
+    }
+  }
+
   return (
     <Stack sectionName="keys">
-      <h2>Keys</h2>
+      <div className="keys-header">
+        <h2>Keys</h2>
+        <ul>
+          <li onClick={() => window.scrollTo(0, window.scrollY + keyRef.current.getBoundingClientRect().top)}>
+            <Link to={{pathname: location.pathname, hash: '#api-key'}}>API Key</Link>
+          </li>
+          <li onClick={() => window.scrollTo(0, window.scrollY + projectsRef.current.getBoundingClientRect().top)}>
+            <Link to={{pathname: location.pathname, hash: '#projects'}}>Projects</Link>
+          </li>
+        </ul>
+      </div>
       <p>
         To use In the House, you need an API Key, and a project ID for any 
-        website from which you want to query the API. You can view and generate 
-        these keys with the controls below. You must keep these details secret, 
+        website from which you want to query the API. You must keep these details secret, 
         if you have any reason to believe that your keys have been compromised, 
         generate some new ones and update your application/website code.
       </p>
+      <div className="stack--small" ref={keyRef}>
+        <h3>API Key</h3>
+        <p>
+          Your API Key is a unique string that you must include as an 'api-key' 
+          header in any request to the API. View and generate new API keys below.
+        </p>
 
-      <div className="keys__controls">
-        <button className="button-outline--red" onClick={handleFetchApiKey} id="fetch-api-key">
-          { (apiKey && apiKey.length > 0) ? "Hide your API key" : "See your API key" }
-        </button>
+        <div className="keys__controls">
+          <button className="button-outline--primary" onClick={handleFetchApiKey} id="fetch-api-key">
+            { (apiKey && apiKey.length > 0) ? "Hide your API key" : "See your API key" }
+          </button>
 
-        <button className="button-outline--green" onClick={handleGenerateApiKey} id="generate-api-key">
-          Generate a new API Key
-        </button>
+          <button className="button-outline--green" onClick={handleGenerateApiKey} id="generate-api-key">
+            Generate a new API Key
+          </button>
+        </div>
+
+        {
+          (apiKey && apiKey.length > 0) &&
+          <InputCopy value={apiKey} />
+        }
       </div>
+      <div className="stack--small" ref={projectsRef}>
+        <h3>Projects</h3>
+        <p>
+          Any website or app from which you want to send requests to the API must be 
+          setup as a project in your account. Each project must define a 'source' (this 
+          is simply the domain of the project, e.g. website.co.uk) and an 'id'. Manange 
+          your projects below:
+        </p>
 
-      {
-        (apiKey && apiKey.length > 0) &&
-        <InputCopy value={apiKey} />
-      }
+        <div className="keys__controls">
+          <button className="button-outline--primary" onClick={handleFetchApiKey} id="fetch-api-key">
+            { (projects && projects.length > 0) ? "Hide your Projects" : "See your Projects" }
+          </button>
+
+          <button className="button-outline--green" onClick={handleGenerateApiKey} id="generate-api-key">
+            Add a project
+          </button>
+        </div>
+      </div>
     </Stack>
   )
 }

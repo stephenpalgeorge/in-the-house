@@ -7,7 +7,7 @@ import { IUser } from '@in-the-house/api-interfaces';
 import { authNav, dashboardSubNav } from '../config/nav-items';
 import { AuthContext } from '../contexts/auth.context';
 import { ModalsContext } from '../contexts/modals.context';
-import { fetchUser } from '../fetch';
+import { fetchFromUser } from '../fetch';
 
 import { Account, Keys, Usage } from './dashboard-sections';
 
@@ -32,7 +32,7 @@ export const DashboardPage = React.memo(({ user }: DashboardPageProps) => {
   
   React.useEffect(() => {
     const authenticateUser = async (id: string, accessToken: string) => {
-      const authResponse = await fetchUser(id, accessToken);
+      const authResponse = await fetchFromUser(accessToken, `/auth/user/${id}`);
       if (authResponse.status === 'error') {
         // handle error -> redirect to login page with modal
         modalsContext.addModal({

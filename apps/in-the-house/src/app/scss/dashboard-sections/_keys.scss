@@ -1,4 +1,36 @@
 .section--keys {
+  .keys-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    ul {
+      list-style-type: none;
+      display: flex;
+
+      > li + li {
+        margin-left: 2rem;
+      }
+
+      li {
+        cursor: pointer;
+        a {
+          text-decoration: underline;
+          color: $color--secondary;
+          transition: color 0.2s ease;
+          &:hover {
+            color: $color--secondary--darkened;
+          }
+        }
+      }
+    }
+  }
+
+  > div:not(.keys-header) {
+    padding-top: $vertical-flow;
+    border-top: 1px solid $color--dark-grey;
+  }
+
   .keys__controls {
     display: flex;
 

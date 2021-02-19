@@ -1,15 +1,11 @@
-import fetchApiKey from './fetchApiKey';
-import fetchUser from './fetchUser';
-import generateApiKey from './generateApiKey';
+import fetchFromUser from './fetchFromUser';
 import login from './login';
 import signUp from './signup';
 import updateUserPassword from './updateUserPassword';
 import updateUserProfile from './updateUserProfile';
 
 export {
-  fetchApiKey,
-  fetchUser,
-  generateApiKey,
+  fetchFromUser,
   login,
   signUp,
   updateUserPassword,

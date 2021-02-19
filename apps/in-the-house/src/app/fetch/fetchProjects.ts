@@ -1,9 +1,9 @@
-export default async function fetchUser(id: string, accessToken: string) {
-  const response = await window.fetch(`/auth/user/${id}`, {
-    method: 'GET',
+export default async function fetchProjects(userId, accessToken) {
+  const response = await window.fetch(`/auth/user/${userId}/fetch-projects`, {
+    method: 'POST',
     headers: {
       'content-type': 'application/json',
-      'authorization': `Bearer ${accessToken}`
+      authorization: `Bearer ${accessToken}`,
     },
     credentials: 'same-origin',
   });
