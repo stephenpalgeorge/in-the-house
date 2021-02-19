@@ -30,7 +30,6 @@ export async function authenticate(username, password): Promise<ILoginResponse> 
     // find user by username, error if no document is found:
     const user: IUser = await User.findOne({ username }).exec();
     if (!user) throw `No user exists for user: ${username}`;
-
     // validate password
     const isValidPassword: boolean = await user.comparePassword(password);
     if (!isValidPassword) throw 'Password is incorrect...';
@@ -163,13 +162,9 @@ export async function fetchApiKey(userId: string): Promise<string|undefined> {
  */
 export async function generateApiKey(userId: string): Promise<string|undefined> {
   try {
-    const user: IUser = await User.findById(userId);
-    if (!user) return undefined;
-    // if we have a user, update with a new api key, save the user
-    // and return the new key:
     const newKey = keys.generateKey();
-    user.api_key = newKey;
-    await user.save();
+    const user: IUser = await User.findOneAndUpdate({_id: userId}, {api_key: newKey});
+    if (!user) return undefined;
     return newKey;
   } catch (err) {
     console.error(err);
