@@ -213,7 +213,7 @@ router.post(
     } else {
       const data: IAuthPropReturn = { apiKey };
       if (req.accessToken) data.accessToken = req.accessToken;
-      if (req.refreshToken) res.cookie('refreshToken', {
+      if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
         // miliseconds in 10 days
         maxAge: 864_000_000,
         httpOnly: true,
@@ -240,7 +240,7 @@ router.post(
     } else {
       const data: IAuthPropReturn = { apiKey };
       if (req.accessToken) data.accessToken = req.accessToken;
-      if (req.refreshToken) res.cookie('refreshToken', {
+      if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
         // miliseconds in 10 days
         maxAge: 864_000_000,
         httpOnly: true,
@@ -248,6 +248,52 @@ router.post(
       res.status(200).json(data);
     }
   }
-)
+);
+
+/**
+ * FETCH PROJECTS
+ * ----------
+ * '/auth/user/:id/fetch-projects',
+ */
+router.post(
+  '/user/:id/fetch-projects',
+  [authMiddleware.accessMiddleware, authMiddleware.refreshMiddleware],
+  async (req: IDataRequest, res: Response) => {
+    const { id: userId } = req.params;
+    const projects = await userService.fetchProjects(userId);
+    if (!projects) {
+      const error: IErrorObject = { type: 'Internal server error', message: 'could not fetch projects for this user, do you have any setup yet?' };
+      res.status(500).json(error);
+    } else {
+      const data: IAuthPropReturn = { projects };
+      if (req.accessToken) data.accessToken = req.accessToken;
+      if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
+        // miliseconds in 10 days
+        maxAge: 864_000_000,
+        httpOnly: true,
+      });
+      res.status(200).json(data);
+    }
+  }
+);
+
+/**
+ * ADD PROJECT
+ * ----------
+ * '/auth/user/:id/add-project',
+ * 
+ */
+router.post(
+  '/user/:id/add-project',
+  [authMiddleware.accessMiddleware, authMiddleware.refreshMiddleware],
+  async (req: IDataRequest, res: Response) => {
+    const {id: userId} = req.params;
+    const projects = await userService.addProject(userId, req.body);
+    if (!projects || projects.length === 0) {
+      const error: IErrorObject = { type: 'Not acceptable', message: 'could not add your project. You may have reached the limit for your current account type?' }
+      res.status(406).json(error);
+    }
+  }
+);
 
 export default router;

@@ -21,7 +21,7 @@ export interface IUserProfile {
 }
 
 export interface IUser extends Document {
-  account_type?: 'free'|'tier-1'|'tier-2',
+  account_type?: [number, number],
   created_at?: number,
   email: string,
   username: string,
@@ -62,6 +62,7 @@ export interface IAuthRouteReturn {
 export interface IAuthPropReturn {
   apiKey?: string,
   accessToken?: string,
+  projects?: IProject[],
 }
 
 // if 'success', the payload will be the user,

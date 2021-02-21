@@ -1,10 +1,11 @@
-export default async function fetchProjects(userId, accessToken) {
-  const response = await window.fetch(`/auth/user/${userId}/fetch-projects`, {
+export default async function addProject(userId: string, accessToken: string, project) {
+  const response = await window.fetch(`/auth/user/${userId}/add-project`, {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
       authorization: `Bearer ${accessToken}`,
     },
+    body: JSON.stringify(project),
     credentials: 'same-origin',
   });
 

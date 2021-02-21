@@ -1,3 +1,4 @@
+export * from './lib/projects/projects';
 export * from './lib/input-copy/input-copy';
 export * from './lib/password-form/password-form';
 export * from './lib/edit-user-form/edit-user-form';

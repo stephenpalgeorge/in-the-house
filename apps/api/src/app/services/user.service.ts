@@ -1,6 +1,6 @@
 import { User } from '../models';
 import { keys, tokens } from '../helpers';
-import { IBasicResponse, ILoginResponse, IUser, IUserProfile } from '@in-the-house/api-interfaces';
+import { IBasicResponse, ILoginResponse, IProject, IUser, IUserProfile } from '@in-the-house/api-interfaces';
 
 /**
  * CREATE USER
@@ -142,7 +142,6 @@ export async function fetchApiKey(userId: string): Promise<string|undefined> {
   try {
     const user: IUser = await User.findById(userId);
     if (!user) return undefined;
-    // if we have a user, return only the api key:
     return user.api_key;
   } catch (err) {
     console.error(err);
@@ -162,10 +161,57 @@ export async function fetchApiKey(userId: string): Promise<string|undefined> {
  */
 export async function generateApiKey(userId: string): Promise<string|undefined> {
   try {
-    const newKey = keys.generateKey();
-    const user: IUser = await User.findOneAndUpdate({_id: userId}, {api_key: newKey});
+    const user: IUser = await User.findById(userId);
     if (!user) return undefined;
+
+    const newKey = keys.generateKey();
+    user.api_key = newKey;
+    user.save();
     return newKey;
+  } catch (err) {
+    console.error(err);
+    return undefined;
+  }
+}
+
+/**
+ * FETCH PROJECTS
+ * ----------
+ * Query the database for a single document, filtered by id,
+ * and return the posts array from that user.
+ * @param userId {String} the unique identifier for the user that should be updated
+ * 
+ */
+export async function fetchProjects(userId: string): Promise<IProject[]|undefined> {
+  try {
+    const user: IUser = await User.findById(userId);
+    if (!user) return undefined;
+    return user.projects;
+  } catch (err) {
+    console.error(err);
+    return undefined;
+  }
+}
+
+/**
+ * ADD PROJECT
+ * ----------
+ * Query the database for a single document, filtered by id,
+ * add a new project to the user.projects array and returned the
+ * updated list of projects.
+ * 
+ */
+export async function addProject(userId: string, project): Promise<IProject[]|undefined> {
+  try {
+    // fetch user and check projects.length against the limit of their account type
+    // throw error if they can't have more projects.
+    const updatedUser: IUser = await User.findOneAndUpdate(
+      { _id: userId },
+      { $push: {projects: project} },
+      { new: true }
+    );
+    if (!updatedUser) return undefined;
+    return updatedUser.projects;
   } catch (err) {
     console.error(err);
     return undefined;

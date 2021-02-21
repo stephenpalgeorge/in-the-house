@@ -8,6 +8,7 @@ export interface SignupFormProps {
 
 export function SignupForm({ closeForm, submit }: SignupFormProps) {
   const history = useHistory();
+  const usernameInputRef = React.useRef<HTMLInputElement>(null);
   const [email, setEmail] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
   const [passwordConf, setPasswordConf] = React.useState<string>('');
@@ -20,6 +21,9 @@ export function SignupForm({ closeForm, submit }: SignupFormProps) {
     email: '',
   });
 
+  React.useEffect(() => {
+    usernameInputRef.current.focus();
+  }, [usernameInputRef]);
   // every time an error message is set, check if the form is now valid:
   React.useEffect(() => { checkValidForm() }, [errors]);
 
@@ -92,6 +96,7 @@ export function SignupForm({ closeForm, submit }: SignupFormProps) {
       <div className="form__form-field">
         <label htmlFor="username" className="form__form-field--label">Username:</label>
         <input
+          ref={usernameInputRef}
           id="username"
           name="username"
           type="text"

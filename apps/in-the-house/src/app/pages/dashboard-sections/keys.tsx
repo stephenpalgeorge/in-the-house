@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../contexts/auth.context';
 import { ModalsContext } from '../../contexts/modals.context';
 import { fetchFromUser } from '../../fetch';
-import { InputCopy, Stack } from '@in-the-house/ui';
+import { InputCopy, Projects, Stack } from '@in-the-house/ui';
 import { IProject } from '@in-the-house/api-interfaces';
 
 /**
@@ -77,6 +77,14 @@ export function Keys() {
     }
   }
 
+  const handleSaveProject = async (project: IProject) => {
+
+  }
+
+  const handleGenerateProjectId = async (origin: string) => {
+
+  }
+
   return (
     <Stack sectionName="keys">
       <div className="keys-header">
@@ -128,7 +136,7 @@ export function Keys() {
         </p>
 
         <div className="keys__controls">
-          <button className="button-outline--primary" onClick={handleFetchApiKey} id="fetch-api-key">
+          <button className="button-outline--primary" onClick={handleFetchProjects} id="fetch-projects">
             { (projects && projects.length > 0) ? "Hide your Projects" : "See your Projects" }
           </button>
 
@@ -136,6 +144,8 @@ export function Keys() {
             Add a project
           </button>
         </div>
+
+        <Projects projects={projects} saveProject={handleSaveProject} generateProjectId={handleGenerateProjectId} />
       </div>
     </Stack>
   )
