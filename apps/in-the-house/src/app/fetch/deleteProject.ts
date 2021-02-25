@@ -1,11 +1,11 @@
-export default async function addProject(userId: string, accessToken: string, origin: string) {
+export default async function deleteProject(userId: string, accessToken: string, projId: string) {
   const response = await window.fetch(`/auth/user/${userId}/project`, {
-    method: 'POST',
+    method: 'DELETE',
     headers: {
       'content-type': 'application/json',
       authorization: `Bearer ${accessToken}`,
     },
-    body: JSON.stringify({origin}),
+    body: JSON.stringify({ projId }),
     credentials: 'same-origin',
   });
 

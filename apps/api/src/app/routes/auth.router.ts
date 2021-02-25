@@ -253,10 +253,10 @@ router.post(
 /**
  * FETCH PROJECTS
  * ----------
- * '/auth/user/:id/fetch-projects',
+ * '/auth/user/:id/projects',
  */
 router.post(
-  '/user/:id/fetch-projects',
+  '/user/:id/projects',
   [authMiddleware.accessMiddleware, authMiddleware.refreshMiddleware],
   async (req: IDataRequest, res: Response) => {
     const { id: userId } = req.params;
@@ -280,20 +280,59 @@ router.post(
 /**
  * ADD PROJECT
  * ----------
- * '/auth/user/:id/add-project',
+ * '/auth/user/:id/project',
  * 
  */
 router.post(
-  '/user/:id/add-project',
+  '/user/:id/project',
   [authMiddleware.accessMiddleware, authMiddleware.refreshMiddleware],
   async (req: IDataRequest, res: Response) => {
     const {id: userId} = req.params;
-    const projects = await userService.addProject(userId, req.body);
+    const {origin} = req.body;
+    const projects = await userService.addProject(userId, origin);
     if (!projects || projects.length === 0) {
-      const error: IErrorObject = { type: 'Not acceptable', message: 'could not add your project. You may have reached the limit for your current account type?' }
+      const error: IErrorObject = { type: 'Not acceptable', message: 'could not add your project. You may have reached the limit for your current account type, or already have a project with this origin?' }
       res.status(406).json(error);
+    } else {
+      const data: IAuthPropReturn = { projects };
+      if (req.accessToken) data.accessToken = req.accessToken;
+      if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
+        // miliseconds in 10 days
+        maxAge: 864_000_000,
+        httpOnly: true,
+      });
+      res.status(200).json(data);
     }
   }
 );
+
+/**
+ * DELETE PROJECT
+ * ----------
+ * '/auth/user/:id/project'
+ * 
+ */
+router.delete(
+  '/user/:id/project',
+  [authMiddleware.accessMiddleware, authMiddleware.refreshMiddleware],
+  async (req: IDataRequest, res: Response) => {
+    const {id: userId} = req.params;
+    const {projId} = req.body;
+    const projects = await userService.deleteProject(userId, projId);
+    if (!projects) {
+      const error: IErrorObject = { type: 'Bad request', message: 'could not delete your project.' }
+      res.status(400).json(error);
+    } else {
+      const data: IAuthPropReturn = { projects };
+      if (req.accessToken) data.accessToken = req.accessToken;
+      if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
+        // miliseconds in 10 days
+        maxAge: 864_000_000,
+        httpOnly: true,
+      });
+      res.status(200).json(data);
+    }
+  }
+)
 
 export default router;

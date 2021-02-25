@@ -10,7 +10,7 @@ export function Modal({ modal, closeModal }: ModalProps) {
   React.useEffect(() => {
     let timeout = setTimeout(() => {
       if (modal.isDismissible) closeModal(modal.name);
-    }, 4000);
+    }, 6000);
 
     return () => {
       clearTimeout(timeout);

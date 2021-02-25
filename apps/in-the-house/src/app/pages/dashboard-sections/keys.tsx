@@ -3,8 +3,8 @@ import { Link, useLocation } from 'react-router-dom';
 
 import { AuthContext } from '../../contexts/auth.context';
 import { ModalsContext } from '../../contexts/modals.context';
-import { fetchFromUser } from '../../fetch';
-import { InputCopy, Projects, Stack } from '@in-the-house/ui';
+import { addProject, deleteProject, fetchFromUser } from '../../fetch';
+import { InputCopy, ProjectForm, Projects, Stack } from '@in-the-house/ui';
 import { IProject } from '@in-the-house/api-interfaces';
 
 /**
@@ -28,6 +28,7 @@ export function Keys() {
 
   const [apiKey, setApiKey] = React.useState<string>('');
   const [projects, setProjects] = React.useState<IProject[]>([]);
+  const [addingProject, setAddingProject] = React.useState<boolean>(false);
 
   const handleFetchApiKey = async () => {
     if (apiKey.length > 0) {
@@ -68,21 +69,59 @@ export function Keys() {
   }
 
   const handleFetchProjects = async () => {
+    if (projects.length > 0) {
+      setProjects([]);
+      return;
+    };
     const response = await fetchFromUser(authContext.accessToken, `/auth/user/${authContext.userId}/projects`, "POST");
     if (response.status === 'error') {
       // set modal
+      modalsContext.addModal({
+        name: 'Fetching projcets error',
+        code: 500,
+        type: 'error',
+        message: 'Couldn\'t fetch your projects...do you have any setup yet?',
+        isDismissible: true,
+      });
     } else {
       // response will include array of projects, update local state and 
       // accesstoken if there is one.
+      if (response.data.projects) setProjects(response.data.projects);
+      if (response.data.accessToken) authContext.setAccessToken(response.data.accessToken);
     }
   }
 
-  const handleSaveProject = async (project: IProject) => {
-
+  const handleAddProject = async (origin: string) => {
+    const response = await addProject(authContext.userId, authContext.accessToken, origin);
+    if (response.status === 'error') {
+      modalsContext.addModal({
+        name: 'Add project error',
+        code: 406,
+        type: 'error',
+        message: 'Couldn\'t add this project, maybe check if you\'ve reached the project limit for your account type?',
+        isDismissible: true,
+      });
+    } else {
+      if (response.data.projects) setProjects(response.data.projects);
+      if (response.data.accessToken) authContext.setAccessToken(response.data.accessToken);
+      setAddingProject(false);
+    }
   }
 
-  const handleGenerateProjectId = async (origin: string) => {
-
+  const handleDeleteProject = async (projectId: string) => {
+    const response = await deleteProject(authContext.userId, authContext.accessToken, projectId);
+    if (response.status === 'error') {
+      modalsContext.addModal({
+        name: 'Delete project error',
+        code: 400,
+        type: 'error',
+        message: 'Could not delete your project...',
+        isDismissible: true,
+      });
+    } else {
+      if (response.data.projects) setProjects(response.data.projects);
+      if (response.data.accessToken) authContext.setAccessToken(response.data.accessToken);
+    }
   }
 
   return (
@@ -140,12 +179,16 @@ export function Keys() {
             { (projects && projects.length > 0) ? "Hide your Projects" : "See your Projects" }
           </button>
 
-          <button className="button-outline--green" onClick={handleGenerateApiKey} id="generate-api-key">
+          <button className="button-outline--green" onClick={() => setAddingProject(true)} id="generate-api-key">
             Add a project
           </button>
         </div>
 
-        <Projects projects={projects} saveProject={handleSaveProject} generateProjectId={handleGenerateProjectId} />
+        {
+          addingProject &&
+          <ProjectForm close={() => setAddingProject(false)} submit={handleAddProject} />
+        }
+        <Projects deleteProject={handleDeleteProject} projects={projects} />
       </div>
     </Stack>
   )

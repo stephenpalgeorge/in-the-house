@@ -94,6 +94,12 @@
     font-size: $font-size--small;
     letter-spacing: 1px;
   }
+
+  p.help-text {
+    font-size: $font-size--small;
+    font-weight: $font-weight--light;
+    margin-top: 0.5rem;
+  }
 }
 
 @media screen and (max-width: 767px) {

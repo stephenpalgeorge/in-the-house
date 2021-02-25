@@ -201,17 +201,46 @@ export async function fetchProjects(userId: string): Promise<IProject[]|undefine
  * updated list of projects.
  * 
  */
-export async function addProject(userId: string, project): Promise<IProject[]|undefined> {
+export async function addProject(userId: string, origin: string): Promise<IProject[]|undefined> {
   try {
+    const user: IUser = await User.findById(userId);
     // fetch user and check projects.length against the limit of their account type
     // throw error if they can't have more projects.
-    const updatedUser: IUser = await User.findOneAndUpdate(
-      { _id: userId },
-      { $push: {projects: project} },
-      { new: true }
-    );
-    if (!updatedUser) return undefined;
-    return updatedUser.projects;
+    if (!user) return undefined;
+    // check that the user doesn't already have a project with this origin:
+    if (user.projects.map(p => p.origin).includes(origin)) return undefined;
+
+    const project: IProject = {
+      origin,
+      id: keys.generateKey(16),
+    }
+    user.projects.push(project);
+    await user.save();
+    return user.projects;
+  } catch (err) {
+    console.error(err);
+    return undefined;
+  }
+}
+
+/**
+ * DELETE PROJECT
+ * ----------
+ * Query the database for a single document, filtered by id,
+ * delete a project from the user.projects array by finding the index
+ * of the projectId. Return the updated list of projects.
+ * 
+ */
+export async function deleteProject(userId: string, projectId: string): Promise<IProject[]|undefined> {
+  try {
+    const user: IUser = await User.findById(userId);
+    if (!user) return undefined;
+    // get the index of the projectId from the user.projects array.
+    const index = user.projects.map(p => p.id).indexOf(projectId);
+    if (index === -1) return undefined;
+    user.projects = [...user.projects.slice(0, index), ...user.projects.slice(index + 1)];
+    await user.save();
+    return user.projects;
   } catch (err) {
     console.error(err);
     return undefined;
