@@ -1,4 +1,9 @@
 .section--keys {
+  mark {
+    font-family: $font-family--serif;
+    background-color: rgba($color--amber, 0.5);
+  }
+
   .keys-header {
     display: flex;
     align-items: flex-start;
@@ -16,10 +21,10 @@
         cursor: pointer;
         a {
           text-decoration: underline;
-          color: $color--secondary;
+          color: $color--secondary--darkened;
           transition: color 0.2s ease;
           &:hover {
-            color: $color--secondary--darkened;
+            color: darken($color--secondary--darkened, 10%);
           }
         }
       }

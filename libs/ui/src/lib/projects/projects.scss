@@ -1,4 +1,27 @@
 .project {
+  display: flex;
+  align-items: center;
+  &-origin {
+    font-family: $font-family--serif;
+  }
+  &-id {
+    flex-grow: 1;
+    padding: 0.5rem;
+    border: none;
+    border-bottom: 0.125rem solid $color--dark-grey;
+    background-color: $color--light;
+    font-weight: $font-weight--light;
+    letter-spacing: 1px;
+
+    &:focus {
+      outline: 0.125rem solid rgba($color--amber, 0.5);
+    }
+  }
+
+  & > * + * {
+    margin-left: 1rem;
+  }
+
   button {
     width: 1.5rem;
     height: 1.5rem;

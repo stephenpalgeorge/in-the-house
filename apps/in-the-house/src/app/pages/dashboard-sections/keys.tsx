@@ -138,7 +138,7 @@ export function Keys() {
         </ul>
       </div>
       <p>
-        To use In the House, you need an API Key, and a project ID for any 
+        To use In the House, you need an <mark>API Key</mark>, and a <mark>project ID</mark> for any 
         website from which you want to query the API. You must keep these details secret, 
         if you have any reason to believe that your keys have been compromised, 
         generate some new ones and update your application/website code.
