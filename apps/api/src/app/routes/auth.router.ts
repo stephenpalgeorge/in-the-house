@@ -1,5 +1,6 @@
 import { Request, Router, Response } from 'express';
 import { check, validationResult } from 'express-validator';
+import { auth } from '../helpers';
 import { authMiddleware } from '../middleware';
 import { userService } from '../services';
 import {
@@ -96,7 +97,7 @@ router.post('/login', async (req: Request, res: Response) => {
  * `/auth/logout`
  * Logout route simply removes the refreshToken cookie
  */
-router.post('/logout', (req: Request, res: Response) => {
+router.post('/logout', (_, res: Response) => {
   res.clearCookie('refreshToken').status(204).end();
 });
 
@@ -120,13 +121,14 @@ router.get(
       res.status(404).json(error);
     } else {
       const data: IAuthRouteReturn = { user };
-      if (req.accessToken) data.accessToken = req.accessToken;
-      if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
-        // miliseconds in 10 days
-        maxAge: 864_000_000,
-        httpOnly: true,
-      });
-      res.status(200).json(data);
+      auth.sendAuthResponse(req, res, data);
+      // if (req.accessToken) data.accessToken = req.accessToken;
+      // if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
+      //   // miliseconds in 10 days
+      //   maxAge: 864_000_000,
+      //   httpOnly: true,
+      // });
+      // res.status(200).json(data);
     }
   }
 );
@@ -150,13 +152,14 @@ router.put(
       res.status(404).json(error);
     } else {
       const data: IAuthRouteReturn = { user };
-      if (req.accessToken) data.accessToken = req.accessToken;
-      if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
-        // miliseconds in 10 days
-        maxAge: 864_000_000,
-        httpOnly: true,
-      });
-      res.status(200).json(data);
+      auth.sendAuthResponse(req, res, data);
+      // if (req.accessToken) data.accessToken = req.accessToken;
+      // if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
+      //   // miliseconds in 10 days
+      //   maxAge: 864_000_000,
+      //   httpOnly: true,
+      // });
+      // res.status(200).json(data);
     }
   }
 );
@@ -181,13 +184,14 @@ router.put(
       res.status(500).json(error);
     } else {
       const data: IAuthRouteReturn = { user };
-      if (req.accessToken) data.accessToken = req.accessToken;
-      if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
-        // miliseconds in 10 days
-        maxAge: 864_000_000,
-        httpOnly: true,
-      });
-      res.status(200).json(data);
+      auth.sendAuthResponse(req, res, data);
+      // if (req.accessToken) data.accessToken = req.accessToken;
+      // if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
+      //   // miliseconds in 10 days
+      //   maxAge: 864_000_000,
+      //   httpOnly: true,
+      // });
+      // res.status(200).json(data);
     }
   }
 );
@@ -212,13 +216,14 @@ router.post(
       res.status(404).json(error);
     } else {
       const data: IAuthPropReturn = { apiKey };
-      if (req.accessToken) data.accessToken = req.accessToken;
-      if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
-        // miliseconds in 10 days
-        maxAge: 864_000_000,
-        httpOnly: true,
-      });
-      res.status(200).json(data);
+      auth.sendAuthResponse(req, res, data);
+      // if (req.accessToken) data.accessToken = req.accessToken;
+      // if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
+      //   // miliseconds in 10 days
+      //   maxAge: 864_000_000,
+      //   httpOnly: true,
+      // });
+      // res.status(200).json(data);
     }
   }
 );
@@ -239,13 +244,14 @@ router.post(
       res.status(500).json(error);
     } else {
       const data: IAuthPropReturn = { apiKey };
-      if (req.accessToken) data.accessToken = req.accessToken;
-      if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
-        // miliseconds in 10 days
-        maxAge: 864_000_000,
-        httpOnly: true,
-      });
-      res.status(200).json(data);
+      auth.sendAuthResponse(req, res, data);
+      // if (req.accessToken) data.accessToken = req.accessToken;
+      // if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
+      //   // miliseconds in 10 days
+      //   maxAge: 864_000_000,
+      //   httpOnly: true,
+      // });
+      // res.status(200).json(data);
     }
   }
 );
@@ -266,13 +272,14 @@ router.post(
       res.status(500).json(error);
     } else {
       const data: IAuthPropReturn = { projects };
-      if (req.accessToken) data.accessToken = req.accessToken;
-      if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
-        // miliseconds in 10 days
-        maxAge: 864_000_000,
-        httpOnly: true,
-      });
-      res.status(200).json(data);
+      auth.sendAuthResponse(req, res, data);
+      // if (req.accessToken) data.accessToken = req.accessToken;
+      // if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
+      //   // miliseconds in 10 days
+      //   maxAge: 864_000_000,
+      //   httpOnly: true,
+      // });
+      // res.status(200).json(data);
     }
   }
 );
@@ -295,13 +302,14 @@ router.post(
       res.status(406).json(error);
     } else {
       const data: IAuthPropReturn = { projects };
-      if (req.accessToken) data.accessToken = req.accessToken;
-      if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
-        // miliseconds in 10 days
-        maxAge: 864_000_000,
-        httpOnly: true,
-      });
-      res.status(200).json(data);
+      auth.sendAuthResponse(req, res, data);
+      // if (req.accessToken) data.accessToken = req.accessToken;
+      // if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
+      //   // miliseconds in 10 days
+      //   maxAge: 864_000_000,
+      //   httpOnly: true,
+      // });
+      // res.status(200).json(data);
     }
   }
 );
@@ -324,13 +332,14 @@ router.delete(
       res.status(400).json(error);
     } else {
       const data: IAuthPropReturn = { projects };
-      if (req.accessToken) data.accessToken = req.accessToken;
-      if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
-        // miliseconds in 10 days
-        maxAge: 864_000_000,
-        httpOnly: true,
-      });
-      res.status(200).json(data);
+      auth.sendAuthResponse(req, res, data);
+      // if (req.accessToken) data.accessToken = req.accessToken;
+      // if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
+      //   // miliseconds in 10 days
+      //   maxAge: 864_000_000,
+      //   httpOnly: true,
+      // });
+      // res.status(200).json(data);
     }
   }
 )

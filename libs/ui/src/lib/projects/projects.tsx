@@ -11,7 +11,7 @@ export interface ProjectsProps {
 
 export function Projects({ projects = [], deleteProject }: ProjectsProps) {
   return (
-    <div className="projects">
+    <div className="projects stack--small">
       {
         (projects && projects.length > 0) &&
         projects.map((proj, i) => (

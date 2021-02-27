@@ -3,8 +3,21 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+  }
 
-    button {
+  .user-info {
+    mark {
+      font-family: $font-family--serif;
+      background-color: rgba($color--amber, 0.5);
+    }
+
+    span {
+      text-decoration: underline;
+    }
+  }
+
+  .account-controls {
+    button:not(#change-password) {
       padding: 0.5rem 1rem;
       box-shadow: $box-shadow--base-bottom;
       border: 0.125rem solid $color--light;
@@ -22,17 +35,18 @@
       &:focus {
         outline: 0.125rem solid darken($color--status-warning, 10%);
       }
-    }
-  }
 
-  .user-info {
-    mark {
-      font-family: $font-family--serif;
-      background-color: rgba($color--amber, 0.5);
+      @media screen and (max-width: 767px) {
+        width: 100%;
+      }
     }
 
-    span {
-      text-decoration: underline;
+    > button + button {
+      margin-left: 1rem;
+      @media screen and (max-width: 767px) {
+        margin-left: 0;
+        margin-top: 1rem;
+      }
     }
   }
 

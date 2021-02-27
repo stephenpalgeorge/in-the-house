@@ -3,6 +3,8 @@
   align-items: center;
   &-origin {
     font-family: $font-family--serif;
+    flex-basis: 25%;
+    overflow: scroll;
   }
   &-id {
     flex-grow: 1;

@@ -102,7 +102,6 @@ export function Account({
     <Stack sectionName="dashboard-account">
       <div className="account-header">
         <h2>Your account</h2>
-        <button className={`edit-button ${editable ? 'active' : ''}`} onClick={() => setEditable(!editable)}>Edit</button>
       </div>
 
       <p className="user-info">
@@ -121,13 +120,21 @@ export function Account({
         <p className="user-info">Your <span>last name</span> is <mark>{lastName}</mark></p>
       }
 
-      <button
-        className={`button-outline--primary ${editPassword ? 'active' : ''}`}
-        id="change-password"
-        onClick={() => setEditPassword(!editPassword)}
-      >
-        Change your password
-      </button>
+      <div className="account-controls">
+        <button
+          className={`edit-button ${editable ? 'active' : ''}`}
+          onClick={() => setEditable(!editable)}
+        >
+          { editable ? 'Hide form' : 'Edit account' }
+        </button>
+        <button
+          className={`button-outline--primary ${editPassword ? 'active' : ''}`}
+          id="change-password"
+          onClick={() => setEditPassword(!editPassword)}
+        >
+          { editPassword ? 'Hide form' : 'Change your password' }
+        </button>
+      </div>
 
       {
         editPassword &&
