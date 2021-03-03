@@ -204,9 +204,17 @@ export async function fetchProjects(userId: string): Promise<IProject[]|undefine
 export async function addProject(userId: string, origin: string): Promise<IProject[]|undefined> {
   try {
     const user: IUser = await User.findById(userId);
-    // fetch user and check projects.length against the limit of their account type
-    // throw error if they can't have more projects.
     if (!user) return undefined;
+    // guard clause that fetches user and check projects.length against the 
+    // limit of their account type throw error if they can't have more projects.
+    const accountTier: number = user.account_type[0];
+    if (
+      // 'limited accounts' can only have 1 project:
+      (accountTier === 0 && user.projects.length > 1) ||
+      // 'standard accounts' can only have a maximum of 3 projects:
+      (accountTier === 1 && user.projects.length > 3)
+    ) return undefined;
+    
     // check that the user doesn't already have a project with this origin:
     if (user.projects.map(p => p.origin).includes(origin)) return undefined;
 

@@ -4,9 +4,8 @@ import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
 import * as mongoose from 'mongoose';
 import * as path from 'path';
-import { Message } from '@in-the-house/api-interfaces';
 
-import { authRouter } from './app/routes';
+import { apiRouter, authRouter } from './app/routes';
 
 // define initial variables
 const app = express();
@@ -37,6 +36,7 @@ mongoose.connect(URI, {
 
   // API ROUTES
   app.use('/auth', authRouter);
+  app.use('/api/v1', apiRouter);
   
   // Catch all other routes and serve the React app:
   app.get('*', (_, res: express.Response) => {

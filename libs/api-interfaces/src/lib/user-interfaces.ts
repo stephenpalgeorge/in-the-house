@@ -7,9 +7,11 @@ export interface IProject {
 }
 
 export interface IRecord {
+  year: number,
+  // month is a number from 0 - 11
   month: number,
+  // day is a number from 1 - 31
   day: number,
-  count: number,
   endpoint: string,
 }
 
