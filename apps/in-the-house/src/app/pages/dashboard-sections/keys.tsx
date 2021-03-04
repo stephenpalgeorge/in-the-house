@@ -124,6 +124,15 @@ export function Keys() {
     }
   }
 
+  const copyCallback = () => {
+    modalsContext.addModal({
+      name: 'Text copied',
+      type: 'info',
+      message: 'Copied your API Key to the clipboard.',
+      isDismissible: true,
+    });
+  }
+
   return (
     <Stack sectionName="keys">
       <div className="keys-header">
@@ -162,7 +171,7 @@ export function Keys() {
 
         {
           (apiKey && apiKey.length > 0) &&
-          <InputCopy value={apiKey} />
+          <InputCopy copyCallback={copyCallback} value={apiKey} />
         }
       </div>
       <div className="stack--small" ref={projectsRef}>

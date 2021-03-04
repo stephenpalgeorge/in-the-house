@@ -34,7 +34,7 @@ export function Modal({ modal, closeModal }: ModalProps) {
 // MODALS:
 export interface ModalData {
   name: string,
-  code: number,
+  code?: number,
   type: 'success'|'info'|'warning'|'error',
   message: string,
   isDismissible: boolean,
