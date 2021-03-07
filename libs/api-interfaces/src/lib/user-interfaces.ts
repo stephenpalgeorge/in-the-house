@@ -8,11 +8,13 @@ export interface IProject {
 
 export interface IRecord {
   year: number,
-  // month is a number from 0 - 11
+  // month is a number from 0 - 11:
   month: number,
-  // day is a number from 1 - 31
+  // day is a number from 1 - 31:
   day: number,
   endpoint: string,
+  // the id of one of the user's projects:
+  project: string,
 }
 
 export interface IUserProfile {
@@ -70,13 +72,13 @@ export interface IAuthPropReturn {
 // if 'success', the payload will be the user,
 // if 'error', the payload will be a message
 export interface IBasicResponse {
-  status: 'success'|'error',
+  status: 'success' | 'error',
   payload: string,
 }
 
 export interface ILoginResponse {
   message: string,
-  userId: string|undefined,
-  accessToken: string|undefined,
-  refreshToken: string|undefined,
+  userId: string | undefined,
+  accessToken: string | undefined,
+  refreshToken: string | undefined,
 }

@@ -67,16 +67,16 @@ export async function usageMiddleware(req: IApiRequest, res: Response, next: Nex
     // get user and push a new record into the usage array
     const user: IUser = await User.findById(req.userId);
     if (!user) {
-      const error: IErrorObject = { type: 'Not found', message: 'could not find a user for this request...'};
+      const error: IErrorObject = { type: 'Not found', message: 'could not find a user for this request...' };
       res.status(404).json(error);
     } else {
-      // @todo check usage for the current month doesn't exceed the quota allowed by the user's account type:
+      // check usage for the current month doesn't exceed the quota allowed by the user's account type:
       const tier: number = user.account_type[0];
-      const currentPeriodUsage: IRecord[] = user.usage.filter(record =>{
+      const currentPeriodUsage: IRecord[] = user.usage.filter(record => {
         const today = new Date();
         const month: number = today.getMonth();
         const year: number = today.getFullYear();
-        return record.month === month && record.year === year;
+        return record.month === month && record.year === year && record.project === req.header('project-id');
       });
       if (
         (tier === 0 && currentPeriodUsage.length >= 250) ||
@@ -91,7 +91,8 @@ export async function usageMiddleware(req: IApiRequest, res: Response, next: Nex
           year: now.getFullYear(),
           month: now.getMonth(),
           day: now.getDate(),
-          endpoint: req.originalUrl 
+          endpoint: req.originalUrl,
+          project: req.header('project-id'),
         });
         await user.save();
         next();

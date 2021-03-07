@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 export interface ILink {
   path: string,
   label: string,
-  color?: 'light'|'dark'|'primary'|'secondary',
+  color?: 'light' | 'dark' | 'primary' | 'secondary'
 }
 
 export interface NavbarProps {
@@ -13,7 +13,7 @@ export interface NavbarProps {
   // the navigation could feature some more prominent
   // call-to-action items that should be separated from
   // the main menu content:
-  actions?: ILink[],  
+  actions?: ILink[],
 }
 
 export function Navbar(props: NavbarProps) {
@@ -42,14 +42,14 @@ export function Navbar(props: NavbarProps) {
   }
 
   return (
-    <nav ref={ navBarRef } className="navbar contents contents--narrow">
+    <nav ref={navBarRef} className="navbar contents contents--narrow">
       {/* MENU */}
-      <ul ref={ menuRef } className="menu">
+      <ul ref={menuRef} className="menu">
         {
           (menu.length > 0) &&
           menu.map((item, i) => {
             return <li onClick={closeMenu} className={location.pathname === item.path ? 'active' : ''} key={i}>
-              <Link to={item.path}>{ item.label }</Link>
+              <Link to={item.path}>{item.label}</Link>
             </li>
           })
         }
@@ -57,7 +57,7 @@ export function Navbar(props: NavbarProps) {
       {/* ACTIONS */}
       <ul className="actions">
         {/* even if there are no actions, we include the menu toggle button */}
-        <li ref={ menuIconRef } id="menu-icon" className={!actions || actions.length <= 0 ? 'icon-full-width' : null} onClick={ toggleMenu }>
+        <li ref={menuIconRef} id="menu-icon" className={!actions || actions.length <= 0 ? 'icon-full-width' : null} onClick={toggleMenu}>
           <div className="icon-bar" id="icon-bar--top"></div>
           <div className="icon-bar" id="icon-bar--middle"></div>
           <div className="icon-bar" id="icon-bar--bottom"></div>
@@ -66,7 +66,7 @@ export function Navbar(props: NavbarProps) {
           (actions && actions.length > 0 && actions.length < 3) &&
           actions.map((action, i) => {
             return <li onClick={closeMenu} className={`action ${'background-color--' + action.color || ''} ${location.pathname === action.path ? 'active' : ''}`} key={i}>
-              <Link to={action.path}>{ action.label }</Link>
+              <Link to={action.path}>{action.label}</Link>
             </li>
           })
         }

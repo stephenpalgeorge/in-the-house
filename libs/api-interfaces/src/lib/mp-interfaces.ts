@@ -59,7 +59,7 @@ export interface Member {
   nameFullTitle: string,
   nameAddressAs: string,
   latestParty: Party,
-  gender: 'M'|'F',
+  gender: 'M' | 'F',
   latestHouseMembership: HouseMembership,
   thumbnailUrl: string,
 }
@@ -83,4 +83,4 @@ export interface MemberResponse extends Member {
   Synopsis: string,
 }
 
-export type MemberServiceReturn = MemberResponse|MemberResponse[]|undefined;
+export type MemberServiceReturn = MemberResponse | MemberResponse[];
