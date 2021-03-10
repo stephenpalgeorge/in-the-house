@@ -1,6 +1,6 @@
 import { IErrorObject, MemberServiceReturn } from '@in-the-house/api-interfaces';
 import { Response, Request, Router } from 'express';
-import { listmps, singlemp } from '../controllers';
+import { listmps, singlemp, searchmpsList, searchmpsSingle } from '../controllers';
 import { mpService as mp } from '../services';
 
 import {
@@ -40,7 +40,7 @@ router.get(
 // GET MULTIPLE POSTCODES
 // ----------
 router.get(
-  '/list/:postcodes',
+  '/postcodes/list/:postcodes',
   [apiMiddleware.keyMiddleware, apiMiddleware.usageMiddleware],
   async (req: Request, res: Response) => {
     const [errors, mps] = await listmps('fymp', req.params.postcodes);
@@ -64,7 +64,7 @@ router.get(
 // one if found.
 // 
 router.get(
-  '/single/:name',
+  '/names/single/:name',
   [apiMiddleware.keyMiddleware, apiMiddleware.usageMiddleware, namesMiddleware],
   async (req: Request, res: Response) => {
     const mp = await singlemp('name', req.params.name);
@@ -84,7 +84,7 @@ router.get(
 // }
 // 
 router.get(
-  '/list/:names',
+  '/names/list/:names',
   [apiMiddleware.keyMiddleware, apiMiddleware.usageMiddleware, namesMiddleware],
   async (req: Request, res: Response) => {
     const [errors, mps] = await listmps('name', req.params.names);
@@ -107,7 +107,7 @@ router.get(
 // details of a member of parliament.
 // 
 router.get(
-  '/single/:con',
+  '/constituencies/single/:con',
   [apiMiddleware.keyMiddleware, apiMiddleware.usageMiddleware, constituenciesMiddleware],
   async (req: Request, res: Response) => {
     const mp = await singlemp('constituency', req.params.con);
@@ -127,7 +127,7 @@ router.get(
 // }
 // 
 router.get(
-  '/list/:cons',
+  '/constituencies/list/:cons',
   [apiMiddleware.keyMiddleware, apiMiddleware.usageMiddleware, constituenciesMiddleware],
   async (req: Request, res: Response) => {
     const [errors, mps] = await listmps('constituency', req.params.cons);
@@ -137,6 +137,10 @@ router.get(
     } else res.status(200).json(mps);
   }
 );
+
+// ----------
+// POSTS
+// ----------
 
 /**
  * N.B. This behaviour of the posts endpoints is slightly different
@@ -150,7 +154,7 @@ router.get(
 // GET SINGLE POST
 // ----------
 router.get(
-  '/single/:post',
+  '/posts/single/:post',
   [apiMiddleware.keyMiddleware, apiMiddleware.usageMiddleware, postsMiddleware],
   async (req: Request, res: Response): Promise<Response> => {
     let encodedPost: string = req.params.post.split(' ').join('%20');
@@ -168,32 +172,66 @@ router.get(
 
 // GET MULTIPLE POSTS
 // ----------
-router.get('/list/:posts', async (req: Request, res: Response): Promise<Response> => {
-  let postsArray: string[] = req.params.posts.split(',').map(p => p.split(' ').join('%20'));
-  const { shadow } = req.query;
-  if (postsArray.length === 1) return res.status(400).json({
-    type: 'WARNING',
-    message: 'if you\'re just looking for one post, you should send you request to the endpoint: /single/:post',
-  });
-
-  if (shadow === "true") postsArray = postsArray.map(p => `shadow%20${p}`);
-  let searchTerm = shadow === "true" ? 'oppositionpost' : 'governmentpost';
-
-  const output: any[] = [];
-  for (const post of postsArray) {
-    const data: MemberServiceReturn = await mp.default(searchTerm, post);
-    if (data === undefined) return res.status(404).json({
-      type: 'ERROR',
-      message: `could not find any government position for: ${req.params.post}`,
+router.get(
+  '/posts/list/:posts',
+  [apiMiddleware.keyMiddleware, apiMiddleware.usageMiddleware, postsMiddleware],
+  async (req: Request, res: Response): Promise<Response> => {
+    let postsArray: string[] = req.params.posts.split(',').map(p => p.split(' ').join('%20'));
+    const { shadow } = req.query;
+    if (postsArray.length === 1) return res.status(400).json({
+      type: 'WARNING',
+      message: 'if you\'re just looking for one post, you should send you request to the endpoint: /single/:post',
     });
 
-    output.push({
-      Post: post.split('%20').join(' ').toUpperCase(),
-      MP: data,
-    });
+    if (shadow === "true") postsArray = postsArray.map(p => `shadow%20${p}`);
+    let searchTerm = shadow === "true" ? 'oppositionpost' : 'governmentpost';
+
+    const output: any[] = [];
+    for (const post of postsArray) {
+      const data: MemberServiceReturn = await mp.default(searchTerm, post);
+      if (data === undefined) return res.status(404).json({
+        type: 'ERROR',
+        message: `could not find any government position for: ${req.params.post}`,
+      });
+
+      output.push({
+        Post: post.split('%20').join(' ').toUpperCase(),
+        MP: data,
+      });
+    }
+
+    return res.status(200).json(output);
   }
+);
 
-  return res.status(200).json(output);
-});
+// ----------
+// SEARCH
+// ----------
+
+router.get(
+  '/search/single/:name',
+  [apiMiddleware.keyMiddleware, apiMiddleware.usageMiddleware],
+  async (req, res) => {
+    const encodedParam = req.params.name.split(' ').join('%20');
+    const mp = await searchmpsSingle(encodedParam);
+    if (!mp) {
+      const error: IErrorObject = { type: 'Not found', message: 'no mps found for your search term...' };
+      res.status(404).json(error);
+    } else res.status(200).json(mp);
+  }
+);
+
+router.get(
+  '/search/list/:names',
+  [apiMiddleware.keyMiddleware, apiMiddleware.usageMiddleware],
+  async (req: Request, res: Response) => {
+    const names: string[] = req.params.names.split('+').map(t => t.split(' ').join('%20'));
+    const [errors, mps] = await searchmpsList(names);
+    if (errors.length > 0) {
+      const error: IErrorObject = { type: 'Not found', message: `could not find mps for search terms ${errors.join(', ')}` };
+      res.status(404).json(error);
+    } else res.status(200).json(mps);
+  }
+);
 
 export default router;
