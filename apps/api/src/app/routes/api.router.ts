@@ -1,18 +1,16 @@
-import { IErrorObject } from '@in-the-house/api-interfaces';
+import { IErrorObject, MemberServiceReturn } from '@in-the-house/api-interfaces';
 import { Response, Request, Router } from 'express';
 import { listmps, singlemp } from '../controllers';
+import { mpService as mp } from '../services';
 
-import { apiMiddleware, constituenciesMiddleware, namesMiddleware } from '../middleware';
+import {
+  apiMiddleware,
+  constituenciesMiddleware,
+  namesMiddleware,
+  postsMiddleware,
+} from '../middleware';
 
 const router = Router();
-
-router.get(
-  '/test',
-  [apiMiddleware.keyMiddleware, apiMiddleware.usageMiddleware],
-  async (req: Request, res: Response) => {
-    res.json({ message: 'testing the api routes and middleware' });
-  }
-);
 
 /**
  * ----------
@@ -139,5 +137,63 @@ router.get(
     } else res.status(200).json(mps);
   }
 );
+
+/**
+ * N.B. This behaviour of the posts endpoints is slightly different
+ * from what is defined in the single and list controllers, as it
+ * encorporates an extra query string (req.query.shadow). Therefore,
+ * we do not import the controllers in this file, but explicitly rewrite
+ * them with this additional behaviour built in.
+ * A refactor of this could be considered in the future.
+ */
+
+// GET SINGLE POST
+// ----------
+router.get(
+  '/single/:post',
+  [apiMiddleware.keyMiddleware, apiMiddleware.usageMiddleware, postsMiddleware],
+  async (req: Request, res: Response): Promise<Response> => {
+    let encodedPost: string = req.params.post.split(' ').join('%20');
+    let { shadow } = req.query;
+    if (shadow === "true") encodedPost = `shadow%20${encodedPost}`;
+    let searchTerm = shadow === "true" ? 'oppositionpost' : 'governmentpost';
+
+    const data: MemberServiceReturn = await mp.default(searchTerm, encodedPost);
+    return data === undefined ? res.status(404).json({
+      type: 'ERROR',
+      message: `could not find any government position for: ${req.params.post}`,
+    }) : res.status(200).json(data);
+  }
+);
+
+// GET MULTIPLE POSTS
+// ----------
+router.get('/list/:posts', async (req: Request, res: Response): Promise<Response> => {
+  let postsArray: string[] = req.params.posts.split(',').map(p => p.split(' ').join('%20'));
+  const { shadow } = req.query;
+  if (postsArray.length === 1) return res.status(400).json({
+    type: 'WARNING',
+    message: 'if you\'re just looking for one post, you should send you request to the endpoint: /single/:post',
+  });
+
+  if (shadow === "true") postsArray = postsArray.map(p => `shadow%20${p}`);
+  let searchTerm = shadow === "true" ? 'oppositionpost' : 'governmentpost';
+
+  const output: any[] = [];
+  for (const post of postsArray) {
+    const data: MemberServiceReturn = await mp.default(searchTerm, post);
+    if (data === undefined) return res.status(404).json({
+      type: 'ERROR',
+      message: `could not find any government position for: ${req.params.post}`,
+    });
+
+    output.push({
+      Post: post.split('%20').join(' ').toUpperCase(),
+      MP: data,
+    });
+  }
+
+  return res.status(200).json(output);
+});
 
 export default router;
