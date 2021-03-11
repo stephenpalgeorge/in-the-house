@@ -30,9 +30,11 @@ export function Usage({ usage = [] }: UsageProps) {
     } else {
       if (response.data.accessToken) authContext.setAccessToken(response.data.accessToken);
       if (response.data.projects) {
-        // create array of projects - no duplicates
+        // create array of projects - no duplicates - from the project ids that are present in the records
+        // we do this as it is possible a user might have 'projects' that have not received any usage, and we don't
+        // want to show those...
         const projects = [...new Set(records.map(r => r.project))].map(id => response.data.projects[response.data.projects.map(p => p.id).indexOf(id)]);
-        // create datasets - each one will have a name and an array of records:
+        // create datasets - each one will have a name, an array of records and a (empty for now) array of recordsByDay:
         const datasets = [];
         projects.forEach(project => {
           const current = project || { origin: undefined, id: undefined };
@@ -43,19 +45,22 @@ export function Usage({ usage = [] }: UsageProps) {
           });
         }
         );
-
-        // update the recordsByDay of each dataset:
+        // update the recordsByDay of each dataset, result is an array with an index for each day of the month
+        // at which is a number of records for that day:
         datasets.forEach(set => {
           for (let i = 1; i <= 31; i++) {
             set.recordsByDay.push(set.records.filter(record => record.day === i).length);
           }
         });
+        // update state:
         setChartData(datasets);
-        console.log(datasets);
       }
     }
   }
 
+  // run the groupUsage function every time usage updates
+  // at the moment, it doesn't update - but future dev might include
+  // buttons to load in different time periods...
   React.useEffect(() => {
     if (authContext.user._id && authContext.user._id.length > 0) {
       groupUsage(usage, authContext.user._id);
