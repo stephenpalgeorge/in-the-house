@@ -11,5 +11,30 @@
     p {
       font-family: $font-family--serif;
     }
+
+  }
+
+  mark {
+    background-color: rgba($color--secondary, .4);
+    font-family: inherit;
+  }
+
+  .usage-summary__numbers {
+    width: fit-content;
+    font-size: $font-size--large;
+    font-weight: $font-weight--heavy;
+    letter-spacing: .125rem;
+
+    &.medium {
+      background-color: rgba($color--status-warning, .5);
+    }
+    &.high {
+      background-color: rgba($color--status-error, .5);
+    }
+
+    span {
+      font-weight: $font-weight--light;
+      color: $color--dark;
+    }
   }
 }

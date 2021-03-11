@@ -27,9 +27,6 @@ export const DashboardPage = React.memo(({ user }: DashboardPageProps) => {
   const authContext = React.useContext(AuthContext);
   const modalsContext = React.useContext(ModalsContext);
 
-  // const [user, setUser] = React.useState({ username: '', email: '', firstname: '', lastname: '' });
-  console.log(user);
-  
   React.useEffect(() => {
     const authenticateUser = async (id: string, accessToken: string) => {
       const authResponse = await fetchFromUser(accessToken, `/auth/user/${id}`);
@@ -42,7 +39,7 @@ export const DashboardPage = React.memo(({ user }: DashboardPageProps) => {
           message: 'Your session has expired, please log in again',
           isDismissible: true,
         });
-        history.push({ pathname: '/logout', state: {destination: '/login'} });
+        history.push({ pathname: '/logout', state: { destination: '/login' } });
       } else {
         // handle success -> set authContext values
         if (authResponse.data.accessToken) authContext.setAccessToken(authResponse.data.accessToken);
@@ -50,10 +47,9 @@ export const DashboardPage = React.memo(({ user }: DashboardPageProps) => {
           authContext.setUser(authResponse.data.user);
           authContext.setUserId(authResponse.data.user._id);
         }
-        // authsetUser(authResponse.data.user);
       }
     }
-    
+
     authenticateUser(params.userId, authContext.accessToken);
   }, [params.userId]);
 
@@ -65,8 +61,8 @@ export const DashboardPage = React.memo(({ user }: DashboardPageProps) => {
           <h1>Hi, {user.username}</h1>
         }
         <p className="font-size--large font-weight--light">
-          This is your dashboard, from whence you can control and edit your account. Use 
-          the menu below to view and update the different areas of your profile including your 
+          This is your dashboard, from whence you can control and edit your account. Use
+          the menu below to view and update the different areas of your profile including your
           personal details, your API keys and billing information.
         </p>
 
@@ -85,7 +81,7 @@ export const DashboardPage = React.memo(({ user }: DashboardPageProps) => {
 
           <Route path={`/dashboard/${params.userId}/usage`}>
             <Card themeColor="grey">
-              <Usage usage={user.usage} />
+              <Usage usage={user.usage} accountType={user.account_type} />
             </Card>
           </Route>
 

@@ -9,13 +9,22 @@ import { ModalsContext } from '../../contexts/modals.context';
 
 export interface UsageProps {
   usage: IRecord[],
+  accountType?: [number, number],
 }
 
-export function Usage({ usage = [] }: UsageProps) {
+export function Usage({ usage = [], accountType = [0, 0] }: UsageProps) {
   const authContext = React.useContext(AuthContext);
   const modalsContext = React.useContext(ModalsContext);
 
   const [chartData, setChartData] = React.useState<any[]>([]);
+  // utility variables:
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const limit: string = accountType[0] === 0 ? '250' : accountType[0] === 1 ? '3000' : 'unlimited';
+  let limitClass: string;
+  if (limit !== 'unlimited') {
+    limitClass = usage.length >= Number(limit) * .9 ? 'high' : usage.length >= Number(limit) * .75 ? 'medium' : 'low';
+  }
+  const currentMonth: string = months[new Date().getMonth()];
 
   const groupUsage = async (records: IRecord[], userId: string) => {
     const response = await fetchFromUser(authContext.accessToken, `/auth/user/${userId}/projects`, "POST");
@@ -72,9 +81,17 @@ export function Usage({ usage = [] }: UsageProps) {
       <h2>Your API Usage</h2>
       <p>
         Below you can see how your API Keys are being used, broken down by
-        project. See when your keys are most active, and when you get close
-        to your limit.
+        project. The chart shows the number of API calls per day for the current month.
+        You can toggle the data for different projects by clicking on their name in the legend.
+        See when your keys are most active, and when you get close to your limit.
       </p>
+
+      {
+        usage.length > 0 && <div className="usage-summary">
+          <p className="font-family--serif">Total API calls for <mark>{currentMonth}, {new Date().getFullYear()}</mark>:</p>
+          <p className={`usage-summary__numbers ${limitClass}`}>{usage.length}<span>/{limit}</span></p>
+        </div>
+      }
 
       <div className="chart">
         {

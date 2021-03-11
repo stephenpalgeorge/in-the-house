@@ -6,6 +6,7 @@ import MessageIcon from '../assets/message.svg';
 import TwitterIcon from '../assets/twitter.svg';
 import { defaultNav } from '../config/nav-items';
 import { signUp } from '../fetch';
+import { AuthContext } from '../contexts/auth.context';
 import { ModalsContext } from '../contexts/modals.context';
 
 export interface LandingPageProps {
@@ -15,8 +16,16 @@ export interface LandingPageProps {
 export function LandingPage({ version }: LandingPageProps) {
   const location = useLocation();
   const history = useHistory();
+  const authContext = React.useContext(AuthContext);
   const modalsContext = React.useContext(ModalsContext);
   const navItems = defaultNav(location.pathname);
+
+  React.useEffect(() => {
+    console.log(authContext);
+    if (authContext.userId && authContext.userId.length > 0) {
+      history.push(`/dashboard/${authContext.userId}`);
+    }
+  }, [authContext.userId]);
 
   const landingPageActions: ActionsProps = {
     actions: [
@@ -57,15 +66,15 @@ export function LandingPage({ version }: LandingPageProps) {
   return (
     <BasicPage handleSignup={handleSignup} navItems={navItems} pageName="landing" version="production" formIcons={BetaFormIcons}>
       <Stack>
-        <h1>In the House { window.innerWidth < 768 && <br />} <span>{`{ ${version} }`}</span></h1>
+        <h1>In the House {window.innerWidth < 768 && <br />} <span>{`{ ${version} }`}</span></h1>
         <p className="font-size--large font-weight--light">
-          The In The House API defines a series of endpoints for accessing data 
-          on UK Members of Parliament. If you’re building something that needs 
+          The In The House API defines a series of endpoints for accessing data
+          on UK Members of Parliament. If you’re building something that needs
           political data for the UK, the In The House API has you covered.
         </p>
         <p className="font-size--large font-weight--light">
-          All our data comes from publicly available, government resources, which 
-          we have collated and into one developer-friendly API with consistent 
+          All our data comes from publicly available, government resources, which
+          we have collated and into one developer-friendly API with consistent
           request and response structures.
         </p>
         <Actions {...landingPageActions} />
