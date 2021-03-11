@@ -59,7 +59,7 @@ export async function authenticate(username, password): Promise<ILoginResponse> 
  * @param userId {String} the unique identifier for a user
  * 
  */
-export async function fetchUser(userId: string): Promise<IUser|undefined> {
+export async function fetchUser(userId: string): Promise<IUser | undefined> {
   try {
     const user: IUser = await User.findById(userId);
     if (!user) return undefined;
@@ -67,6 +67,11 @@ export async function fetchUser(userId: string): Promise<IUser|undefined> {
     user.password = "";
     user.api_key = "";
     user.projects = [];
+    // by default, we only send back usage data for the current month,
+    // there is a seperate `/auth/user/:id/usage` endpoint for fetching 
+    // different periods.
+    const currentMonth: number = new Date().getMonth();
+    user.usage = user.usage.filter(record => record.month === currentMonth);
     return user;
   } catch (err) {
     console.error(err);
@@ -83,7 +88,7 @@ export async function fetchUser(userId: string): Promise<IUser|undefined> {
  * @param updates {Object} the updates that should be applied to the user
  * 
  */
-export async function updateUserProfile(userId: string, updates: IUserProfile): Promise<IUser|undefined> {
+export async function updateUserProfile(userId: string, updates: IUserProfile): Promise<IUser | undefined> {
   try {
     const user: IUser = await User.findByIdAndUpdate(userId, updates, { new: true });
     if (!user) return undefined;
@@ -109,7 +114,7 @@ export async function updateUserProfile(userId: string, updates: IUserProfile): 
  * @param updates {Object} an object that must contait the user's current password, and their new password.
  * 
  */
-export async function updateUserPassword(userId: string, updates: {current: string, new: string}): Promise<IUser|undefined> {
+export async function updateUserPassword(userId: string, updates: { current: string, new: string }): Promise<IUser | undefined> {
   try {
     // validate the user's current password.
     const user: IUser = await User.findById(userId);
@@ -138,7 +143,7 @@ export async function updateUserPassword(userId: string, updates: {current: stri
  * @param userId {String} the unique identifier for the user that should be updated
  * 
  */
-export async function fetchApiKey(userId: string): Promise<string|undefined> {
+export async function fetchApiKey(userId: string): Promise<string | undefined> {
   try {
     const user: IUser = await User.findById(userId);
     if (!user) return undefined;
@@ -159,7 +164,7 @@ export async function fetchApiKey(userId: string): Promise<string|undefined> {
  * @param userId {String} the unique identifier for the user that should be updated
  * 
  */
-export async function generateApiKey(userId: string): Promise<string|undefined> {
+export async function generateApiKey(userId: string): Promise<string | undefined> {
   try {
     const user: IUser = await User.findById(userId);
     if (!user) return undefined;
@@ -182,7 +187,7 @@ export async function generateApiKey(userId: string): Promise<string|undefined> 
  * @param userId {String} the unique identifier for the user that should be updated
  * 
  */
-export async function fetchProjects(userId: string): Promise<IProject[]|undefined> {
+export async function fetchProjects(userId: string): Promise<IProject[] | undefined> {
   try {
     const user: IUser = await User.findById(userId);
     if (!user) return undefined;
@@ -201,7 +206,7 @@ export async function fetchProjects(userId: string): Promise<IProject[]|undefine
  * updated list of projects.
  * 
  */
-export async function addProject(userId: string, origin: string): Promise<IProject[]|undefined> {
+export async function addProject(userId: string, origin: string): Promise<IProject[] | undefined> {
   try {
     const user: IUser = await User.findById(userId);
     if (!user) return undefined;
@@ -214,7 +219,7 @@ export async function addProject(userId: string, origin: string): Promise<IProje
       // 'standard accounts' can only have a maximum of 3 projects:
       (accountTier === 1 && user.projects.length > 3)
     ) return undefined;
-    
+
     // check that the user doesn't already have a project with this origin:
     if (user.projects.map(p => p.origin).includes(origin)) return undefined;
 
@@ -239,7 +244,7 @@ export async function addProject(userId: string, origin: string): Promise<IProje
  * of the projectId. Return the updated list of projects.
  * 
  */
-export async function deleteProject(userId: string, projectId: string): Promise<IProject[]|undefined> {
+export async function deleteProject(userId: string, projectId: string): Promise<IProject[] | undefined> {
   try {
     const user: IUser = await User.findById(userId);
     if (!user) return undefined;

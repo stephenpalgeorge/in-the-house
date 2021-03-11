@@ -77,7 +77,7 @@ export function Keys() {
     if (response.status === 'error') {
       // set modal
       modalsContext.addModal({
-        name: 'Fetching projcets error',
+        name: 'Fetching projects error',
         code: 500,
         type: 'error',
         message: 'Couldn\'t fetch your projects...do you have any setup yet?',
@@ -139,29 +139,29 @@ export function Keys() {
         <h2>Keys</h2>
         <ul>
           <li onClick={() => window.scrollTo(0, window.scrollY + keyRef.current.getBoundingClientRect().top)}>
-            <Link to={{pathname: location.pathname, hash: '#api-key'}}>API Key</Link>
+            <Link to={{ pathname: location.pathname, hash: '#api-key' }}>API Key</Link>
           </li>
           <li onClick={() => window.scrollTo(0, window.scrollY + projectsRef.current.getBoundingClientRect().top)}>
-            <Link to={{pathname: location.pathname, hash: '#projects'}}>Projects</Link>
+            <Link to={{ pathname: location.pathname, hash: '#projects' }}>Projects</Link>
           </li>
         </ul>
       </div>
       <p>
-        To use In the House, you need an <mark>API Key</mark>, and a <mark>project ID</mark> for any 
-        website from which you want to query the API. You must keep these details secret, 
-        if you have any reason to believe that your keys have been compromised, 
+        To use In the House, you need an <mark>API Key</mark>, and a <mark>project ID</mark> for any
+        website from which you want to query the API. You must keep these details secret,
+        if you have any reason to believe that your keys have been compromised,
         generate some new ones and update your application/website code.
       </p>
       <div className="stack--small" ref={keyRef}>
         <h3>API Key</h3>
         <p>
-          Your API Key is a unique string that you must include as an 'api-key' 
+          Your API Key is a unique string that you must include as an 'api-key'
           header in any request to the API. View and generate new API keys below.
         </p>
 
         <div className="keys__controls">
           <button className="button-outline--primary" onClick={handleFetchApiKey} id="fetch-api-key">
-            { (apiKey && apiKey.length > 0) ? "Hide your API key" : "See your API key" }
+            {(apiKey && apiKey.length > 0) ? "Hide your API key" : "See your API key"}
           </button>
 
           <button className="button-outline--green" onClick={handleGenerateApiKey} id="generate-api-key">
@@ -177,15 +177,15 @@ export function Keys() {
       <div className="stack--small" ref={projectsRef}>
         <h3>Projects</h3>
         <p>
-          Any website or app from which you want to send requests to the API must be 
-          setup as a project in your account. Each project must define a 'source' (this 
-          is simply the domain of the project, e.g. website.co.uk) and an 'id'. Manange 
+          Any website or app from which you want to send requests to the API must be
+          setup as a project in your account. Each project must define a 'source' (this
+          is simply the domain of the project, e.g. website.co.uk) and an 'id'. Manange
           your projects below:
         </p>
 
         <div className="keys__controls">
           <button className="button-outline--primary" onClick={handleFetchProjects} id="fetch-projects">
-            { (projects && projects.length > 0) ? "Hide your Projects" : "See your Projects" }
+            {(projects && projects.length > 0) ? "Hide your Projects" : "See your Projects"}
           </button>
 
           <button className="button-outline--green" onClick={() => setAddingProject(true)} id="generate-api-key">

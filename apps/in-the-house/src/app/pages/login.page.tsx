@@ -45,8 +45,8 @@ export function LoginPage() {
       <div className="contents contents--narrow">
         <h1>Buy this space.</h1>
         <p className="font-family--sans-serif font-size--large font-weight--light">
-          This log-in page is pretty empty...wouldn't it be nice to fill 
-          it with your brand, your message or your product? For a quote, and 
+          This log-in page is pretty empty...wouldn't it be nice to fill
+          it with your brand, your message or your product? For a quote, and
           to discuss your unique requirements, you can find us at <em>email</em>.
         </p>
       </div>
