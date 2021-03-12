@@ -22,9 +22,6 @@ import { IProject } from '@in-the-house/api-interfaces';
 export function Keys() {
   const authContext = React.useContext(AuthContext);
   const modalsContext = React.useContext(ModalsContext);
-  const keyRef = React.useRef<HTMLDivElement>(null);
-  const projectsRef = React.useRef<HTMLDivElement>(null);
-  const location = useLocation();
 
   const [apiKey, setApiKey] = React.useState<string>('');
   const [projects, setProjects] = React.useState<IProject[]>([]);
@@ -135,24 +132,14 @@ export function Keys() {
 
   return (
     <Stack sectionName="keys">
-      <div className="keys-header">
-        <h2>Keys</h2>
-        <ul>
-          <li onClick={() => window.scrollTo(0, window.scrollY + keyRef.current.getBoundingClientRect().top)}>
-            <Link to={{ pathname: location.pathname, hash: '#api-key' }}>API Key</Link>
-          </li>
-          <li onClick={() => window.scrollTo(0, window.scrollY + projectsRef.current.getBoundingClientRect().top)}>
-            <Link to={{ pathname: location.pathname, hash: '#projects' }}>Projects</Link>
-          </li>
-        </ul>
-      </div>
+      <h2>Keys</h2>
       <p>
         To use In the House, you need an <mark>API Key</mark>, and a <mark>project ID</mark> for any
         website from which you want to query the API. You must keep these details secret,
         if you have any reason to believe that your keys have been compromised,
         generate some new ones and update your application/website code.
       </p>
-      <div className="stack--small" ref={keyRef}>
+      <div className="stack--small">
         <h3>API Key</h3>
         <p>
           Your API Key is a unique string that you must include as an 'api-key'
@@ -174,13 +161,14 @@ export function Keys() {
           <InputCopy copyCallback={copyCallback} value={apiKey} />
         }
       </div>
-      <div className="stack--small" ref={projectsRef}>
+      <div className="stack--small">
         <h3>Projects</h3>
         <p>
           Any website or app from which you want to send requests to the API must be
           setup as a project in your account. Each project must define a 'source' (this
-          is simply the domain of the project, e.g. website.co.uk) and an 'id'. Manange
-          your projects below:
+          is simply the domain of the project, e.g. website.co.uk) and an 'id'. You cannot
+          create a new 'project Id' - should you ever need to, simply delete the project and
+          recreate it. Manange your projects below:
         </p>
 
         <div className="keys__controls">

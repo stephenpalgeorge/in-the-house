@@ -5,12 +5,14 @@ import { IUserProfile } from '@in-the-house/api-interfaces';
 import { AuthContext } from '../../contexts/auth.context';
 import { ModalsContext } from '../../contexts/modals.context';
 import { updateUserPassword, updateUserProfile } from '../../fetch';
+import { Link } from 'react-router-dom';
 
 export interface AccountProps {
   email?: string,
   firstName?: string,
   lastName?: string,
   username?: string,
+  accountType?: [number, number],
 }
 
 export function Account({
@@ -18,6 +20,7 @@ export function Account({
   firstName = '',
   lastName = '',
   username = '',
+  accountType = [0, 0],
 }: AccountProps) {
   const authContext = React.useContext(AuthContext);
   const modalsContext = React.useContext(ModalsContext);
@@ -28,8 +31,11 @@ export function Account({
     email, firstName, lastName, username
   });
 
+  const accountLevel = accountType[0] === 0 ? 'limited' : accountType[0] === 1 ? 'standard' : 'unlimited';
+  const isAccountBillable = accountLevel === 'limited' || accountType[1] === 0 ? 'is not' : 'is';
+
   React.useEffect(() => {
-    setAccountInfo({ email, firstName, lastName, username});
+    setAccountInfo({ email, firstName, lastName, username });
   }, [email, firstName, lastName, username]);
 
   const handleEditSubmission = async (updates: IUserProfile) => {
@@ -71,7 +77,7 @@ export function Account({
     }
   }
 
-  const handlePasswordSubmit = async (updates: {current: string, new: string}) => {
+  const handlePasswordSubmit = async (updates: { current: string, new: string }) => {
     if (updates.new.length === 0 || updates.new === updates.current) {
       // add a modal, nothing to update
     } else {
@@ -106,6 +112,8 @@ export function Account({
 
       <p className="user-info">
         Your account is registered to the <span>email</span> address <mark>{email}</mark>, with the <span>username</span> of <mark>{username}</mark>.
+        Your current <span>account type</span> is <mark>{accountLevel}</mark> and <mark>{isAccountBillable}</mark> being charged. You can change your
+        account type and card details in the <Link to={`/dashboard/${authContext.userId}/billing`}>Billing details</Link> section.
       </p>
       {
         (firstName.length > 0 && lastName.length > 0) &&
@@ -125,14 +133,14 @@ export function Account({
           className={`edit-button ${editable ? 'active' : ''}`}
           onClick={() => setEditable(!editable)}
         >
-          { editable ? 'Hide form' : 'Edit account' }
+          {editable ? 'Hide form' : 'Edit account'}
         </button>
         <button
           className={`button-outline--primary ${editPassword ? 'active' : ''}`}
           id="change-password"
           onClick={() => setEditPassword(!editPassword)}
         >
-          { editPassword ? 'Hide form' : 'Change your password' }
+          {editPassword ? 'Hide form' : 'Change your password'}
         </button>
       </div>
 

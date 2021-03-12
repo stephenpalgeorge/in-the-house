@@ -6,6 +6,7 @@
   }
 
   .user-info {
+    line-height: 1.8;
     mark {
       font-family: $font-family--serif;
       background-color: rgba($color--amber, 0.5);
@@ -13,6 +14,17 @@
 
     span {
       text-decoration: underline;
+    }
+
+    a {
+      font-family: $font-family--serif;
+      color: $color--primary;
+      text-decoration: underline;
+      transition: color .2s ease;
+
+      &:hover {
+        color: $color--primary--darkened;
+      }
     }
   }
 

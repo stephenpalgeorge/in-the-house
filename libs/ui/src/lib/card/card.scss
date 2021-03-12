@@ -3,6 +3,15 @@
   box-shadow: $box-shadow--base-bottom;
   border: 1px solid;
 
+  h2 {
+    width: fit-content;
+    padding: .125rem .5rem;
+    background-color: $color--dark;
+    color: $color--light;
+    border: .125rem solid $color--light;
+    box-shadow: $box-shadow--base-bottom;
+  }
+
   &--theme-dark {
     background-color: $color--dark;
     border-color: $color--grey;
