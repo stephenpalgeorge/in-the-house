@@ -18,12 +18,17 @@ export function Usage({ usage = [], accountType = [0, 0] }: UsageProps) {
 
   const [chartData, setChartData] = React.useState<any[]>([]);
   // utility variables:
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const months = [
+    'January', 'February', 'March',
+    'April', 'May', 'June',
+    'July', 'August', 'September',
+    'October', 'November', 'December'
+  ];
   const limit: string = accountType[0] === 0 ? '250' : accountType[0] === 1 ? '3000' : 'unlimited';
   let limitClass: string;
   if (limit !== 'unlimited') {
     limitClass = usage.length >= Number(limit) * .9 ? 'high' : usage.length >= Number(limit) * .75 ? 'medium' : 'low';
-  }
+  } else limitClass = 'unlimited';
   const currentMonth: string = months[new Date().getMonth()];
 
   const groupUsage = async (records: IRecord[], userId: string) => {

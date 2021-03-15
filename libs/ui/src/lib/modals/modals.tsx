@@ -25,7 +25,7 @@ export function Modal({ modal, closeModal }: ModalProps) {
           <div className="close-icon--bar"></div>
         </button>
       }
-      <p className="font-size--h4 font-family--serif">{modal.name} - {modal.code}</p>
+      <p className="font-size--h4 font-family--serif font-weight--heavy">{modal.name} - {modal.code}</p>
       <p className="modal__message">{modal.message}</p>
     </div>
   );
@@ -35,7 +35,7 @@ export function Modal({ modal, closeModal }: ModalProps) {
 export interface ModalData {
   name: string,
   code?: number,
-  type: 'success'|'info'|'warning'|'error',
+  type: 'success' | 'info' | 'warning' | 'error',
   message: string,
   isDismissible: boolean,
 }

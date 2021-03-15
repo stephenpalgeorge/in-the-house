@@ -19,7 +19,7 @@
             "tsConfig": "apps/in-the-house/tsconfig.app.json",
             "assets": [
               "apps/in-the-house/src/favicon.ico",
-              "apps/in-the-house/src/assets"
+              "apps/in-the-house/src/app/assets"
             ],
             "styles": [
               "apps/in-the-house/src/styles.scss",

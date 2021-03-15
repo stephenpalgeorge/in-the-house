@@ -9,7 +9,7 @@ import { AuthContext } from '../contexts/auth.context';
 import { ModalsContext } from '../contexts/modals.context';
 import { fetchFromUser } from '../fetch';
 
-import { Account, Keys, Usage } from './dashboard-sections';
+import { Account, Billing, Keys, Usage } from './dashboard-sections';
 
 interface DashboardPageProps {
   user: IUser,
@@ -88,6 +88,12 @@ export const DashboardPage = React.memo(({ user }: DashboardPageProps) => {
           <Route path={`/dashboard/${params.userId}/keys`}>
             <Card themeColor="grey">
               <Keys />
+            </Card>
+          </Route>
+
+          <Route path={`/dashboard/${params.userId}/billing`}>
+            <Card themeColor="grey">
+              <Billing />
             </Card>
           </Route>
         </Switch>
