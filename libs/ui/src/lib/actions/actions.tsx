@@ -19,7 +19,7 @@ export function Actions({ actions }: ActionsProps) {
           return <Link key={i} to={action.path} className={`button-outline--${action.color}`}>
             {action.label}
           </Link>
-        }) 
+        })
       }
     </div>
   ) : null;
