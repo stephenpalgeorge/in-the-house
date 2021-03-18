@@ -113,7 +113,7 @@ export function Account({
       <p className="user-info">
         Your account is registered to the <span>email</span> address <mark>{email}</mark>, with the <span>username</span> of <mark>{username}</mark>.
         Your current <span>account type</span> is <mark>{accountLevel}</mark> and <mark>{isAccountBillable}</mark> being charged. You can change your
-        account type and card details in the <Link to={`/dashboard/${authContext.userId}/billing`}>Billing details</Link> section.
+        account type and card details in the <Link to={`/dashboard/${authContext.userId}/billing`}>billing details</Link> section.
       </p>
       {
         (firstName.length > 0 && lastName.length > 0) &&

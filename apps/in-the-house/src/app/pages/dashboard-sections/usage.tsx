@@ -8,11 +8,12 @@ import { AuthContext } from '../../contexts/auth.context';
 import { ModalsContext } from '../../contexts/modals.context';
 
 export interface UsageProps {
+  count?: number,
   usage: IRecord[],
   accountType?: [number, number],
 }
 
-export function Usage({ usage = [], accountType = [0, 0] }: UsageProps) {
+export function Usage({ count = 0, usage = [], accountType = [0, 0] }: UsageProps) {
   const authContext = React.useContext(AuthContext);
   const modalsContext = React.useContext(ModalsContext);
 
@@ -38,7 +39,7 @@ export function Usage({ usage = [], accountType = [0, 0] }: UsageProps) {
         name: 'Projects data error',
         code: 500,
         type: 'error',
-        message: 'Couldn\'t fetch your projects...',
+        message: 'Couldn\'t fetch your projects, do you have any set up yet?',
         isDismissible: true,
       });
     } else {
@@ -51,7 +52,10 @@ export function Usage({ usage = [], accountType = [0, 0] }: UsageProps) {
         // create datasets - each one will have a name, an array of records and a (empty for now) array of recordsByDay:
         const datasets = [];
         projects.forEach(project => {
-          const current = project || { origin: undefined, id: undefined };
+          // it's possible the usage data will include records where the project ID is
+          // an old or non-existant project...in that case, we don't include the data:
+          if (!project) return;
+          const current = project;
           datasets.push({
             name: current.origin,
             records: usage.filter(record => record.project === current.id),
@@ -92,9 +96,9 @@ export function Usage({ usage = [], accountType = [0, 0] }: UsageProps) {
       </p>
 
       {
-        usage.length > 0 && <div className="usage-summary">
+        count > 0 && <div className="usage-summary">
           <p className="font-family--serif">Total API calls for <mark>{currentMonth}, {new Date().getFullYear()}</mark>:</p>
-          <p className={`usage-summary__numbers ${limitClass}`}>{usage.length}<span>/{limit}</span></p>
+          <p className={`usage-summary__numbers ${limitClass}`}>{count}<span>/{limit}</span></p>
         </div>
       }
 

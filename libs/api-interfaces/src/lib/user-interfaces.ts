@@ -35,6 +35,7 @@ export interface IUser extends Document {
   api_key?: string,
   projects?: IProject[],
   usage?: IRecord[],
+  usage_count?: number,
   encryptPassword(pw: string): string,
   comparePassword(pw: string): boolean,
 }

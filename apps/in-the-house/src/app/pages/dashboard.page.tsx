@@ -69,7 +69,7 @@ export const DashboardPage = React.memo(({ user }: DashboardPageProps) => {
         <SubNav navItems={navItems} />
         <Switch>
           <Route path={`/dashboard/${params.userId}/account`}>
-            <Card themeColor="grey">
+            <Card themeColor="light">
               <Account
                 email={user.email}
                 firstName={user.firstname}
@@ -81,12 +81,12 @@ export const DashboardPage = React.memo(({ user }: DashboardPageProps) => {
 
           <Route path={`/dashboard/${params.userId}/usage`}>
             <Card themeColor="grey">
-              <Usage usage={user.usage} accountType={user.account_type} />
+              <Usage count={user.usage_count} usage={user.usage} accountType={user.account_type} />
             </Card>
           </Route>
 
           <Route path={`/dashboard/${params.userId}/keys`}>
-            <Card themeColor="grey">
+            <Card themeColor="light">
               <Keys />
             </Card>
           </Route>

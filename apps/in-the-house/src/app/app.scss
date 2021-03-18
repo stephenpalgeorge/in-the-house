@@ -4,6 +4,12 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background: linear-gradient(
+    to bottom,
+    $color--light 50%,
+    rgba($color--primary, .1),
+    rgba($color--secondary, .1)
+  );
 
   .app {
     flex-grow: 1;
@@ -40,6 +46,7 @@ main {
   header {
     margin-bottom: 3rem;
     position: relative;
+    z-index: 1;
 
     &::after {
       content: '';

@@ -38,12 +38,12 @@ router.post('/signup', [
   check('password')
     .not().isEmpty()
     .withMessage('You must provide a password.')
-    .isLength({min: 8})
+    .isLength({ min: 8 })
     .withMessage('Password must have at least 8 characters.'),
   check('username')
     .not().isEmpty()
     .withMessage('You must provide a username.')
-], async(req: Request, res: Response) => {
+], async (req: Request, res: Response) => {
   try {
     // as a minimum, to create an account we need a username,
     // email and password. These should all be on the request body.
@@ -122,13 +122,6 @@ router.get(
     } else {
       const data: IAuthRouteReturn = { user };
       auth.sendAuthResponse(req, res, data);
-      // if (req.accessToken) data.accessToken = req.accessToken;
-      // if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
-      //   // miliseconds in 10 days
-      //   maxAge: 864_000_000,
-      //   httpOnly: true,
-      // });
-      // res.status(200).json(data);
     }
   }
 );
@@ -153,13 +146,6 @@ router.put(
     } else {
       const data: IAuthRouteReturn = { user };
       auth.sendAuthResponse(req, res, data);
-      // if (req.accessToken) data.accessToken = req.accessToken;
-      // if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
-      //   // miliseconds in 10 days
-      //   maxAge: 864_000_000,
-      //   httpOnly: true,
-      // });
-      // res.status(200).json(data);
     }
   }
 );
@@ -185,13 +171,6 @@ router.put(
     } else {
       const data: IAuthRouteReturn = { user };
       auth.sendAuthResponse(req, res, data);
-      // if (req.accessToken) data.accessToken = req.accessToken;
-      // if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
-      //   // miliseconds in 10 days
-      //   maxAge: 864_000_000,
-      //   httpOnly: true,
-      // });
-      // res.status(200).json(data);
     }
   }
 );
@@ -217,13 +196,6 @@ router.post(
     } else {
       const data: IAuthPropReturn = { apiKey };
       auth.sendAuthResponse(req, res, data);
-      // if (req.accessToken) data.accessToken = req.accessToken;
-      // if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
-      //   // miliseconds in 10 days
-      //   maxAge: 864_000_000,
-      //   httpOnly: true,
-      // });
-      // res.status(200).json(data);
     }
   }
 );
@@ -245,13 +217,6 @@ router.post(
     } else {
       const data: IAuthPropReturn = { apiKey };
       auth.sendAuthResponse(req, res, data);
-      // if (req.accessToken) data.accessToken = req.accessToken;
-      // if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
-      //   // miliseconds in 10 days
-      //   maxAge: 864_000_000,
-      //   httpOnly: true,
-      // });
-      // res.status(200).json(data);
     }
   }
 );
@@ -267,19 +232,12 @@ router.post(
   async (req: IDataRequest, res: Response) => {
     const { id: userId } = req.params;
     const projects = await userService.fetchProjects(userId);
-    if (!projects) {
+    if (!projects || projects.length === 0) {
       const error: IErrorObject = { type: 'Internal server error', message: 'could not fetch projects for this user, do you have any setup yet?' };
       res.status(500).json(error);
     } else {
       const data: IAuthPropReturn = { projects };
       auth.sendAuthResponse(req, res, data);
-      // if (req.accessToken) data.accessToken = req.accessToken;
-      // if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
-      //   // miliseconds in 10 days
-      //   maxAge: 864_000_000,
-      //   httpOnly: true,
-      // });
-      // res.status(200).json(data);
     }
   }
 );
@@ -294,8 +252,8 @@ router.post(
   '/user/:id/project',
   [authMiddleware.accessMiddleware, authMiddleware.refreshMiddleware],
   async (req: IDataRequest, res: Response) => {
-    const {id: userId} = req.params;
-    const {origin} = req.body;
+    const { id: userId } = req.params;
+    const { origin } = req.body;
     const projects = await userService.addProject(userId, origin);
     if (!projects || projects.length === 0) {
       const error: IErrorObject = { type: 'Not acceptable', message: 'could not add your project. You may have reached the limit for your current account type, or already have a project with this origin?' }
@@ -303,13 +261,6 @@ router.post(
     } else {
       const data: IAuthPropReturn = { projects };
       auth.sendAuthResponse(req, res, data);
-      // if (req.accessToken) data.accessToken = req.accessToken;
-      // if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
-      //   // miliseconds in 10 days
-      //   maxAge: 864_000_000,
-      //   httpOnly: true,
-      // });
-      // res.status(200).json(data);
     }
   }
 );
@@ -324,8 +275,8 @@ router.delete(
   '/user/:id/project',
   [authMiddleware.accessMiddleware, authMiddleware.refreshMiddleware],
   async (req: IDataRequest, res: Response) => {
-    const {id: userId} = req.params;
-    const {projId} = req.body;
+    const { id: userId } = req.params;
+    const { projId } = req.body;
     const projects = await userService.deleteProject(userId, projId);
     if (!projects) {
       const error: IErrorObject = { type: 'Bad request', message: 'could not delete your project.' }
@@ -333,13 +284,6 @@ router.delete(
     } else {
       const data: IAuthPropReturn = { projects };
       auth.sendAuthResponse(req, res, data);
-      // if (req.accessToken) data.accessToken = req.accessToken;
-      // if (req.refreshToken) res.cookie('refreshToken', req.refreshToken, {
-      //   // miliseconds in 10 days
-      //   maxAge: 864_000_000,
-      //   httpOnly: true,
-      // });
-      // res.status(200).json(data);
     }
   }
 )

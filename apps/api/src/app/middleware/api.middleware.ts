@@ -70,14 +70,18 @@ export async function usageMiddleware(req: IApiRequest, res: Response, next: Nex
       const error: IErrorObject = { type: 'Not found', message: 'could not find a user for this request...' };
       res.status(404).json(error);
     } else {
-      // check usage for the current month doesn't exceed the quota allowed by the user's account type:
-      const tier: number = user.account_type[0];
+      // collect usage for the current month:
       const currentPeriodUsage: IRecord[] = user.usage.filter(record => {
         const today = new Date();
         const month: number = today.getMonth();
         const year: number = today.getFullYear();
         return record.month === month && record.year === year && record.project === req.header('project-id');
       });
+      // handle usage count:
+      user.usage_count++;
+
+      // check usage for the current month doesn't exceed the quota allowed by the user's account type:
+      const tier: number = user.account_type[0];
       if (
         (tier === 0 && currentPeriodUsage.length >= 250) ||
         (tier === 1 && currentPeriodUsage.length >= 3000)

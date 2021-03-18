@@ -15,6 +15,7 @@ const userSchema: Schema = new Schema({
   api_key: { type: String, default: '' },
   projects: { type: Array, default: [] },
   usage: { type: Array, default: [] },
+  usage_count: { type: Number, default: 0 },
 });
 
 // ----------
@@ -42,7 +43,7 @@ userSchema.methods.comparePassword = async function (this: IUser, pw: string): P
 // ----------
 // MIDDLEWARE
 // ----------
-userSchema.pre<IUser>('save', async function(next) {
+userSchema.pre<IUser>('save', async function (next) {
   if (!this.isModified('password')) return next();
   // the above guard clause means the following code only executes if the password is being changed
   const hashedPassword: string = await this.encryptPassword(this.password);
@@ -52,7 +53,7 @@ userSchema.pre<IUser>('save', async function(next) {
 })
 
 
-const User= model<IUser>('user', userSchema);
+const User = model<IUser>('user', userSchema);
 export default User;
 
 /**
@@ -61,17 +62,17 @@ export default User;
  * The user's account type is represented by 2 numbers in an array: [tier, billable?];
  *   - tier:
  *     - 0: "limited account". Intended for development purposes only, this account type limits
- *         the user to only 1 project, a maximum of 250 requests/month, and access to a limited set 
+ *         the user to only 1 project, a maximum of 250 requests/month, and access to a limited set
  *         results.
- *     - 1: "standard account". This account type allows up to 3 projects, 3000 requests/month and 
+ *     - 1: "standard account". This account type allows up to 3 projects, 3000 requests/month and
  *         access to all results on all endpoints.
  *     - 2: "unlimited account". This account type allows unlimited projects, unlimited requests/month
  *         and access to all results on all endpoints.
- * 
+ *
  *   - billable:
  *     - 0: this account should not be charged.
  *     - 1: this account should be charged monthly.
- * 
+ *
  * The reason for this 2 number system is it allows the flexibility to grant user's an 'unlimited' account,
  * for example, without them having to pay. We might allow this for charities, or sponsoring organisations.
  */

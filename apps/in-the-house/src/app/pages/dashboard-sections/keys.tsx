@@ -49,6 +49,8 @@ export function Keys() {
   }
 
   const handleGenerateApiKey = async () => {
+    const confirm = window.confirm('Generating a new API Key means your old one can\'t be used anymore, and you\'ll have to update all references to it. Are you sure you want a new key?');
+    if (!confirm) return;
     const response = await fetchFromUser(authContext.accessToken, `/auth/user/${authContext.userId}/generate-key`, "POST");
     if (response.status === 'error') {
       // set modal
@@ -106,6 +108,8 @@ export function Keys() {
   }
 
   const handleDeleteProject = async (projectId: string) => {
+    const confirm = window.confirm('Deleting a project will also delete all of it\'s associated "usage" data. Are you sure you want to continue?');
+    if (!confirm) return;
     const response = await deleteProject(authContext.userId, authContext.accessToken, projectId);
     if (response.status === 'error') {
       modalsContext.addModal({
@@ -167,8 +171,9 @@ export function Keys() {
           Any website or app from which you want to send requests to the API must be
           setup as a project in your account. Each project must define a 'source' (this
           is simply the domain of the project, e.g. website.co.uk) and an 'id'. You cannot
-          create a new 'project Id' - should you ever need to, simply delete the project and
-          recreate it. Manange your projects below:
+          create a new 'project Id' - should you ever need to, you would have to delete the
+          project and recreate it, which would come at a cost of all the usage data that has
+          been recorded against that project. Manange your projects below:
         </p>
 
         <div className="keys__controls">

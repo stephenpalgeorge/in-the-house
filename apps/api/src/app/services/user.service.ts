@@ -252,6 +252,7 @@ export async function deleteProject(userId: string, projectId: string): Promise<
     const index = user.projects.map(p => p.id).indexOf(projectId);
     if (index === -1) return undefined;
     user.projects = [...user.projects.slice(0, index), ...user.projects.slice(index + 1)];
+    user.usage = user.usage.filter(record => record.project !== projectId);
     await user.save();
     return user.projects;
   } catch (err) {
