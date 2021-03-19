@@ -7,6 +7,10 @@ export interface ProjectFormProps {
 
 export function ProjectForm({ close, submit }: ProjectFormProps) {
   const [origin, setOrigin] = React.useState<string>('');
+  const originInputRef = React.useRef<HTMLInputElement>(null);
+  React.useEffect(() => {
+    originInputRef.current.focus();
+  }, []);
 
   return (
     <form onSubmit={async (e: React.FormEvent) => {
@@ -16,6 +20,7 @@ export function ProjectForm({ close, submit }: ProjectFormProps) {
       <div className="form__form-field">
         <label htmlFor="add-project-origin" className="form__form-field--label">Origin</label>
         <input
+          ref={originInputRef}
           type="text"
           name="add-project-origin"
           id="add-project-origin"
@@ -23,7 +28,7 @@ export function ProjectForm({ close, submit }: ProjectFormProps) {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setOrigin(e.target.value)}
         />
         <p className="help-text">
-          Enter the domain of your website/app, i.e. if your project will live at 
+          Enter the domain of your website/app, i.e. if your project will live at
           'https://www.awesome.org' then, in this field, type "awesome.org".
         </p>
       </div>
