@@ -1,23 +1,10 @@
 import * as React from 'react';
-import { Link, useLocation } from 'react-router-dom';
 
 import { AuthContext } from '../../contexts/auth.context';
 import { ModalsContext } from '../../contexts/modals.context';
 import { addProject, deleteProject, fetchFromUser } from '../../fetch';
 import { InputCopy, ProjectForm, Projects, Stack } from '@in-the-house/ui';
 import { IProject } from '@in-the-house/api-interfaces';
-
-/**
- * @todo fetch 'api_key' and 'projects' data for the current user when buttons are clicked.
- * This will require useParams hook and/or authContext to get logged in user id.
- *    - one button to view api_key DONE
- *    - one button to generate new api key DONE
- *    - display api key in an input that can be copied to clipboard.
- *    - one button to view projects - they should load in forms with a save button, to allow for
- *    inline editing of each project. Each one will also need the option to generate a new ID. Each
- *    project should have a delete button - require some auth (re-enter password? type project name?) 
- *    to confirm deletion.
- */
 
 export function Keys() {
   const authContext = React.useContext(AuthContext);

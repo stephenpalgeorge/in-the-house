@@ -104,7 +104,7 @@ export function Usage({ count = 0, usage = [], accountType = [0, 0] }: UsageProp
 
       <div className="chart">
         {
-          usage.length === 0 ? (<p>No data to show...</p>) :
+          usage.length === 0 ? (<p>No data to show...{count > 0 ? 'if you deleted a project, it\'s data will no longer be shown here, but will still be counted.' : ''}</p>) :
             (<Bar data={{
               labels: [...Array(32).keys()].slice(1),
               datasets: chartData.map(set => {

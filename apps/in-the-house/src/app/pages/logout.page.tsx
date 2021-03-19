@@ -20,6 +20,7 @@ export function LogoutPage({ redirect = '/' }: LogoutPageProps) {
   const handleLogout = async (url) => {
     // clear auth context values
     authContext.setAccessToken('');
+    authContext.setUser({});
     authContext.setUserId('');
     // hit the API /logout endpoint (which will remove the cookie)
     await window.fetch('/auth/logout', {
@@ -30,7 +31,7 @@ export function LogoutPage({ redirect = '/' }: LogoutPageProps) {
   }
 
   React.useEffect(() => {
-    handleLogout(redirect);    
+    handleLogout(redirect);
   }, []);
 
   return (

@@ -7,17 +7,24 @@ export interface ModalProps {
 }
 
 export function Modal({ modal, closeModal }: ModalProps) {
+  const modalRef = React.useRef<HTMLDivElement>(null);
   React.useEffect(() => {
     let timeout = setTimeout(() => {
       if (modal.isDismissible) closeModal(modal.name);
     }, 6000);
 
+    const handleKeyup = e => {
+      if (e.keyCode === 27) closeModal(modal.name);
+    }
+    document.addEventListener('keyup', handleKeyup);
+
     return () => {
       clearTimeout(timeout);
+      document.removeEventListener('keyup', handleKeyup);
     }
   }, []);
   return (
-    <div className={`modal modal--${modal.type}`} data-status={modal.type}>
+    <div ref={modalRef} className={`modal modal--${modal.type}`} data-status={modal.type}>
       {
         modal.isDismissible &&
         <button onClick={() => closeModal(modal.name)}>
