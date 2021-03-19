@@ -33,7 +33,7 @@ export function Modal({ modal, closeModal }: ModalProps) {
         </button>
       }
       <p className="font-size--h4 font-family--serif font-weight--heavy">{modal.name} - {modal.code}</p>
-      <p className="modal__message">{modal.message}</p>
+      <p className="modal__message font-family--sans-serif">{modal.message}</p>
     </div>
   );
 }

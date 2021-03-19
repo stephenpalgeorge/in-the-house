@@ -3,7 +3,7 @@
   padding: 0.5rem $horizontal-flow 1rem;
   border: 1px solid $color--grey;
   border-radius: 0.125rem;
-  backdrop-filter: blur(0.125rem);
+  backdrop-filter: blur(.2rem);
   box-shadow: $box-shadow--large-bottom;
 
   button {
@@ -44,6 +44,7 @@
   }
   &--error {
     background-color: rgba($color--status-error, 0.7);
+    color: $color--light;
   }
 }
 
