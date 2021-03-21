@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Switch, Route, useHistory, useParams } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 import { AuthPage, Card, Stack, SubNav } from '@in-the-house/ui';
 import { IUser } from '@in-the-house/api-interfaces';
@@ -56,6 +57,14 @@ export const DashboardPage = React.memo(({ user }: DashboardPageProps) => {
 
   return (
     <AuthPage navItems={authNav}>
+      <Helmet>
+        {
+          (user.username && user.username.length > 0) ?
+            <title>Dashboard: {user.username} - In the House</title> :
+            <title>Dashboard - In the House</title>
+        }
+        <meta name="description" content="Control your account. Update your details, monitor your usage and manage your API keys." />
+      </Helmet>
       <Stack>
         {
           (user.username && user.username.length > 0) &&

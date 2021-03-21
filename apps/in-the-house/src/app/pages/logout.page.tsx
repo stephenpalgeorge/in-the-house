@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 import { AuthContext } from '../contexts/auth.context';
 
@@ -35,6 +36,10 @@ export function LogoutPage({ redirect = '/' }: LogoutPageProps) {
   }, []);
 
   return (
-    <div></div>
+    <Helmet>
+      <title>Logout - In the House</title>
+      <meta name="description" content="unsetting state variables, removing cookies..." />
+      <meta name="robots" content="noindex" />
+    </Helmet>
   );
 }

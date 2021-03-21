@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import { ActionsProps, Actions, BasicPage, Icon, Stack } from '@in-the-house/ui';
 
 import MessageIcon from '../assets/message.svg';
@@ -66,6 +67,10 @@ export function LandingPage({ version }: LandingPageProps) {
   }
   return (
     <BasicPage handleSignup={handleSignup} navItems={navItems} pageName="landing" version="production" formIcons={BetaFormIcons}>
+      <Helmet>
+        <title>Welcome - In the House</title>
+        <meta name="description" content="The 'In the House' API provides political data from the UK government for easy querying, analysis or integration into your own app. Create your account, or login." />
+      </Helmet>
       <Stack>
         <h1><img src={BigBen} />In the House {window.innerWidth < 768 && <br />} <span>{`{ ${version} }`}</span></h1>
         <p className="font-size--large font-weight--light">

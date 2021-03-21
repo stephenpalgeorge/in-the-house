@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import { BasicPage, LoginForm } from '@in-the-house/ui';
 
 import { menuNav } from '../config/nav-items';
@@ -41,6 +42,10 @@ export function LoginPage() {
   }
   return (
     <BasicPage navItems={menuNav} pageName="login" contentsWidth="full-width">
+      <Helmet>
+        <title>Login - In the House</title>
+        <meta name="description" content="Login to your 'In the House' API account. You can buy advertising space on this page." />
+      </Helmet>
       <LoginForm submit={handleLogin} />
       <div className="contents contents--narrow">
         <h1>Buy this space.</h1>
