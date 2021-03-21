@@ -1,6 +1,9 @@
-// ----------
-// ACCOUNT
-// ----------
+h1 > img {
+  width: 2rem;
+  display: inline-block;
+  margin-right: 1rem;
+}
+
 @import './dashboard-sections/account';
 @import './dashboard-sections/billing';
 @import './dashboard-sections/keys';

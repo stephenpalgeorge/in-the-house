@@ -1,7 +1,14 @@
 .page--landing {
-  h1 > span {
-    font-weight: $font-weight--light;
-    font-size: $font-size--h2;
-    color: $color--dark-grey;
+  h1  {
+    img {
+      width: 2rem;
+      display: inline-block;
+      margin-right: 1rem;
+    }
+    span {
+      font-weight: $font-weight--light;
+      font-size: $font-size--h2;
+      color: $color--dark-grey;
+    }
   }
 }

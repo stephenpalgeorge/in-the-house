@@ -4,6 +4,7 @@ import { Switch, Route, useHistory, useParams } from 'react-router-dom';
 import { AuthPage, Card, Stack, SubNav } from '@in-the-house/ui';
 import { IUser } from '@in-the-house/api-interfaces';
 
+import BigBen from '../assets/big-ben.svg';
 import { authNav, dashboardSubNav } from '../config/nav-items';
 import { AuthContext } from '../contexts/auth.context';
 import { ModalsContext } from '../contexts/modals.context';
@@ -58,7 +59,7 @@ export const DashboardPage = React.memo(({ user }: DashboardPageProps) => {
       <Stack>
         {
           (user.username && user.username.length > 0) &&
-          <h1>Hi, {user.firstname && user.firstname.length > 0 ? user.firstname : user.username}</h1>
+          <h1><img src={BigBen} />Hi, {user.firstname && user.firstname.length > 0 ? user.firstname : user.username}</h1>
         }
         <p className="font-size--large font-weight--light">
           This is your dashboard, from whence you can control and edit your account. Use

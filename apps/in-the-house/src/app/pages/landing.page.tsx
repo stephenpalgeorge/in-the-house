@@ -4,6 +4,7 @@ import { ActionsProps, Actions, BasicPage, Icon, Stack } from '@in-the-house/ui'
 
 import MessageIcon from '../assets/message.svg';
 import TwitterIcon from '../assets/twitter.svg';
+import BigBen from '../assets/big-ben.svg';
 import { defaultNav } from '../config/nav-items';
 import { signUp } from '../fetch';
 import { AuthContext } from '../contexts/auth.context';
@@ -66,7 +67,7 @@ export function LandingPage({ version }: LandingPageProps) {
   return (
     <BasicPage handleSignup={handleSignup} navItems={navItems} pageName="landing" version="production" formIcons={BetaFormIcons}>
       <Stack>
-        <h1>In the House {window.innerWidth < 768 && <br />} <span>{`{ ${version} }`}</span></h1>
+        <h1><img src={BigBen} />In the House {window.innerWidth < 768 && <br />} <span>{`{ ${version} }`}</span></h1>
         <p className="font-size--large font-weight--light">
           The In The House API defines a series of endpoints for accessing data
           on UK Members of Parliament. If you’re building something that needs
