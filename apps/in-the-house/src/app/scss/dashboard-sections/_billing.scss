@@ -27,6 +27,9 @@
 
     mark {
       background-color: rgba($color--primary, .2);
+      &#stand-out {
+        background-color: rgba($color--status-success, .4);
+      }
     }
   }
 
