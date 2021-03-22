@@ -70,7 +70,10 @@ export const DashboardPage = React.memo(({ user }: DashboardPageProps) => {
       <Stack>
         {
           (user.username && user.username.length > 0) &&
-          <h1><img src={BigBen} />Hi, {user.firstname && user.firstname.length > 0 ? user.firstname : user.username}</h1>
+          <h1>
+            <img src={BigBen} alt="an line drawing of the Big Ben tower" />
+            Hi, {user.firstname && user.firstname.length > 0 ? user.firstname : user.username}
+          </h1>
         }
         <p className="font-size--large font-weight--light">
           This is your dashboard, from whence you can control and edit your account. Use

@@ -42,9 +42,10 @@ export function Navbar(props: NavbarProps) {
   }
 
   return (
-    <nav ref={navBarRef} className="navbar contents contents--narrow">
+    <nav ref={navBarRef} className="navbar contents contents--narrow" aria-labelledby="mainnavlabel">
+      <h2 className="visuallyhidden" id="mainnavlabel">Main navigation</h2>
       {/* MENU */}
-      <ul ref={menuRef} className="menu">
+      <ul ref={menuRef} className="menu" role="menubar">
         {
           (menu.length > 0) &&
           menu.map((item, i) => {

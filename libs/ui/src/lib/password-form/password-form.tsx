@@ -1,7 +1,7 @@
 import React from 'react';
 
 export interface PasswordFormProps {
-  submit(updates: {current: string, new: string}): any,
+  submit(updates: { current: string, new: string }): any,
 }
 
 export function PasswordForm({ submit }: PasswordFormProps) {
@@ -36,6 +36,7 @@ export function PasswordForm({ submit }: PasswordFormProps) {
       </div>
 
       <fieldset className="form__fieldset form__fieldset--inline">
+        <legend className="visuallyhidden">Enter, and confirm, your new password.</legend>
         <div className="form__form-field">
           <label htmlFor="new-password" className="form__form-field--label">New password:</label>
           <input

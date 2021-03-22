@@ -39,8 +39,9 @@ export function EditUserForm({
       submit(updates);
     }}>
       <p className="form-title">Edit your account</p>
-      
+
       <fieldset className="form__fieldset form__fieldset--inline">
+        <legend className="visuallyhidden">Enter, and edit, your first and last name.</legend>
         <div className="form__form-field">
           <label htmlFor="edit-first-name" className="form__form-field--label">First name:</label>
           <input

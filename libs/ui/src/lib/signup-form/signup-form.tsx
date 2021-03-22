@@ -45,7 +45,7 @@ export function SignupForm({ closeForm, submit }: SignupFormProps) {
     for (const value of Object.values(errors)) {
       if (value.length > 0) errorMessages.push(value);
     }
-    
+
     let isRequiredError: boolean = false;
     if (
       email.length === 0 ||
@@ -58,26 +58,26 @@ export function SignupForm({ closeForm, submit }: SignupFormProps) {
   }
 
   // function validates any field that has to have a value:
-  const handleRequired = (v: string, field: 'username'|'email') => {
+  const handleRequired = (v: string, field: 'username' | 'email') => {
     // if there's no value for the field, set an error:
-    if (v.length === 0) setErrors({...errors, [field]: `${field} is required`});
+    if (v.length === 0) setErrors({ ...errors, [field]: `${field} is required` });
     // otherwise, if there is currently an error for the field in question, clear it out:
-    else if (errors[field].length > 0) setErrors({...errors, [field]: ''});
+    else if (errors[field].length > 0) setErrors({ ...errors, [field]: '' });
     // set field regardless, to keep state up to date with user input:
     field === 'email' ? setEmail(v) : setUsername(v);
   }
 
   // validates the password field, checks that it is at least 8 characters:
   const handlePassword = (v: string) => {
-    if (v.length < 8) setErrors({...errors, password: 'password must be at least 8 characters'});
-    else if (errors.password.length > 0) setErrors({...errors, password: ''});
+    if (v.length < 8) setErrors({ ...errors, password: 'password must be at least 8 characters' });
+    else if (errors.password.length > 0) setErrors({ ...errors, password: '' });
     setPassword(v);
   }
 
   // confirm that the re-typed password matches the original password, helps users catch typos:
   const handlePasswordConf = (v: string) => {
-    if (password.length > 0 && v !== password) setErrors({...errors, passwordConf: 'passwords do not match, check for typos :)'});
-    else setErrors({...errors, passwordConf: ''});
+    if (password.length > 0 && v !== password) setErrors({ ...errors, passwordConf: 'passwords do not match, check for typos :)' });
+    else setErrors({ ...errors, passwordConf: '' });
     setPasswordConf(v);
   }
 
@@ -125,9 +125,9 @@ export function SignupForm({ closeForm, submit }: SignupFormProps) {
           <span className="error">{errors.email}</span>
         }
       </div>
-      
+
       <fieldset className="form__fieldset">
-        <legend className="hidden">Set password</legend>
+        <legend className="visuallyhidden">Set password</legend>
         <div className="form__form-field">
           <label htmlFor="password" className="form__form-field--label">Password:</label>
           <input

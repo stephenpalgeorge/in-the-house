@@ -10,13 +10,14 @@ export interface SubNavProps {
 export function SubNav({ navItems }: SubNavProps) {
   const location = useLocation();
   return (
-    <nav className="sub-nav">
+    <nav className="sub-nav" aria-label="Secondary Navigation">
+      <h2 className="visuallyhidden">Dashboard navigation</h2>
       {
         navItems.map(item => {
           const partials = item.path.split('/');
           const pattern = new RegExp(partials[partials.length - 1]);
           const active = pattern.test(location.pathname) ? 'active' : null;
-          return <Link key={item.label} to={item.path} className={active}>{item.label}</Link>
+          return <Link key={item.label} to={item.path} className={active} role="menuitem">{item.label}</Link>
         })
       }
     </nav>
