@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 import { AuthContext } from '../contexts/auth.context';
 
@@ -39,6 +39,8 @@ export function LogoutPage({ redirect = '/' }: LogoutPageProps) {
     <Helmet>
       <title>Logout - In the House</title>
       <meta name="description" content="unsetting state variables, removing cookies..." />
+      <meta property="og:description" content="unsetting state variables, removing cookies..." />
+      <meta name="twitter:description" content="unsetting state variables, removing cookies..." />
       <meta name="robots" content="noindex" />
     </Helmet>
   );

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Switch, Route, useHistory, useParams } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 import { AuthPage, Card, Stack, SubNav } from '@in-the-house/ui';
 import { IUser } from '@in-the-house/api-interfaces';
@@ -64,6 +64,8 @@ export const DashboardPage = React.memo(({ user }: DashboardPageProps) => {
             <title>Dashboard - In the House</title>
         }
         <meta name="description" content="Control your account. Update your details, monitor your usage and manage your API keys." />
+        <meta property="og:description" content="Control your account. Update your details, monitor your usage and manage your API keys." />
+        <meta name="twitter:description" content="Control your account. Update your details, monitor your usage and manage your API keys." />
       </Helmet>
       <Stack>
         {

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { BasicPage, LoginForm } from '@in-the-house/ui';
 
 import { menuNav } from '../config/nav-items';
@@ -45,6 +45,8 @@ export function LoginPage() {
       <Helmet>
         <title>Login - In the House</title>
         <meta name="description" content="Login to your 'In the House' API account. You can buy advertising space on this page." />
+        <meta property="og:description" content="Login to your 'In the House' API account. You can buy advertising space on this page." />
+        <meta name="twitter:description" content="Login to your 'In the House' API account. You can buy advertising space on this page." />
       </Helmet>
       <LoginForm submit={handleLogin} />
       <div className="contents contents--narrow">
