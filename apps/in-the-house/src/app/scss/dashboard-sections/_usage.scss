@@ -1,4 +1,15 @@
 .section--usage {
+  progress[value] {
+    appearance: none;
+    &::-webkit-progress-bar {
+      background-color: rgba($color--primary, .2);
+      border: 1px solid $color--dark;
+    }
+    &::-webkit-progress-value {
+      background-color: $color--primary;
+    }
+  }
+
   .chart {
     display: flex;
     align-items: center;

@@ -99,30 +99,39 @@ export function Usage({ count = 0, usage = [], accountType = [0, 0] }: UsageProp
         count > 0 && <div className="usage-summary">
           <p className="font-family--serif">Total API calls for <mark>{currentMonth}, {new Date().getFullYear()}</mark>:</p>
           <p className={`usage-summary__numbers ${limitClass}`}>{count}<span>/{limit}</span></p>
+          {
+            limit !== 'unlimited' &&
+            <progress max={limit} value={count}></progress>
+          }
         </div>
       }
 
       <div className="chart">
         {
           usage.length === 0 ? (<p>No data to show...{count > 0 ? 'if you deleted a project, it\'s data will no longer be shown here, but will still be counted.' : ''}</p>) :
-            (<Bar data={{
-              labels: [...Array(32).keys()].slice(1),
-              datasets: chartData.map(set => {
-                return {
-                  label: set.name,
-                  data: set.recordsByDay,
-                  backgroundColor: 'rgba(0, 0, 0, .4)',
-                  borderColor: 'rgba(0, 0, 0, 1)',
-                  borderWidth: 2,
-                }
-              }),
-            }}
-              options={{
-                scales: {
-                  yAxes: [{ ticks: { beginAtZero: true, stepSize: 1 } }]
-                }
+            ([
+              <p key="chart-description" className="visuallyhidden" id="chart-description">
+                This bar chart describes the user's usage per day of the API for the given month.
+              </p>,
+              <Bar key="bar-chart" data={{
+                labels: [...Array(32).keys()].slice(1),
+                datasets: chartData.map(set => {
+                  return {
+                    label: set.name,
+                    data: set.recordsByDay,
+                    backgroundColor: 'rgba(0, 0, 0, .4)',
+                    borderColor: 'rgba(0, 0, 0, 1)',
+                    borderWidth: 2,
+                  }
+                }),
               }}
-            />)
+                options={{
+                  scales: {
+                    yAxes: [{ ticks: { beginAtZero: true, stepSize: 1 } }]
+                  }
+                }}
+              />
+            ])
         }
       </div>
     </Stack>
