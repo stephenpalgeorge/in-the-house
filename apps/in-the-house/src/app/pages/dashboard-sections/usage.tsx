@@ -55,11 +55,18 @@ export function Usage({ count = 0, usage = [], accountType = [0, 0] }: UsageProp
           // it's possible the usage data will include records where the project ID is
           // an old or non-existant project...in that case, we don't include the data:
           if (!project) return;
+          const colours = [
+            { background: 'rgba(89, 194, 254, .4)', border: 'rgba(89, 194, 254, 1)' },
+            { background: 'rgba(254, 89, 194, .4)', border: 'rgba(254, 89, 194, 1)' },
+            { background: 'rgba(228, 80, 100, .4)', border: 'rgba(228, 80, 100, 1)' },
+            { background: 'rgba(80, 228, 134, .4)', border: 'rgba(80, 228, 134, 1)' },
+          ]
           const current = project;
           datasets.push({
             name: current.origin,
             records: usage.filter(record => record.project === current.id),
             recordsByDay: [],
+            colour: colours[Math.floor(Math.random() * colours.length)],
           });
         }
         );
@@ -119,8 +126,8 @@ export function Usage({ count = 0, usage = [], accountType = [0, 0] }: UsageProp
                   return {
                     label: set.name,
                     data: set.recordsByDay,
-                    backgroundColor: 'rgba(0, 0, 0, .4)',
-                    borderColor: 'rgba(0, 0, 0, 1)',
+                    backgroundColor: set.colour.background,
+                    borderColor: set.colour.border,
                     borderWidth: 2,
                   }
                 }),

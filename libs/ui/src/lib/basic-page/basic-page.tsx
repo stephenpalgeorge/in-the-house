@@ -7,12 +7,12 @@ import { RequestAccessForm } from '../request-access-form/request-access-form';
 import { SignupForm } from '../signup-form/signup-form';
 
 export interface BasicPageProps {
-  children: React.ReactNode|React.ReactNode[],
-  contentsWidth?: 'full-width'|'narrow'|'very-narrow',
+  children: React.ReactNode | React.ReactNode[],
+  contentsWidth?: 'full-width' | 'narrow' | 'very-narrow',
   handleSignup?(email: string, password: string, username: string): any,
   navItems: NavbarProps,
   pageName?: string,
-  version?: 'beta'|'production',
+  version?: 'beta' | 'production',
   formIcons?: Icon[],
 }
 
@@ -26,10 +26,11 @@ export function BasicPage({
   formIcons = [],
 }: BasicPageProps) {
   const location = useLocation();
+
   return (
     <React.Fragment>
       <header>
-        <Navbar { ...navItems } />
+        <Navbar {...navItems} />
       </header>
       <main className={`page contents contents--${contentsWidth} ${pageName !== '' ? `page--${pageName}` : ''}`}>
         {
