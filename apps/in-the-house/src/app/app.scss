@@ -39,6 +39,11 @@ main {
   flex-grow: 1;
 }
 
+a:not(.menu-link):not(.menu-button):not(.actions-block__action):focus {
+  background-color: rgba($color--primary, .1);
+  outline: none;
+}
+
 .app {
   padding-top: 5rem;
   padding-bottom: 3.5rem;

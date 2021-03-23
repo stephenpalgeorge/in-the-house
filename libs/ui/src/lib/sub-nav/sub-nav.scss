@@ -25,6 +25,11 @@
     &:hover {
       text-decoration: underline;
     }
+
+    &:focus {
+      background-color: rgba($color--primary, .1);
+      outline: none;
+    }
   }
 
   > a + a {

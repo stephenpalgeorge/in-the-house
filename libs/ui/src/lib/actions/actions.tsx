@@ -16,7 +16,7 @@ export function Actions({ actions }: ActionsProps) {
     <div className="actions-block">
       {
         actions.map((action, i) => {
-          return <Link key={i} to={action.path} className={`button-outline--${action.color}`}>
+          return <Link key={i} to={action.path} className={`actions-block__action button-outline--${action.color}`}>
             {action.label}
           </Link>
         })

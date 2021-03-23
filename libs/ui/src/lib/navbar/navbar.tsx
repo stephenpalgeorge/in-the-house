@@ -49,8 +49,8 @@ export function Navbar(props: NavbarProps) {
         {
           (menu.length > 0) &&
           menu.map((item, i) => {
-            return <li onClick={closeMenu} className={location.pathname === item.path ? 'active' : ''} key={i}>
-              <Link to={item.path}>{item.label}</Link>
+            return <li onClick={closeMenu} className={`menu-item ${location.pathname === item.path ? 'active' : ''}`} key={i}>
+              <Link className="menu-link" to={item.path}>{item.label}</Link>
             </li>
           })
         }
@@ -67,7 +67,7 @@ export function Navbar(props: NavbarProps) {
           (actions && actions.length > 0 && actions.length < 3) &&
           actions.map((action, i) => {
             return <li onClick={closeMenu} className={`action ${'background-color--' + action.color || ''} ${location.pathname === action.path ? 'active' : ''}`} key={i}>
-              <Link to={action.path}>{action.label}</Link>
+              <Link className="menu-button" to={action.path}>{action.label}</Link>
             </li>
           })
         }
