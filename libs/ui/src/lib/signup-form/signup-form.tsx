@@ -96,6 +96,7 @@ export function SignupForm({ closeForm, submit }: SignupFormProps) {
       <div className="form__form-field">
         <label htmlFor="username" className="form__form-field--label">Username:</label>
         <input
+          autoComplete="username"
           ref={usernameInputRef}
           id="username"
           name="username"
@@ -113,6 +114,7 @@ export function SignupForm({ closeForm, submit }: SignupFormProps) {
       <div className="form__form-field">
         <label htmlFor="email" className="form__form-field--label">Email address:</label>
         <input
+          autoComplete="email"
           id="email"
           name="email"
           type="text"
@@ -131,6 +133,7 @@ export function SignupForm({ closeForm, submit }: SignupFormProps) {
         <div className="form__form-field">
           <label htmlFor="password" className="form__form-field--label">Password:</label>
           <input
+            autoComplete="new-password"
             id="password"
             name="password"
             type="password"
@@ -146,6 +149,7 @@ export function SignupForm({ closeForm, submit }: SignupFormProps) {
         <div className="form__form-field">
           <label htmlFor="password-conf" className="form__form-field--label">Re-type Password:</label>
           <input
+            autoComplete="new-password"
             id="password-conf"
             name="password-conf"
             type="password"

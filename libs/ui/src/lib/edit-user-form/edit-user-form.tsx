@@ -45,6 +45,7 @@ export function EditUserForm({
         <div className="form__form-field">
           <label htmlFor="edit-first-name" className="form__form-field--label">First name:</label>
           <input
+            autoComplete="given-name"
             ref={firstNameRef}
             type="text"
             name="edit-first-name"
@@ -57,6 +58,7 @@ export function EditUserForm({
         <div className="form__form-field">
           <label htmlFor="edit-last-name" className="form__form-field--label">Last name:</label>
           <input
+            autoComplete="family-name"
             type="text"
             name="edit-last-name"
             id="edit-last-name"
@@ -69,6 +71,7 @@ export function EditUserForm({
       <div className="form__form-field">
         <label htmlFor="edit-username" className="form__form-field--label">Username:</label>
         <input
+          autoComplete="username"
           type="text"
           name="edit-username"
           id="edit-username"
@@ -80,6 +83,7 @@ export function EditUserForm({
       <div className="form__form-field">
         <label htmlFor="edit-email" className="form__form-field--label">Email:</label>
         <input
+          autoComplete="email"
           type="text"
           name="edit-email"
           id="edit-email"

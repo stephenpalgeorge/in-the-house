@@ -25,6 +25,7 @@ export function PasswordForm({ submit }: PasswordFormProps) {
       <div className="form__form-field">
         <label htmlFor="current-password" className="form__form-field--label">Current password:</label>
         <input
+          autoComplete="current-password"
           ref={currentPasswordRef}
           type="password"
           name="current-password"
@@ -40,6 +41,7 @@ export function PasswordForm({ submit }: PasswordFormProps) {
         <div className="form__form-field">
           <label htmlFor="new-password" className="form__form-field--label">New password:</label>
           <input
+            autoComplete="new-password"
             type="password"
             name="new-password"
             id="new-password"
@@ -51,6 +53,7 @@ export function PasswordForm({ submit }: PasswordFormProps) {
         <div className="form__form-field">
           <label htmlFor="confirm-new-password" className="form__form-field--label">Re-type new password:</label>
           <input
+            autoComplete="new-password"
             type="password"
             name="confirm-new-password"
             id="confirm-new-password"

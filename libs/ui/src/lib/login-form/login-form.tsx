@@ -24,6 +24,7 @@ export function LoginForm({ submit }: LoginFormProps) {
       <div className="form__form-field">
         <label htmlFor="username">Username:</label>
         <input
+          autoComplete="username"
           ref={usernameRef}
           id="username"
           name="username"
@@ -36,6 +37,7 @@ export function LoginForm({ submit }: LoginFormProps) {
       <div className="form__form-field">
         <label htmlFor="password">Password:</label>
         <input
+          autoComplete="current-password"
           id="password"
           name="password"
           type="password"
