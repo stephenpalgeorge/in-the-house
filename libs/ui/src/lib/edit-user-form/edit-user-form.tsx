@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { IUserProfile } from '@in-the-house/api-interfaces';
 
 export interface EditUserFormProps {

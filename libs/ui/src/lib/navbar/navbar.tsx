@@ -16,8 +16,7 @@ export interface NavbarProps {
   actions?: ILink[],
 }
 
-export function Navbar(props: NavbarProps) {
-  const { actions, menu } = props;
+export function Navbar({ actions, menu }: NavbarProps) {
   const location = useLocation();
   // get components necessary for toggling the nav
   // on smaller breakpoints:
