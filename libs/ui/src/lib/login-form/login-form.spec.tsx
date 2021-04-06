@@ -5,7 +5,7 @@ import LoginForm from './login-form';
 
 describe('LoginForm', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<LoginForm />);
+    const { baseElement } = render(<LoginForm submit={(p, u) => null} />);
     expect(baseElement).toBeTruthy();
   });
 });

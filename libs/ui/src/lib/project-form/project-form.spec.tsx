@@ -5,7 +5,7 @@ import ProjectForm from './project-form';
 
 describe('ProjectForm', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<ProjectForm />);
+    const { baseElement } = render(<ProjectForm close={() => null} submit={o => null} />);
     expect(baseElement).toBeTruthy();
   });
 });

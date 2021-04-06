@@ -5,7 +5,7 @@ import SubNav from './sub-nav';
 
 describe('SubNav', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<SubNav />);
+    const { baseElement } = render(<SubNav navItems={[{ path: '/', label: 'test', color: 'dark' }]} />);
     expect(baseElement).toBeTruthy();
   });
 });

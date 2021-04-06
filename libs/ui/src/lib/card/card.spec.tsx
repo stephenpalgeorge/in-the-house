@@ -5,7 +5,7 @@ import Card from './card';
 
 describe('Card', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<Card />);
+    const { baseElement } = render(<Card><h2>Test Card</h2></Card>);
     expect(baseElement).toBeTruthy();
   });
 });

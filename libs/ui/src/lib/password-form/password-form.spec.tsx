@@ -5,7 +5,7 @@ import PasswordForm from './password-form';
 
 describe('PasswordForm', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<PasswordForm />);
+    const { baseElement } = render(<PasswordForm submit={u => null} />);
     expect(baseElement).toBeTruthy();
   });
 });
