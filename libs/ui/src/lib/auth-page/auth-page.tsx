@@ -1,4 +1,5 @@
 import React from 'react';
+import { Footer } from '../footer/footer';
 import { Navbar, NavbarProps } from '../navbar/navbar';
 
 export interface AuthPageProps {
@@ -17,6 +18,8 @@ export function AuthPage({ children, contentsWidth = 'narrow', navItems }: AuthP
       <main className={`page auth-page contents contents--${contentsWidth}`}>
         {children}
       </main>
+
+      <Footer />
     </React.Fragment>
   );
 }

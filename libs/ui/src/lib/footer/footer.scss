@@ -6,6 +6,10 @@ footer {
     margin-bottom: 3.5rem;
   }
 
+  .auth-page + & {
+    margin-top: 4rem;
+  }
+
   background-color: $color--dark;
 
   .icons-row {
