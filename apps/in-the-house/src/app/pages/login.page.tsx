@@ -9,6 +9,14 @@ import { ModalsContext } from '../contexts/modals.context';
 import { login } from '../fetch';
 
 export function LoginPage() {
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  React.useEffect(() => {
+    const loginForm = document.querySelector('.login-form');
+    const formHeight: number = loginForm.getBoundingClientRect().height;
+    const containerHeight: number = formHeight + 96;
+    containerRef.current.style.minHeight = `${containerHeight}px`;
+  }, []);
+
   const history = useHistory();
   const modalsContext = React.useContext(ModalsContext);
   const authContext = React.useContext(AuthContext);
@@ -49,12 +57,12 @@ export function LoginPage() {
         <meta name="twitter:description" content="Login to your 'In the House' API account. You can buy advertising space on this page." />
       </Helmet>
       <LoginForm submit={handleLogin} />
-      <div className="contents contents--narrow">
+      <div ref={containerRef} className="contents contents--narrow">
         <h1>Buy this space.</h1>
         <p className="font-family--sans-serif font-size--large font-weight--light">
           This log-in page is pretty empty...wouldn't it be nice to fill
           it with your brand, your message or your product? For a quote, and
-          to discuss your unique requirements, you can find us at <em>email</em>.
+          to discuss your unique requirements, you can <a className="color--secondary--darkened" href="mailto:hello@inthehouse.dev">email us</a>.
         </p>
       </div>
     </BasicPage>

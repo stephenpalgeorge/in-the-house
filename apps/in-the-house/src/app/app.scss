@@ -46,7 +46,6 @@ a:not(.menu-link):not(.menu-button):not(.actions-block__action):focus {
 
 .app {
   padding-top: 5rem;
-  padding-bottom: 3.5rem;
   header {
     margin-bottom: 3rem;
     position: relative;
@@ -80,6 +79,10 @@ a:not(.menu-link):not(.menu-button):not(.actions-block__action):focus {
       padding: 0;
     }
   }
+}
+
+.auth-page {
+  padding-bottom: 3.5rem !important;
 }
 
 @import './scss/dashboard-page';

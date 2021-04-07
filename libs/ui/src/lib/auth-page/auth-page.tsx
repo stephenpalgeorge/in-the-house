@@ -2,8 +2,8 @@ import React from 'react';
 import { Navbar, NavbarProps } from '../navbar/navbar';
 
 export interface AuthPageProps {
-  children: React.ReactNode|React.ReactNode[],
-  contentsWidth?: 'full-width'|'narrow'|'very-narrow',
+  children: React.ReactNode | React.ReactNode[],
+  contentsWidth?: 'full-width' | 'narrow' | 'very-narrow',
   navItems: NavbarProps,
 }
 
@@ -14,7 +14,7 @@ export function AuthPage({ children, contentsWidth = 'narrow', navItems }: AuthP
         <Navbar {...navItems} />
       </header>
 
-      <main className={`page contents contents--${contentsWidth}`}>
+      <main className={`page auth-page contents contents--${contentsWidth}`}>
         {children}
       </main>
     </React.Fragment>

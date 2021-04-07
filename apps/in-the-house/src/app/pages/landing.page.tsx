@@ -23,7 +23,6 @@ export function LandingPage({ version }: LandingPageProps) {
   const navItems = defaultNav(location.pathname);
 
   React.useEffect(() => {
-    console.log(authContext);
     if (authContext.userId && authContext.userId.length > 0) {
       history.push(`/dashboard/${authContext.userId}`);
     }

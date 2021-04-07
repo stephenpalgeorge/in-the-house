@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 
+import { Footer } from '../footer/footer';
 import { Icon } from '../icons-row/icons-row';
 import { Navbar, NavbarProps } from '../navbar/navbar';
 import { RequestAccessForm } from '../request-access-form/request-access-form';
@@ -43,6 +44,7 @@ export function BasicPage({
         }
         {children}
       </main>
+      <Footer />
     </React.Fragment>
   );
 }

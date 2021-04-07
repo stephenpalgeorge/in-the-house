@@ -15,10 +15,10 @@ export function Stack({ background, children, recursive = false, sectionName = '
   const classes = [
     'stack',
     `stack--${size}`,
-    recursive ? 'stack--recursive' : null,
-    background ? `background-color--${background}` : null,
-    sectionName ? `section--${sectionName}` : null,
   ];
+  if (recursive) classes.push('stack--recursive');
+  if (background) classes.push(`background-color--${background}`);
+  if (sectionName) classes.push(`section--${sectionName}`);
   return (
     <section className={classes.join(' ')}>
       { children}
