@@ -38,8 +38,8 @@ export function LandingPage({ version }: LandingPageProps) {
 
   const BetaFormIcons: Icon[] = [
     // @todo - UPDATE URLs FOR PROD
-    { path: MessageIcon, name: 'message', size: 'sm', url: 'https://twitter.com' },
-    { path: TwitterIcon, name: 'twitter', size: 'sm', url: 'https://google.co.uk' },
+    { path: MessageIcon, name: 'message', size: 'sm', url: 'mailto:hello@inthehouse.dev' },
+    { path: TwitterIcon, name: 'twitter', size: 'sm', url: 'https://twitter.com/house_api', external: true },
   ];
 
   const handleSignup = async (email: string, password: string, username: string) => {
@@ -66,7 +66,7 @@ export function LandingPage({ version }: LandingPageProps) {
     }
   }
   return (
-    <BasicPage handleSignup={handleSignup} navItems={navItems} pageName="landing" version="production" formIcons={BetaFormIcons}>
+    <BasicPage handleSignup={handleSignup} navItems={navItems} pageName="landing" version="beta" formIcons={BetaFormIcons}>
       <Helmet>
         <title>Welcome - In the House</title>
         <meta name="description" content="The 'In the House' API provides political data from the UK government for easy querying, analysis or integration into your own app. Create your account, or login." />
