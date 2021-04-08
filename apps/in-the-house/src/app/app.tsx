@@ -6,7 +6,14 @@ import { AuthContext } from './contexts/auth.context';
 import { ModalsContext } from './contexts/modals.context';
 import { Modals } from '@in-the-house/ui';
 
-import { DashboardPage, LandingPage, LoginPage, LogoutPage } from './pages';
+import {
+  BuildingPage,
+  DashboardPage,
+  LandingPage,
+  LoginPage,
+  LogoutPage,
+  NotFound
+} from './pages';
 
 export const App = () => {
   const authContext = React.useContext(AuthContext);
@@ -18,7 +25,7 @@ export const App = () => {
         <Route path="/dashboard/:userId">
           <DashboardPage user={authContext.user} />
         </Route>
-        
+
         <Route path="/login">
           <LoginPage />
         </Route>
@@ -27,9 +34,19 @@ export const App = () => {
           <LogoutPage />
         </Route>
 
-        <Route path="/">
+        <Route path="/docs">
+          <BuildingPage />
+        </Route>
+
+        <Route path="/demo">
+          <BuildingPage />
+        </Route>
+
+        <Route path="/" exact>
           <LandingPage version="beta 0.0.1" />
         </Route>
+
+        <Route component={NotFound} />
       </Switch>
     </div>
   );

@@ -1,11 +1,15 @@
+import { BuildingPage } from './building.page';
 import { DashboardPage } from './dashboard.page';
 import { LandingPage } from './landing.page';
 import { LoginPage } from './login.page';
 import { LogoutPage } from './logout.page';
+import { NotFound } from './not-found.page';
 
 export {
+  BuildingPage,
   DashboardPage,
   LandingPage,
   LoginPage,
   LogoutPage,
-}
+  NotFound,
+};
