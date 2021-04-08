@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 
 import { IUser } from '@in-the-house/api-interfaces';
 
