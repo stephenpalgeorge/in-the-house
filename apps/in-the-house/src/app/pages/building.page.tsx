@@ -1,18 +1,14 @@
 import * as React from 'react';
-import { useLocation } from 'react-router';
 import { Helmet } from 'react-helmet-async';
 
-import { BasicPage } from '@in-the-house/ui';
-import { defaultNav } from '../config/nav-items';
+import { BasicPage, NavbarProps } from '@in-the-house/ui';
 
 export interface BuildingPageProps {
+  navItems: NavbarProps,
   children?: React.ReactNode | React.ReactNode[]
 }
 
-export function BuildingPage({ children }: BuildingPageProps) {
-  const location = useLocation();
-  const navItems = defaultNav(location.pathname);
-
+export function BuildingPage({ children, navItems }: BuildingPageProps) {
   return (
     <BasicPage navItems={navItems} pageName="building" contentsWidth="full-width">
       <Helmet>
