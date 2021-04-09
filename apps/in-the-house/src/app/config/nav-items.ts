@@ -12,7 +12,7 @@ export function defaultNav(pathname: string): NavbarProps {
       { path: '/login', label: 'Login', color: 'secondary' },
     ]
   }
-} 
+}
 
 export const authNav: NavbarProps = {
   menu: [
