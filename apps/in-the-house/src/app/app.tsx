@@ -35,7 +35,17 @@ export const App = () => {
         </Route>
 
         <Route path="/docs">
-          <BuildingPage />
+          <BuildingPage>
+            <figure>
+              <figcaption>Full docs will be coming soon. For now, here's an example of the kind of endpoints you can hit:</figcaption>
+              <pre>
+                <code>
+                  <span>https://www.inthehouse.dev/api/v1/constituencies/single/north%20swindon</span>
+                  <span>https://www.inthehouse.dev/api/v1/postcodes/list/SW1A%201AA+SW1A%202LW</span>
+                </code>
+              </pre>
+            </figure>
+          </BuildingPage>
         </Route>
 
         <Route path="/demo">

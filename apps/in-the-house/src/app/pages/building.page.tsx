@@ -5,7 +5,11 @@ import { Helmet } from 'react-helmet-async';
 import { BasicPage } from '@in-the-house/ui';
 import { defaultNav } from '../config/nav-items';
 
-export function BuildingPage() {
+export interface BuildingPageProps {
+  children?: React.ReactNode | React.ReactNode[]
+}
+
+export function BuildingPage({ children }: BuildingPageProps) {
   const location = useLocation();
   const navItems = defaultNav(location.pathname);
 
@@ -24,6 +28,7 @@ export function BuildingPage() {
         <p className="font-family--sans-serif font-size--large font-weight--light">
           This page is coming soon! We're working on it, thanks for your patience.
         </p>
+        {children}
       </div>
     </BasicPage>
   );

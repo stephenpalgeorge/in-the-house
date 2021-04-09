@@ -85,6 +85,28 @@ a:not(.menu-link):not(.menu-button):not(.actions-block__action):focus {
   padding-bottom: 3.5rem !important;
 }
 
+figcaption {
+  font-family: $font-family--serif;
+  font-weight: $font-weight--heavy;
+  margin-top: $vertical-flow;
+}
+
+pre {
+  margin-top: $vertical-flow;
+  padding: $vertical-flow $horizontal-flow;
+  background-color: $color--grey;
+  box-shadow: $box-shadow--base-bottom;
+  border: 1px solid $color--dark-grey;
+
+  span {
+    display: block;
+  }
+
+  span + span {
+    margin-top: .5rem;
+  }
+}
+
 @import './scss/dashboard-page';
 @import './scss/landing-page';
 @import './scss/login-page';
