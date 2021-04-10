@@ -1,11 +1,12 @@
 {
   "name": "in-the-house",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "license": "MIT",
   "scripts": {
     "nx": "nx",
     "start": "nx serve",
     "build": "nx build",
+    "deploy": "nx run in-the-house:build && nx run api:build && node dist/apps/api/main.js",
     "test": "nx test",
     "lint": "nx workspace-lint && nx lint",
     "e2e": "nx e2e",
