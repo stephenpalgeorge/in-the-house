@@ -1,0 +1,29 @@
+.project-form {
+  label {
+    color: $color--dark;
+  }
+
+  input {
+    padding: 0.5rem;
+    &:focus {
+      border: 0.125rem solid $color--amber;
+      outline: 0.125rem solid $color--amber;
+    }
+  }
+
+  &__controls {
+    display: flex;
+
+    button[type='submit'] {
+      flex-basis: 75%;
+    }
+    button.close {
+      flex-basis: 25%;
+      margin-left: 1rem;
+      margin-top: 1rem;
+      background: $color--light;
+      font-family: $font-family--serif;
+      font-size: $font-size--large;
+    }
+  }
+}

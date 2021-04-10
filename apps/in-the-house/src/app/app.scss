@@ -1,0 +1,112 @@
+@import '../../../../libs/ui/src/scss/variables';
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(
+    to bottom,
+    $color--light 40%,
+    rgba($color--secondary, .1)
+  );
+
+  .app {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+* {
+  font-family: $font-family--sans-serif;
+  ::selection {
+    background-color: rgba($color--dark, 0.99);
+    color: $color--light;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $font-family--serif;
+}
+
+main {
+  position: relative;
+  flex-grow: 1;
+}
+
+a:not(.menu-link):not(.menu-button):not(.actions-block__action):focus {
+  background-color: rgba($color--primary, .1);
+  outline: none;
+}
+
+.app {
+  padding-top: 5rem;
+  header {
+    margin-bottom: 3rem;
+    position: relative;
+    z-index: 1;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100vw;
+      border-bottom: 1px solid #000;
+      z-index: -1;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    padding-top: 0;
+    header {
+      margin-bottom: 0;
+      &::after {
+        display: none;
+      }
+    }
+  }
+
+  .page {
+    padding: $vertical-flow $horizontal-flow 0;
+    @media screen and (min-width: 768px) {
+      padding: 0;
+    }
+  }
+}
+
+.auth-page {
+  padding-bottom: 3.5rem !important;
+}
+
+figcaption {
+  font-family: $font-family--serif;
+  font-weight: $font-weight--heavy;
+  margin-top: $vertical-flow;
+}
+
+pre {
+  margin-top: $vertical-flow;
+  padding: $vertical-flow $horizontal-flow;
+  background-color: $color--grey;
+  box-shadow: $box-shadow--base-bottom;
+  border: 1px solid $color--dark-grey;
+
+  span {
+    display: block;
+  }
+
+  span + span {
+    margin-top: .5rem;
+  }
+}
+
+@import './scss/dashboard-page';
+@import './scss/landing-page';
+@import './scss/login-page';

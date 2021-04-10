@@ -1,0 +1,36 @@
+.login-form {
+  position: relative;
+  top: 0;
+  left: 0;
+  background-color: $color--light;
+  padding: $vertical-flow $horizontal-flow;
+  width: 100%;
+  box-shadow: $box-shadow--large-bottom;
+  background-color: rgba($color--secondary, 0.8);
+  border: .125rem solid $color--light;
+  backdrop-filter: blur(0.125rem);
+
+  .form__form-field input {
+    border-color: $color--secondary--darkened;
+    &:focus {
+      outline-color: $color--secondary--darkened;
+    }
+  }
+
+  span.error {
+    background-color: $color--secondary--darkened;
+  }
+
+  button[type='submit']:focus {
+    outline-color: $color--secondary--darkened;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .login-form {
+    position: absolute;
+    max-width: 16rem;
+    top: $vertical-flow * 2;
+    left: $horizontal-flow * 2;
+  }
+}

@@ -1,0 +1,66 @@
+.section--keys {
+  mark {
+    font-family: $font-family--serif;
+    font-weight: $font-weight--heavy;
+    background-color: rgba($color--amber, 0.3);
+  }
+
+  .keys-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    ul {
+      list-style-type: none;
+      display: flex;
+
+      > li + li {
+        margin-left: 2rem;
+      }
+
+      li {
+        cursor: pointer;
+        a {
+          text-decoration: underline;
+          color: $color--secondary--darkened;
+          transition: color 0.2s ease;
+          &:hover {
+            color: darken($color--secondary--darkened, 10%);
+          }
+        }
+      }
+    }
+  }
+
+  > div:not(.keys-header) {
+    padding-top: $vertical-flow;
+    border-top: 1px solid $color--dark-grey;
+  }
+
+  .keys__controls {
+    display: flex;
+
+    > button {
+      padding: 0.5rem 1rem;
+      background: none;
+      font-family: $font-family--serif;
+    }
+
+    > button + button {
+      margin-left: 1rem;
+    }
+
+    @media screen and (max-width: 767px) {
+      flex-direction: column;
+
+      > button {
+        width: 100%;
+      }
+
+      > button + button {
+        margin-left: 0;
+        margin-top: 1rem;
+      }
+    }
+  }
+}

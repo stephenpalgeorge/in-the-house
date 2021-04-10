@@ -1,3 +1,79 @@
 .navbar {
-  background: black;
+  display: flex;
+  justify-content: space-between;
+  min-height: 2.5rem;
+  z-index: 1;
+  background-color: $color--light;
+  border: 1px solid $color--dark;
+  border-top-width: 0;
+  border-bottom-width: 0;
+
+  a {
+    font-size: $font-size--base;
+    text-decoration: none;
+  }
+
+  ul {
+    list-style-type: none;
+    display: flex;
+
+    li {
+      display: flex;
+      a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+
+  .menu-item .menu-link:focus,
+  .action .menu-button:focus {
+    outline: .125rem solid rgba($color--primary--darkened, .4);
+  }
+
+  ul.menu li {
+    a {
+      width: 6rem;
+      font-family: $font-family--sans-serif;
+      font-weight: $font-weight--light;
+      color: $color--dark;
+      justify-content: center;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    &.active a {
+      font-weight: $font-weight--heavy;
+      text-decoration: underline;
+    }
+  }
+
+  ul.actions .action {
+    border: 0.125rem solid #fff;
+    box-shadow: $box-shadow--small-bottom;
+    transition: box-shadow 0.4s ease, background-color 0.2s ease;
+    &:hover,
+    &.active {
+      box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
+
+    a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      font-family: $font-family--serif;
+      color: $color--light;
+    }
+  }
+
+  ul.actions .action + .action {
+    margin-left: 1rem;
+  }
 }
+
+/// import styles for navbar on small breakpoints:
+@import './navbar--breakpoint-down-sm';

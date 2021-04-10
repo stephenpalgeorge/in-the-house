@@ -1,25 +1,41 @@
 import { Request } from 'express';
 import { Document } from 'mongoose';
 
-export interface IProduct {
-  name: string,
+export interface IProject {
   origin: string,
   id: string,
 }
 
 export interface IRecord {
-  month: string,
-  count: number,
+  year: number,
+  // month is a number from 0 - 11:
+  month: number,
+  // day is a number from 1 - 31:
+  day: number,
+  endpoint: string,
+  // the id of one of the user's projects:
+  project: string,
+}
+
+export interface IUserProfile {
+  email?: string,
+  firstname?: string,
+  lastname?: string,
+  username?: string,
 }
 
 export interface IUser extends Document {
+  account_type?: [number, number],
   created_at?: number,
   email: string,
   username: string,
+  firstname?: string,
+  lastname?: string,
   password: string,
   api_key?: string,
-  projects?: IProduct[],
+  projects?: IProject[],
   usage?: IRecord[],
+  usage_count?: number,
   encryptPassword(pw: string): string,
   comparePassword(pw: string): boolean,
 }
@@ -48,16 +64,22 @@ export interface IAuthRouteReturn {
   accessToken?: string,
 }
 
+export interface IAuthPropReturn {
+  apiKey?: string,
+  accessToken?: string,
+  projects?: IProject[],
+}
+
 // if 'success', the payload will be the user,
 // if 'error', the payload will be a message
 export interface IBasicResponse {
-  status: 'success'|'error',
+  status: 'success' | 'error',
   payload: string,
 }
 
 export interface ILoginResponse {
   message: string,
-  userId: string|undefined,
-  accessToken: string|undefined,
-  refreshToken: string|undefined,
+  userId: string | undefined,
+  accessToken: string | undefined,
+  refreshToken: string | undefined,
 }

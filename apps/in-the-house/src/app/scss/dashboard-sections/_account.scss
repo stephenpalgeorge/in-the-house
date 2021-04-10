@@ -1,0 +1,77 @@
+.section--dashboard-account {
+  .account-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .user-info {
+    line-height: 1.8;
+    mark {
+      font-family: $font-family--serif;
+      font-weight: $font-weight--heavy;
+      background-color: rgba($color--secondary, 0.2);
+    }
+
+    span {
+      text-decoration: underline;
+    }
+
+    a {
+      font-family: $font-family--serif;
+      color: $color--primary;
+      text-decoration: underline;
+      transition: color .2s ease;
+
+      &:hover {
+        color: $color--primary--darkened;
+      }
+    }
+  }
+
+  .account-controls {
+    button:not(#change-password) {
+      padding: 0.5rem 1rem;
+      box-shadow: $box-shadow--base-bottom;
+      border: 0.125rem solid $color--light;
+      background-color: $color--status-warning;
+      color: $color--dark;
+      font-family: $font-family--serif;
+      cursor: pointer;
+
+      transition: background 0.2s ease, box-shadow 0.2s ease;
+      &:hover {
+        box-shadow: none;
+        background-color: darken($color--status-warning, 10%);
+      }
+
+      &:focus {
+        outline: 0.125rem solid darken($color--status-warning, 10%);
+      }
+
+      @media screen and (max-width: 767px) {
+        width: 100%;
+      }
+    }
+
+    > button + button {
+      margin-left: 1rem;
+      @media screen and (max-width: 767px) {
+        margin-left: 0;
+        margin-top: 1rem;
+      }
+    }
+  }
+
+  button#change-password {
+    width: fit-content;
+    padding: 0.5rem 1rem;
+    font-family: $font-family--serif;
+    background: $color--light;
+  }
+
+  > form {
+    padding-top: $vertical-flow;
+    border-top: 1px solid $color--dark-grey;
+  }
+}

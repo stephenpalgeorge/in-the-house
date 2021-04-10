@@ -1,0 +1,35 @@
+.icons-row {
+  background-color: $color--dark;
+  box-shadow: $box-shadow--base-bottom;
+  display: flex;
+  width: fit-content;
+  margin-top: $vertical-flow;
+
+  &__icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  > * + * {
+    margin-left: $horizontal-flow;
+  }
+
+  &__icon--sm {
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0.5rem;
+  }
+
+  &__icon--md {
+    width: 3rem;
+    height: 3rem;
+    padding: 0.5rem;
+  }
+
+  &__icon--lg {
+    width: 5rem;
+    height: 5rem;
+    padding: 1rem;
+  }
+}

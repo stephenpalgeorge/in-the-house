@@ -1,0 +1,75 @@
+@each $name, $size in $font-sizes {
+  %font-size--#{$name} {
+    font-size: $size;
+  }
+
+  .font-size--#{$name} {
+    @extend %font-size--#{$name};
+  }
+}
+.font-size--base {
+  line-height: 1.8;
+}
+.font-size--large {
+  line-height: 1.5;
+}
+
+@each $name, $family in $font-families {
+  %font-family--#{$name} {
+    font-family: $family;
+  }
+
+  .font-family--#{$name} {
+    @extend %font-family--#{$name};
+  }
+}
+
+@each $name, $weight in $font-weights {
+  %font-weight--#{$name} {
+    font-weight: $weight;
+  }
+
+  .font-weight--#{$name} {
+    @extend %font-weight--#{$name};
+  }
+}
+
+@each $name, $height in $line-heights {
+  %line-height--#{$name} {
+    line-height: $height;
+  }
+
+  .line-height--#{$name} {
+    @extend %line-height--#{$name};
+  }
+}
+
+h1 {
+  @extend %font-size--h1;
+  font-weight: 900;
+}
+
+h2 {
+  @extend %font-size--h2;
+  font-weight: 900;
+}
+
+h3 {
+  @extend %font-size--h3;
+  font-weight: 900;
+}
+
+h4 {
+  @extend %font-size--h4;
+  font-weight: 400;
+}
+
+h5 {
+  @extend %font-size--h5;
+  font-weight: 400;
+}
+
+h6 {
+  @extend %font-size--h6;
+  font-weight: 300;
+}

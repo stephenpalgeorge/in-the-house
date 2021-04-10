@@ -1,0 +1,36 @@
+.section--billing {
+  mark {
+    background-color: rgba($color--secondary, .2);
+    font-family: $font-family--serif;
+    font-weight: $font-weight--heavy;
+  }
+
+  ul {
+    list-style-type: none;
+    li {
+      > p:nth-child(1) {
+        font-family: $font-family--serif;
+        margin-bottom: .5rem;
+        font-weight: 900;
+      }
+  
+      > p:nth-child(2) {
+        font-weight: $font-weight--light;
+      }
+    }
+  
+    li + li {
+      margin-top: $vertical-flow;
+      padding-top: $vertical-flow;
+      border-top: 1px solid $color--dark-grey;
+    }
+
+    mark {
+      background-color: rgba($color--primary, .2);
+      &#stand-out {
+        background-color: rgba($color--status-success, .4);
+      }
+    }
+  }
+
+}

@@ -1,0 +1,60 @@
+.signup-form {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  padding: $vertical-flow $horizontal-flow;
+  box-shadow: $box-shadow--large-bottom;
+  background-color: rgba($color--primary, 0.8);
+  backdrop-filter: blur(0.125rem);
+
+  .form__form-field input {
+    border-color: $color--primary--darkened;
+    &:focus {
+      outline-color: $color--primary--darkened;
+    }
+  }
+
+  span.error {
+    background-color: $color--primary--darkened;
+  }
+
+  button[type='submit']:focus {
+    outline-color: $color--primary--darkened;
+  }
+
+  button.close-signup-form {
+    position: absolute;
+    top: 0.8rem;
+    right: 0.8rem;
+    width: 1.8rem;
+    height: 1.8rem;
+    background: none;
+    border: none;
+    border-radius: 0.125rem;
+    transform: rotate(45deg);
+    cursor: pointer;
+
+    > .cross-bar {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transform-origin: center;
+      width: 80%;
+      height: 20%;
+      background-color: darken($color--primary, 40%);
+
+      &:nth-last-child(1) {
+        transform: translate(-50%, -50%) rotate(90deg);
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .signup-form {
+    max-width: 24rem;
+    border: 0.125rem solid #fff;
+  }
+}

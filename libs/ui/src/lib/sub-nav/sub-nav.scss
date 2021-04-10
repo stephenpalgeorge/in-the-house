@@ -1,0 +1,38 @@
+.sub-nav {
+  margin-top: $vertical-flow * 2;
+  margin-bottom: $vertical-flow;
+  padding-bottom: 0.5rem;
+  position: relative;
+  display: flex;
+  flex-flow: row nowrap;
+  background-color: transparent;
+  border-bottom: 1px solid $color--dark-grey;
+  overflow-x: scroll;
+
+  > a {
+    flex-shrink: 0;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    color: $color--dark;
+    font-weight: 900;
+
+    &.active {
+      font-weight: $font-weight--heavy;
+      color: $color--primary;
+      text-decoration: underline;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &:focus {
+      background-color: rgba($color--primary, .1);
+      outline: none;
+    }
+  }
+
+  > a + a {
+    margin-left: 1rem;
+  }
+}

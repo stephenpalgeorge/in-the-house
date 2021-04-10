@@ -19,10 +19,11 @@
             "tsConfig": "apps/in-the-house/tsconfig.app.json",
             "assets": [
               "apps/in-the-house/src/favicon.ico",
-              "apps/in-the-house/src/assets"
+              "apps/in-the-house/src/app/assets"
             ],
             "styles": [
-              "apps/in-the-house/src/styles.scss"
+              "apps/in-the-house/src/styles.scss",
+              "libs/ui/src/scss/index.scss"
             ],
             "scripts": [],
             "webpackConfig": "@nrwl/react/plugins/webpack"

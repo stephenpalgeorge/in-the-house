@@ -1,0 +1,53 @@
+.section--usage {
+  progress[value] {
+    appearance: none;
+    &::-webkit-progress-bar {
+      background-color: rgba($color--primary, .2);
+      border: 1px solid $color--dark;
+    }
+    &::-webkit-progress-value {
+      background-color: $color--primary;
+    }
+  }
+
+  .chart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: $vertical-flow $horizontal-flow;
+    width: 100%;
+    background-color: $color--light;
+    border: 1px solid $color--secondary;
+
+    p {
+      font-family: $font-family--serif;
+      font-weight: $font-weight--heavy;
+    }
+
+  }
+
+  mark {
+    background-color: rgba($color--secondary, .2);
+    font-family: inherit;
+    font-weight: $font-weight--heavy;
+  }
+
+  .usage-summary__numbers {
+    width: fit-content;
+    font-size: $font-size--large;
+    font-weight: $font-weight--heavy;
+    letter-spacing: .125rem;
+
+    &.medium {
+      background-color: rgba($color--status-warning, .5);
+    }
+    &.high {
+      background-color: rgba($color--status-error, .5);
+    }
+
+    span {
+      font-weight: $font-weight--light;
+      color: $color--dark;
+    }
+  }
+}

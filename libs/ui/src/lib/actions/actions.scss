@@ -1,0 +1,36 @@
+.actions-block {
+  margin-top: $vertical-flow;
+  display: flex;
+
+  a.actions-block__action {
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    font-family: $font-family--serif;
+    font-size: $font-size--large;
+    text-align: center;
+    background-color: $color--light;
+  }
+
+  a + a {
+    margin-left: $horizontal-flow;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .actions-block {
+    flex-direction: column;
+    padding: $vertical-flow $horizontal-flow;
+    margin: 0 -$horizontal-flow;
+    background-color: $color--grey;
+
+    a {
+      width: 100%;
+      padding: 1rem;
+    }
+
+    a + a {
+      margin-left: 0;
+      margin-top: $vertical-flow;
+    }
+  }
+}

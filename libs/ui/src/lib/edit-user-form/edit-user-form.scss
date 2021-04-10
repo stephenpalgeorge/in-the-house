@@ -1,0 +1,35 @@
+.edit-user-form {
+  label {
+    color: $color--dark;
+  }
+
+  .form__form-field input:focus {
+    outline-color: darken($color--amber, 10%);
+  }
+
+  button[type='submit'] {
+    width: fit-content;
+    padding: 0.5rem 1rem;
+    border: 0.125rem solid $color--light;
+    box-shadow: $box-shadow--base-bottom;
+    background-color: $color--green;
+    color: $color--light;
+    cursor: pointer;
+
+    font-family: $font-family--serif;
+
+    transition: box-shadow 0.2s ease, background 0.2s ease;
+    &:hover {
+      box-shadow: none;
+      background-color: darken($color--green, 10%);
+    }
+
+    &:focus {
+      outline: 0.125rem solid darken($color--green, 10%);
+    }
+
+    @media screen and (max-width: 767px) {
+      width: 100%;
+    }
+  }
+}
