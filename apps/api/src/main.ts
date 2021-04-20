@@ -13,18 +13,10 @@ import { IUser } from '@in-the-house/api-interfaces';
 // define initial variables
 const app = express();
 const PORT = process.env.port || 3333;
-const URI = `mongodb+srv://stephenpg:${process.env.DB_PASSWORD}@cluster0.2hnpx.mongodb.net/ith-database?retryWrites=true&w=majority`;
-
-// on the first of every month (at midnight, 00:00), reset every user's
-// 'usage_count' to 0:
-cron.schedule('0 0 1 * *', async () => {
-  const users: IUser[] = await User.find({});
-  if (users.length === 0) return;
-  users.forEach(user => {
-    user.usage_count = 0;
-    user.save();
-  });
-});
+const PASSWORD = encodeURIComponent(process.env.DB_PASSWORD);
+const USER = encodeURIComponent(process.env.DB_USERNAME);
+const URI = `mongodb+srv://${USER}:${PASSWORD}@cluster0.2hnpx.mongodb.net/ith-database?retryWrites=true&w=majority`;
+console.log(URI);
 
 /**
  * connect to the database
@@ -40,6 +32,17 @@ mongoose.connect(URI, {
 })
   .then(() => {
     console.log('successfully connected to the DB...');
+    // on the first of every month (at midnight, 00:00), reset every user's
+    // 'usage_count' to 0:
+    cron.schedule('0 0 1 * *', async () => {
+      const users: IUser[] = await User.find({});
+      if (users.length === 0) return;
+      users.forEach(user => {
+        user.usage_count = 0;
+        user.save();
+      });
+    });
+
     // define static assets
     app.use(express.static(path.join(__dirname, '..', 'in-the-house')));
     // register middleware
