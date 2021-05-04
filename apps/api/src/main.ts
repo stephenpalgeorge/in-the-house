@@ -16,7 +16,6 @@ const PORT = process.env.port || 3333;
 const PASSWORD = encodeURIComponent(process.env.DB_PASSWORD);
 const USER = encodeURIComponent(process.env.DB_USERNAME);
 const URI = `mongodb+srv://${USER}:${PASSWORD}@cluster0.2hnpx.mongodb.net/ith-database?retryWrites=true&w=majority`;
-console.log(URI);
 
 /**
  * connect to the database

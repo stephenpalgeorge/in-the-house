@@ -17,7 +17,7 @@ export function Billing() {
         </li>
         <li>
           <p><mark>Standard</mark> - £5 / €6 / $7 per month</p>
-          <p>With a standard account, you can have up to 3 different projects, and up to 3000 API calls/month per project.</p>
+          <p>With a standard account, you can have up to 3 different projects, and up to 20,000 API calls/month.</p>
         </li>
         <li>
           <p><mark id="stand-out">Unlimited</mark> - £10 / €12 / $14 per month</p>

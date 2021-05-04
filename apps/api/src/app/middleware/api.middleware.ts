@@ -84,7 +84,7 @@ export async function usageMiddleware(req: IApiRequest, res: Response, next: Nex
       const tier: number = user.account_type[0];
       if (
         (tier === 0 && currentPeriodUsage.length >= 250) ||
-        (tier === 1 && currentPeriodUsage.length >= 3000)
+        (tier === 1 && currentPeriodUsage.length >= 20000)
       ) {
         const error: IErrorObject = { type: 'Too many requests', message: 'You have exceeded the number of requests allowed by your account type.' }
         res.status(429).json(error);

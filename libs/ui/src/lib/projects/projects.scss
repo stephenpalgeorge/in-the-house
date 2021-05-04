@@ -1,11 +1,18 @@
 .project {
   display: flex;
   align-items: center;
+  @media screen and (max-width: 767px) {
+    flex-flow: row wrap;
+  }
+
   &-origin {
     font-family: $font-family--serif;
     font-weight: $font-weight--heavy;
     flex-basis: 25%;
     overflow: scroll;
+    @media screen and (max-width: 767px) {
+      flex-basis: 100%;
+    }
   }
   &-id {
     flex-grow: 1;
@@ -23,6 +30,9 @@
 
   & > * + * {
     margin-left: 1rem;
+    @media screen and (max-width: 767px) {
+      margin-left: 0;
+    }
   }
 
   button {

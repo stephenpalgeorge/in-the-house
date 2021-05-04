@@ -62,9 +62,8 @@ export default User;
  * The user's account type is represented by 2 numbers in an array: [tier, billable?];
  *   - tier:
  *     - 0: "limited account". Intended for development purposes only, this account type limits
- *         the user to only 1 project, a maximum of 250 requests/month, and access to a limited set
- *         results.
- *     - 1: "standard account". This account type allows up to 3 projects, 3000 requests/month and
+ *         the user to only 1 project, a maximum of 250 requests/month.
+ *     - 1: "standard account". This account type allows up to 3 projects, 20,000 requests/month and
  *         access to all results on all endpoints.
  *     - 2: "unlimited account". This account type allows unlimited projects, unlimited requests/month
  *         and access to all results on all endpoints.
