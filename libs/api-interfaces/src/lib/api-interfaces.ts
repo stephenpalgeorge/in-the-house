@@ -18,9 +18,10 @@ export enum EmailSender {
 }
 
 export enum EmailTemplates {
-  welcome = 'welcome',
+  newApiKey = 'new-api-key',
   passwordChange = 'password-change',
   projectDelete = 'project-delete',
+  welcome = 'welcome',
 }
 
 export interface IEmailTemplate {

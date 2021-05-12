@@ -164,7 +164,7 @@ export async function fetchApiKey(userId: string): Promise<string | undefined> {
  * @param userId {String} the unique identifier for the user that should be updated
  * 
  */
-export async function generateApiKey(userId: string): Promise<string | undefined> {
+export async function generateApiKey(userId: string): Promise<{ user: IUser, key: string } | undefined> {
   try {
     const user: IUser = await User.findById(userId);
     if (!user) return undefined;
@@ -172,7 +172,10 @@ export async function generateApiKey(userId: string): Promise<string | undefined
     const newKey = keys.generateKey();
     user.api_key = newKey;
     user.save();
-    return newKey;
+    return {
+      user,
+      key: newKey,
+    };
   } catch (err) {
     console.error(err);
     return undefined;

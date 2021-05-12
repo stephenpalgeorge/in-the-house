@@ -219,12 +219,15 @@ router.post(
   [authMiddleware.accessMiddleware, authMiddleware.refreshMiddleware],
   async (req: IDataRequest, res: Response) => {
     const { id: userId } = req.params;
-    const apiKey = await userService.generateApiKey(userId);
-    if (!apiKey) {
+    const response = await userService.generateApiKey(userId);
+    if (!response) {
       const error: IErrorObject = { type: 'Server error', message: 'Could not create an API Key' };
       res.status(500).json(error);
     } else {
-      const data: IAuthPropReturn = { apiKey };
+      // send notification email:
+      mail.send(EmailTemplates.newApiKey, response.user);
+      // send response
+      const data: IAuthPropReturn = { apiKey: response.key };
       auth.sendAuthResponse(req, res, data);
     }
   }
