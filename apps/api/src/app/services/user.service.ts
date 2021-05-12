@@ -19,7 +19,7 @@ export async function createUser(email: string, password: string, username: stri
     // create new user:
     const newUser: IUser = new User({ email, password, username });
     await newUser.save();
-    return { status: 'success', payload: newUser.id };
+    return { status: 'success', payload: newUser.id, context: newUser };
   } catch (err) {
     return { status: 'error', payload: err };
   }

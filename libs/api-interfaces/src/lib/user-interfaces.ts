@@ -75,6 +75,7 @@ export interface IAuthPropReturn {
 export interface IBasicResponse {
   status: 'success' | 'error',
   payload: string,
+  context?: IUser,
 }
 
 export interface ILoginResponse {

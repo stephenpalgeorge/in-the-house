@@ -5,7 +5,7 @@ import { Route, Switch } from 'react-router-dom';
 import { AuthContext } from './contexts/auth.context';
 import { ModalsContext } from './contexts/modals.context';
 import { Modals } from '@in-the-house/ui';
-import { defaultNav, menuNav } from './config/nav-items';
+import { menuNav } from './config/nav-items';
 
 import {
   BuildingPage,
@@ -61,7 +61,7 @@ export const App = () => {
         </Route>
 
         <Route path="/" exact>
-          <LandingPage version="beta 0.0.1" />
+          <LandingPage version="0.0.1" />
         </Route>
 
         <Route component={NotFound} />

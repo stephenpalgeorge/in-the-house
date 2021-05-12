@@ -1,9 +1,11 @@
 import { Request, Router, Response } from 'express';
 import { check, validationResult } from 'express-validator';
-import { auth } from '../helpers';
+// import * as nodemailer from 'nodemailer';
+import { auth, mail } from '../helpers';
 import { authMiddleware } from '../middleware';
 import { userService } from '../services';
 import {
+  EmailTemplates,
   IAuthPropReturn,
   IAuthRouteReturn,
   IBasicResponse,
@@ -53,8 +55,12 @@ router.post('/signup', [
     const { email, password, username } = req.body;
     const newUser: IBasicResponse = await userService.createUser(email, password, username);
     if (newUser.status === 'error') throw newUser.payload;
-    // payload will be the userId in this scenario:
-    else res.status(201).json({ user: newUser.payload });
+    else {
+      // send welcome email:
+      mail.sendMail(EmailTemplates.welcome, newUser.context);
+      // payload will be the userId in this scenario:
+      res.status(201).json({ user: newUser.payload });
+    }
   } catch (err) {
     const error: IErrorObject = { type: 'Unprocessable Entity', message: err };
     res.status(422).json({ error });
@@ -169,6 +175,9 @@ router.put(
       const error: IErrorObject = { type: 'Internal server error', message: 'could not update the user password - check you correctly entered your current password.' }
       res.status(500).json(error);
     } else {
+      // send password-change email:
+      mail.sendMail(EmailTemplates.passwordChange, user);
+      // send response
       const data: IAuthRouteReturn = { user };
       auth.sendAuthResponse(req, res, data);
     }
