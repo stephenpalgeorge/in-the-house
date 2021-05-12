@@ -84,3 +84,9 @@ export interface ILoginResponse {
   accessToken: string | undefined,
   refreshToken: string | undefined,
 }
+
+export interface IDeleteProjectResponse {
+  projects: IProject[],
+  user: IUser,
+  targetProject: string,
+}

@@ -1,6 +1,8 @@
-import { EmailAccount, EmailSender, IEmailTemplate, IUser } from '@in-the-house/api-interfaces';
+import { EmailAccount, EmailSender, IEmailTemplate, ITemplateFuncSignature } from '@in-the-house/api-interfaces';
 
-export function passwordChangeEmail(user: IUser, data = {}): IEmailTemplate {
+export function passwordChangeEmail(info: ITemplateFuncSignature): IEmailTemplate {
+  const { user } = info;
+
   return {
     account: EmailAccount.admin,
     sender: EmailSender.admin,

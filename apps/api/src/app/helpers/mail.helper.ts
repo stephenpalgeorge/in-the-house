@@ -39,8 +39,8 @@ const transporters = {
   support: support_transporter,
 };
 
-export function sendMail(template: EmailTemplates, user: IUser, data = {}) {
-  const email: IEmailTemplate = templates[template](user, data);
+export function send(template: EmailTemplates, user: IUser, data = {}) {
+  const email: IEmailTemplate = templates[template]({ user, data });
   const transporter = transporters[email.account];
   const mailOptions = {
     from: email.sender,

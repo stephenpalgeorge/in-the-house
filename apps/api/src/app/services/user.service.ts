@@ -1,6 +1,6 @@
 import { User } from '../models';
 import { keys, tokens } from '../helpers';
-import { IBasicResponse, ILoginResponse, IProject, IUser, IUserProfile } from '@in-the-house/api-interfaces';
+import { IBasicResponse, IDeleteProjectResponse, ILoginResponse, IProject, IUser, IUserProfile } from '@in-the-house/api-interfaces';
 
 /**
  * CREATE USER
@@ -244,17 +244,25 @@ export async function addProject(userId: string, origin: string): Promise<IProje
  * of the projectId. Return the updated list of projects.
  * 
  */
-export async function deleteProject(userId: string, projectId: string): Promise<IProject[] | undefined> {
+export async function deleteProject(userId: string, projectId: string): Promise<IDeleteProjectResponse | undefined> {
   try {
     const user: IUser = await User.findById(userId);
     if (!user) return undefined;
     // get the index of the projectId from the user.projects array.
     const index = user.projects.map(p => p.id).indexOf(projectId);
     if (index === -1) return undefined;
+    // store a reference to the project that is to be deleted. We need it's name for the notification email:
+    const targetProject = user.projects[index];
+    // set the projects to a copy of the projects array that doesn't include the target project:
     user.projects = [...user.projects.slice(0, index), ...user.projects.slice(index + 1)];
+    // only keep usage records that DON'T pertain to the target project:
     user.usage = user.usage.filter(record => record.project !== projectId);
     await user.save();
-    return user.projects;
+    return {
+      projects: user.projects,
+      user,
+      targetProject: targetProject.origin,
+    };
   } catch (err) {
     console.error(err);
     return undefined;

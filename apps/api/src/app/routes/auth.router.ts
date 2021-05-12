@@ -57,7 +57,7 @@ router.post('/signup', [
     if (newUser.status === 'error') throw newUser.payload;
     else {
       // send welcome email:
-      mail.sendMail(EmailTemplates.welcome, newUser.context);
+      mail.send(EmailTemplates.welcome, newUser.context);
       // payload will be the userId in this scenario:
       res.status(201).json({ user: newUser.payload });
     }
@@ -176,7 +176,7 @@ router.put(
       res.status(500).json(error);
     } else {
       // send password-change email:
-      mail.sendMail(EmailTemplates.passwordChange, user);
+      mail.send(EmailTemplates.passwordChange, user);
       // send response
       const data: IAuthRouteReturn = { user };
       auth.sendAuthResponse(req, res, data);
@@ -286,12 +286,16 @@ router.delete(
   async (req: IDataRequest, res: Response) => {
     const { id: userId } = req.params;
     const { projId } = req.body;
-    const projects = await userService.deleteProject(userId, projId);
-    if (!projects) {
+    const response = await userService.deleteProject(userId, projId);
+    if (!response) {
       const error: IErrorObject = { type: 'Bad request', message: 'could not delete your project.' }
       res.status(400).json(error);
     } else {
-      const data: IAuthPropReturn = { projects };
+      console.log('send the email after this:');
+      // send notification email:
+      mail.send(EmailTemplates.projectDelete, response.user, { projectName: response.targetProject });
+      // send response:
+      const data: IAuthPropReturn = { projects: response.projects };
       auth.sendAuthResponse(req, res, data);
     }
   }

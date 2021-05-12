@@ -1,4 +1,5 @@
 import { Request } from 'express';
+import { IUser } from './user-interfaces';
 
 export interface IApiRequest extends Request {
   userId?: string,
@@ -19,6 +20,7 @@ export enum EmailSender {
 export enum EmailTemplates {
   welcome = 'welcome',
   passwordChange = 'password-change',
+  projectDelete = 'project-delete',
 }
 
 export interface IEmailTemplate {
@@ -26,4 +28,13 @@ export interface IEmailTemplate {
   sender: EmailSender,
   subject: string,
   contents: string,
+}
+
+export interface IEmailData {
+  projectName?: string,
+}
+
+export interface ITemplateFuncSignature {
+  user: IUser,
+  data?: IEmailData,
 }
