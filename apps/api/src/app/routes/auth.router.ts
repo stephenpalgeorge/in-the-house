@@ -1,6 +1,5 @@
 import { Request, Router, Response } from 'express';
 import { check, validationResult } from 'express-validator';
-// import * as nodemailer from 'nodemailer';
 import { auth, mail } from '../helpers';
 import { authMiddleware } from '../middleware';
 import { userService } from '../services';
@@ -56,10 +55,11 @@ router.post('/signup', [
     const newUser: IBasicResponse = await userService.createUser(email, password, username);
     if (newUser.status === 'error') throw newUser.payload;
     else {
-      // send welcome email:
-      mail.send(EmailTemplates.welcome, newUser.context);
-      // payload will be the userId in this scenario:
-      res.status(201).json({ user: newUser.payload });
+      // send welcome and verification emails:
+      mail.send(EmailTemplates.welcome, newUser.payload);
+      mail.send(EmailTemplates.verify, newUser.payload);
+      // payload will be the user object in this scenario:
+      res.status(201).json({ user: newUser.payload.id });
     }
   } catch (err) {
     const error: IErrorObject = { type: 'Unprocessable Entity', message: err };
@@ -183,6 +183,25 @@ router.put(
     }
   }
 );
+
+/**
+ * VERIFY USER
+ * ----------
+ * 'auth/user/:id/verify' - where :id is a user's unique id.
+ * This route is solely for updating the 'verification' property of a single user.
+ * 
+ */
+router.put('/user/:id/verify', async (req: Request, res: Response) => {
+  const { id: userId } = req.params;
+  const { hash } = req.body;
+  const user = await userService.verifyUser(userId, hash);
+  if (!user) {
+    const error: IErrorObject = { type: 'Bad request', message: 'Could not verify this user account' };
+    res.status(400).json(error);
+  } else {
+    res.status(200).json({user});
+  }
+});
 
 /**
  * FETCH API KEY

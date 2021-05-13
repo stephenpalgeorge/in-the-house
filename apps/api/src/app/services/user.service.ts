@@ -17,9 +17,10 @@ export async function createUser(email: string, password: string, username: stri
     const user: IUser = await User.findOne({ email }).exec();
     if (user) return { status: 'error', payload: 'this email address already has an account.' };
     // create new user:
-    const newUser: IUser = new User({ email, password, username });
+    const verificationHash: string = keys.generateKey(16);
+    const newUser: IUser = new User({ email, password, username, verification_hash: verificationHash });
     await newUser.save();
-    return { status: 'success', payload: newUser.id, context: newUser };
+    return { status: 'success', payload: newUser };
   } catch (err) {
     return { status: 'error', payload: err };
   }
@@ -131,6 +132,28 @@ export async function updateUserPassword(userId: string, updates: { current: str
     return user;
   } catch (err) {
     console.error(err);
+    return undefined;
+  }
+}
+
+/**
+ * VERIFY USER
+ * ----------
+ * Query the database for a single user document, filtered by id,
+ * update the user's `verify` property to `true` and return the given user.
+ * @param userId {String} teh unique identifier for the user that should be updated
+ * 
+ */
+export async function verifyUser(userId: string, hash: string): Promise<IUser | undefined> {
+  try {
+    const user: IUser = await User.findById(userId);
+    if (!user) return undefined;
+    if (user.verification_hash !== hash) return undefined;
+    user.verified = true;
+    await user.save();
+    return user;
+  } catch (err) {
+    console.log(err);
     return undefined;
   }
 }

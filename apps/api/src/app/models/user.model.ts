@@ -16,6 +16,8 @@ const userSchema: Schema = new Schema({
   projects: { type: Array, default: [] },
   usage: { type: Array, default: [] },
   usage_count: { type: Number, default: 0 },
+  verified: { type: Boolean, default: false },
+  verification_hash: { type: String },
 });
 
 // ----------

@@ -21,6 +21,7 @@ export enum EmailTemplates {
   newApiKey = 'new-api-key',
   passwordChange = 'password-change',
   projectDelete = 'project-delete',
+  verify = 'verify',
   welcome = 'welcome',
 }
 
