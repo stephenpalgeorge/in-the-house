@@ -56,10 +56,10 @@ router.post('/signup', [
     if (newUser.status === 'error') throw newUser.payload;
     else {
       // send welcome and verification emails:
-      mail.send(EmailTemplates.welcome, newUser.payload);
-      mail.send(EmailTemplates.verify, newUser.payload);
+      mail.send(EmailTemplates.welcome, newUser.context);
+      mail.send(EmailTemplates.verify, newUser.context);
       // payload will be the user object in this scenario:
-      res.status(201).json({ user: newUser.payload.id });
+      res.status(201).json({ user: newUser.payload });
     }
   } catch (err) {
     const error: IErrorObject = { type: 'Unprocessable Entity', message: err };
@@ -199,7 +199,29 @@ router.put('/user/:id/verify', async (req: Request, res: Response) => {
     const error: IErrorObject = { type: 'Bad request', message: 'Could not verify this user account' };
     res.status(400).json(error);
   } else {
-    res.status(200).json({user});
+    res.status(200).json({ user });
+  }
+});
+
+/**
+ * VERIFY RESEND
+ * ----------
+ * 'auth/user/verify-resend'.
+ * This route should expect an email address in the request body. It is responsible
+ * for then generating a new verification hash and emailing the user with an updated link.
+ * 
+ */
+router.put('/user/verify-resend', async (req: Request, res: Response) => {
+  const { email } = req.body;
+  const user = await userService.verifyResend(email);
+  if (!user) {
+    const error: IErrorObject = { type: 'Unauthorized', message: 'Could not find a user with that email address.' };
+    res.status(401).json(error);
+  } else {
+    // send verification email:
+    mail.send(EmailTemplates.verify, user);
+    // send response:
+    res.status(200).json({ user });
   }
 });
 

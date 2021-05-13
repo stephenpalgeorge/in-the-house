@@ -1,5 +1,5 @@
 import { User } from '../models';
-import { keys, tokens } from '../helpers';
+import { keys, mail, tokens } from '../helpers';
 import { IBasicResponse, IDeleteProjectResponse, ILoginResponse, IProject, IUser, IUserProfile } from '@in-the-house/api-interfaces';
 
 /**
@@ -18,9 +18,9 @@ export async function createUser(email: string, password: string, username: stri
     if (user) return { status: 'error', payload: 'this email address already has an account.' };
     // create new user:
     const verificationHash: string = keys.generateKey(16);
-    const newUser: IUser = new User({ email, password, username, verification_hash: verificationHash });
+    const newUser: IUser = new User({ email, password, username, verification_hash: verificationHash, verified: false });
     await newUser.save();
-    return { status: 'success', payload: newUser };
+    return { status: 'success', payload: newUser.id, context: newUser };
   } catch (err) {
     return { status: 'error', payload: err };
   }
@@ -154,6 +154,29 @@ export async function verifyUser(userId: string, hash: string): Promise<IUser | 
     return user;
   } catch (err) {
     console.log(err);
+    return undefined;
+  }
+}
+
+/**
+ * VERIFY RESEND
+ * ----------
+ * Query the database for a single user, filtered by email address,
+ * update the user's verification hash to a new, random, string and send a new email!
+ * @param email {String} the email address for the user in question
+ */
+export async function verifyResend(email: string): Promise<IUser | undefined> {
+  try {
+    const user: IUser = await User.findOne({ email });
+    if (!user) return undefined;
+
+    // new verification hash:
+    const hash: string = keys.generateKey(16);
+    user.verification_hash = hash;
+    await user.save();
+    return user;
+  } catch (err) {
+    console.error(err);
     return undefined;
   }
 }
