@@ -206,12 +206,13 @@ router.put('/user/:id/verify', async (req: Request, res: Response) => {
 /**
  * VERIFY RESEND
  * ----------
- * 'auth/user/verify-resend'.
+ * 'auth/verify-resend'.
  * This route should expect an email address in the request body. It is responsible
  * for then generating a new verification hash and emailing the user with an updated link.
  * 
  */
-router.put('/user/verify-resend', async (req: Request, res: Response) => {
+router.put('/verify-resend', async (req: Request, res: Response) => {
+  console.log(req.body);
   const { email } = req.body;
   const user = await userService.verifyResend(email);
   if (!user) {
