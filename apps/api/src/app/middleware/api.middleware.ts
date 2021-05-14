@@ -1,5 +1,6 @@
 import { IApiRequest, IErrorObject, IRecord, IUser } from '@in-the-house/api-interfaces';
 import { NextFunction, Response } from 'express';
+import { renameSync } from 'node:fs';
 import { User } from '../models';
 
 /**
@@ -52,7 +53,7 @@ export async function keyMiddleware(req: IApiRequest, res: Response, next: NextF
  * This middleware is used to keep track of the user's usage of the API on every
  * request to any api endpoint. As well as counting the requests (and some associated data),
  * the middleware will verify that a user's has not exceeded the number of requests afforded
- * them by their account type.
+ * them by their account type. This middleware will also error if the user is not verified.
  * 
  * @param req {Request} the express Request object
  * @param res {Response} the express Response object
@@ -70,6 +71,11 @@ export async function usageMiddleware(req: IApiRequest, res: Response, next: Nex
       const error: IErrorObject = { type: 'Not found', message: 'could not find a user for this request...' };
       res.status(404).json(error);
     } else {
+      // error if user is not verified:
+      if (!user.verified) {
+        const error: IErrorObject = { type: 'Unauthorized', message: 'could not complete the request as this user\'s account has not been verified.' };
+        res.status(403).json(error);
+      }
       // collect usage for the current month:
       const currentPeriodUsage: IRecord[] = user.usage.filter(record => {
         const today = new Date();
