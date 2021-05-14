@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
 import { IVerifyURLParams } from '@in-the-house/api-interfaces';
@@ -118,13 +118,21 @@ export function VerifyPage() {
       </Helmet>
 
       <Stack>
-        <h1>Verifying your account...</h1>
-        <p>
-          We're just checking to make sure everything's as it should be. Once your
-          account has been verified, you'll be able to use the API to the full extent
-          of whatever tier you are on. If you have any questions, or if you've been sat
-          on this page for ages and nothing has happened...just <a href="mailto:support@inthehouse.dev">email us</a>.
-        </p>
+        <h1>{verified ? "You're verified!" : "Verifying your account..."}</h1>
+        {
+          verified ?
+            <p>
+              Everything's fine :) Now that your account is verified, you can get your api keys and start building
+              your thing. If you ever need more access to the API, you can upgrade your account type in the 'billing'
+              section of your dashboard. Happy building.
+          </p> :
+            <p>
+              We're just checking to make sure everything's as it should be. Once your
+              account has been verified, you'll be able to use the API to the full extent
+              of whatever tier you are on. If you have any questions, or if you've been sat
+            on this page for ages and nothing has happened...just <a href="mailto:support@inthehouse.dev">email us</a>.
+          </p>
+        }
         {
           !verified &&
           <form className="form" onSubmit={e => {
@@ -146,6 +154,10 @@ export function VerifyPage() {
               Resend email
             </button>
           </form>
+        }
+        {
+          verified &&
+          <Link className="button-outline--primary button" to="/login">Login</Link>
         }
       </Stack>
     </BasicPage>

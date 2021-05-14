@@ -8,6 +8,11 @@
     color: $color--primary;
   }
 
+  .button {
+    padding: .5rem 1rem;
+    width: max-content;
+  }
+
   form {
     display: flex;
     flex-wrap: wrap;
