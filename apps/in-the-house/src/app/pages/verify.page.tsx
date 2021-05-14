@@ -5,11 +5,15 @@ import { Helmet } from 'react-helmet-async';
 import { IVerifyURLParams } from '@in-the-house/api-interfaces';
 import { BasicPage, Stack } from '@in-the-house/ui';
 import { menuNav } from '../config/nav-items';
+import { ModalsContext } from '../contexts/modals.context';
 
 export function VerifyPage() {
   const location = useLocation();
+
+  const [verified, setVerified] = React.useState<boolean>(false);
   const [searchParams, setSearchParams] = React.useState<IVerifyURLParams>({});
-  console.log(searchParams);
+  const [emailAddress, setEmailAddress] = React.useState<string>('');
+  const modalsContext = React.useContext(ModalsContext);
 
   function parseSearchParams(search: string): IVerifyURLParams {
     const params = {};
@@ -34,11 +38,74 @@ export function VerifyPage() {
     setSearchParams(params);
   }, []);
 
+  React.useEffect(() => {
+    const verifyUser = async (id: string, hash: string) => {
+      const response = await window.fetch(
+        `/auth/user/${id}/verify`,
+        {
+          method: "PUT",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ hash }),
+        }
+      );
+
+      if (response.ok) {
+        modalsContext.addModal({
+          name: 'Account verified!',
+          code: 200,
+          type: 'success',
+          message: 'You\'ve successfully verified your account! Login to get your API Keys and start building.',
+          isDismissible: true,
+        });
+        setVerified(true);
+      }
+      else {
+        modalsContext.addModal({
+          name: 'Verification failed',
+          code: 400,
+          type: 'error',
+          message: 'We couldn\'t verify your account. Try using the resend button below. If the problem persists, reach out at support@inthehouse.dev',
+        });
+      }
+    }
+
+    if (searchParams.id && searchParams.hash) {
+      verifyUser(searchParams.id, searchParams.hash);
+    }
+  }, [searchParams]);
+
   const handleResend = async () => {
     // hit the api `/verify-resend` endpoint.
     const response = await window.fetch(
-      '/auth/user/<id>'
-    );
+      '/auth/verify-resend', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email: emailAddress }),
+    });
+
+    if (response.ok) {
+      // handle success - add modal that says "email sent!"
+      modalsContext.addModal({
+        name: 'Email verification re-sent',
+        code: 200,
+        type: 'success',
+        message: 'Email resent, please check your inbox and click on your new link...',
+        isDismissible: true,
+      });
+    } else {
+      // handle error - add modal that says "could not send email..."
+      modalsContext.addModal({
+        name: 'Email send error',
+        code: 403,
+        type: 'error',
+        message: 'Could not resend the email, are you sure you gave the correct email address?',
+        isDismissible: true,
+      });
+    }
   }
 
   return (
@@ -58,9 +125,28 @@ export function VerifyPage() {
           of whatever tier you are on. If you have any questions, or if you've been sat
           on this page for ages and nothing has happened...just <a href="mailto:support@inthehouse.dev">email us</a>.
         </p>
-        <button onClick={handleResend} className="button-outline--red">
-          Resend email
-        </button>
+        {
+          !verified &&
+          <form className="form" onSubmit={e => {
+            e.preventDefault();
+            handleResend();
+          }}>
+            <div className="form__form-field">
+              <label htmlFor="email-address" className="form__form-field--label">Your email address:</label>
+              <input
+                autoComplete="email"
+                type="text"
+                name="email-address"
+                id="email-address"
+                value={emailAddress}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmailAddress(e.target.value)}
+              />
+            </div>
+            <button disabled={emailAddress.length < 1} type="submit">
+              Resend email
+            </button>
+          </form>
+        }
       </Stack>
     </BasicPage>
   );

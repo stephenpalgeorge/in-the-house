@@ -1,11 +1,33 @@
 .page--verify {
+  p {
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
   a {
     color: $color--primary;
   }
 
-  button {
-    background-color: $color--light;
-    padding: .5rem 1rem;
-    width: max-content;
+  form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    > div {
+      flex-grow: 999;
+    }
+
+    label {
+      color: $color--dark;
+    }
+
+    button[type="submit"] {
+      flex-basis: 25%;
+      margin-left: 1rem;
+      @media screen and (max-width: 767px) {
+        margin-left: 0;
+        margin-top: 1rem;
+        flex-basis: 100%;
+      }
+    }
   }
 }
