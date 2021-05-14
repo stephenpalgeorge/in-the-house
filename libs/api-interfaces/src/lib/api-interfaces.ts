@@ -40,3 +40,8 @@ export interface ITemplateFuncSignature {
   user: IUser,
   data?: IEmailData,
 }
+
+export interface IVerifyURLParams {
+  id?: string,
+  hash?: string,
+}

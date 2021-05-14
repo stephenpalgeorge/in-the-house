@@ -1,0 +1,11 @@
+.page--verify {
+  a {
+    color: $color--primary;
+  }
+
+  button {
+    background-color: $color--light;
+    padding: .5rem 1rem;
+    width: max-content;
+  }
+}

@@ -13,7 +13,8 @@ import {
   LandingPage,
   LoginPage,
   LogoutPage,
-  NotFound
+  NotFound,
+  VerifyPage,
 } from './pages';
 
 export const App = () => {
@@ -58,6 +59,10 @@ export const App = () => {
               We're also working on similar libraries for Vue, Svelte and web-components.
             </p>
           </BuildingPage>
+        </Route>
+
+        <Route path="/verify">
+          <VerifyPage />
         </Route>
 
         <Route path="/" exact>
