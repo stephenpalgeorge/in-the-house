@@ -14,7 +14,7 @@ const userSchema: Schema = new Schema({
   password: { type: String, required: true },
   api_key: { type: String, default: '' },
   projects: { type: Array, default: [] },
-  notifications: { type: Array, default: [] },
+  notifications: { type: Array, default: ['new-api-key', 'password-changed', 'project-deletion'] },
   usage: { type: Array, default: [] },
   usage_count: { type: Number, default: 0 },
   verified: { type: Boolean, default: false },
