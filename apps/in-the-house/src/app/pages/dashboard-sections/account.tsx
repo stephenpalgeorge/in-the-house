@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { PasswordForm, EditUserForm, Stack } from '@in-the-house/ui';
+import { PasswordForm, EditUserForm, Toggle, Stack } from '@in-the-house/ui';
 import { IUserProfile } from '@in-the-house/api-interfaces';
 
 import { AuthContext } from '../../contexts/auth.context';
@@ -104,6 +104,10 @@ export function Account({
     }
   }
 
+  const handleToggle = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    // console.log(e);
+  }
+
   return (
     <Stack sectionName="dashboard-account">
       <div className="account-header">
@@ -127,6 +131,12 @@ export function Account({
         (firstName.length <= 0 && lastName.length > 0) &&
         <p className="user-info">Your <span>last name</span> is <mark>{lastName}</mark></p>
       }
+
+      <div>
+        <h3>Email Notifications</h3>
+        <p>Turn off any emails that you don't want to receive by unchecking the relevant box below.</p>
+      </div>
+      <Toggle label="Testing" description="This is a demo toggle component used for testing and styling." handleApiCall={handleToggle} />
 
       <div className="account-controls">
         <button
