@@ -1,11 +1,12 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import { PasswordForm, EditUserForm, Toggle, Stack } from '@in-the-house/ui';
 import { IUserProfile } from '@in-the-house/api-interfaces';
 
 import { AuthContext } from '../../contexts/auth.context';
 import { ModalsContext } from '../../contexts/modals.context';
 import { updateUserPassword, updateUserProfile } from '../../fetch';
-import { Link } from 'react-router-dom';
+import toggles from '../../config/email-notifications';
 
 export interface AccountProps {
   email?: string,
@@ -105,7 +106,7 @@ export function Account({
   }
 
   const handleToggle = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    // console.log(e);
+    console.log(e);
   }
 
   return (
@@ -136,7 +137,11 @@ export function Account({
         <h3>Email Notifications</h3>
         <p>Turn off any emails that you don't want to receive by unchecking the relevant box below.</p>
       </div>
-      <Toggle label="Testing" description="This is a demo toggle component used for testing and styling." handleApiCall={handleToggle} />
+      {
+        toggles.map(t => {
+          return <Toggle label={t.label} description={t.description} handleApiCall={handleToggle} initial={t.initial} key={t.id} />
+        })
+      }
 
       <div className="account-controls">
         <button
