@@ -336,11 +336,32 @@ router.delete(
       const error: IErrorObject = { type: 'Bad request', message: 'could not delete your project.' }
       res.status(400).json(error);
     } else {
-      console.log('send the email after this:');
       // send notification email:
       mail.send(EmailTemplates.projectDelete, response.user, { projectName: response.targetProject });
       // send response:
       const data: IAuthPropReturn = { projects: response.projects };
+      auth.sendAuthResponse(req, res, data);
+    }
+  }
+);
+
+/**
+ * UPDATE NOTIFICATIONS
+ * ----------
+ * 'auth/user/:id/notifications'
+ */
+router.put(
+  'user/:id/notifications',
+  [authMiddleware.accessMiddleware, authMiddleware.refreshMiddleware],
+  async (req: IDataRequest, res: Response) => {
+    const { id: userId } = req.params;
+    const { notification } = req.body;
+    const response = await userService.updateNotifications(userId, notification);
+    if (!response) {
+      const error: IErrorObject = { type: 'Not found', message: 'could not update that user.' };
+      res.status(404).json(error);
+    } else {
+      const data: IAuthPropReturn = { id: userId };
       auth.sendAuthResponse(req, res, data);
     }
   }

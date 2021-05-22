@@ -34,6 +34,7 @@ export interface IUser extends Document {
   password: string,
   api_key?: string,
   projects?: IProject[],
+  notifications?: string[],
   usage?: IRecord[],
   usage_count?: number,
   verification_hash: string,
@@ -70,6 +71,7 @@ export interface IAuthPropReturn {
   apiKey?: string,
   accessToken?: string,
   projects?: IProject[],
+  id?: string,
 }
 
 // if 'success', the payload will be the user,

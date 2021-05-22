@@ -317,3 +317,29 @@ export async function deleteProject(userId: string, projectId: string): Promise<
     return undefined;
   }
 }
+
+/**
+ * UPDATE NOTIFICATIONS
+ * ----------
+ * Query the database for a single document, filtered by id,
+ * check for a notification name in the notifications array. If it exists,
+ * do nothing, otherwise, push it onto the array.
+ *
+ */
+export async function updateNotifications(userId: string, notification: string): Promise<boolean | undefined> {
+  try {
+    const user: IUser = await User.findById(userId);
+    if (!user) return undefined;
+    // if the notification already exists in the array, bail and return `true`:
+    if (user.notifications.includes(notification)) return true;
+    // otherwise, add it to the array and update the db:
+    else {
+      user.notifications.push(notification);
+      await user.save();
+      return true;
+    }
+  } catch (err) {
+    console.error(err);
+    return undefined;
+  }
+}
