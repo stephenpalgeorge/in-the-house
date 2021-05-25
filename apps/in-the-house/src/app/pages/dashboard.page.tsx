@@ -86,10 +86,12 @@ export const DashboardPage = React.memo(({ user }: DashboardPageProps) => {
           <Route path={`/dashboard/${params.userId}/account`}>
             <Card themeColor="light">
               <Account
+                accountType={user.account_type}
                 email={user.email}
                 firstName={user.firstname}
                 lastName={user.lastname}
                 username={user.username}
+                notifications={user.notifications}
               />
             </Card>
           </Route>

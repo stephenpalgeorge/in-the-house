@@ -13,6 +13,7 @@ export interface AccountProps {
   firstName?: string,
   lastName?: string,
   username?: string,
+  notifications?: string[],
   accountType?: [number, number],
 }
 
@@ -21,6 +22,7 @@ export function Account({
   firstName = '',
   lastName = '',
   username = '',
+  notifications = [],
   accountType = [0, 0],
 }: AccountProps) {
   const authContext = React.useContext(AuthContext);
@@ -28,8 +30,9 @@ export function Account({
 
   const [editPassword, setEditPassword] = React.useState<boolean>(false);
   const [editable, setEditable] = React.useState<boolean>(false);
+  const [emailNotifications, setEmailNotifications] = React.useState<string[]>(notifications);
   const [accountInfo, setAccountInfo] = React.useState<AccountProps>({
-    email, firstName, lastName, username
+    email, firstName, lastName, username,
   });
 
   const accountLevel = accountType[0] === 0 ? 'limited' : accountType[0] === 1 ? 'standard' : 'unlimited';
@@ -37,7 +40,8 @@ export function Account({
 
   React.useEffect(() => {
     setAccountInfo({ email, firstName, lastName, username });
-  }, [email, firstName, lastName, username]);
+    setEmailNotifications(notifications);
+  }, [email, firstName, lastName, username, notifications]);
 
   const handleEditSubmission = async (updates: IUserProfile) => {
     // check keys.length on updates object, if none, set modal and return
@@ -106,7 +110,26 @@ export function Account({
   }
 
   const handleToggle = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e);
+    // turning on a notification
+    if (e.target.checked) {
+      const response = await window.fetch(`/auth/user/${authContext.userId}/notifications`, {
+        method: 'PUT',
+        headers: {
+          'content-type': 'application/json',
+          authorization: `Bearer ${authContext.accessToken}`,
+        },
+        credentials: 'same-origin',
+        body: JSON.stringify({ notification: e.target.id }),
+      });
+
+      if (!response.ok) {
+        // handle error
+      } else {
+        // success
+        const data = await response.json();
+        setEmailNotifications(data.notifications);
+      }
+    }
   }
 
   return (
@@ -139,7 +162,7 @@ export function Account({
       </div>
       {
         toggles.map(t => {
-          return <Toggle label={t.label} description={t.description} handleApiCall={handleToggle} initial={t.initial} key={t.id} />
+          return <Toggle label={t.label} description={t.description} handleApiCall={handleToggle} initial={emailNotifications.includes(t.slug)} key={t.id} />
         })
       }
 

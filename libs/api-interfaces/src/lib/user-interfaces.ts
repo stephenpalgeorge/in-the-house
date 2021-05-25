@@ -72,6 +72,7 @@ export interface IAuthPropReturn {
   accessToken?: string,
   projects?: IProject[],
   id?: string,
+  notifications?: string[],
 }
 
 // if 'success', the payload will be the user,
