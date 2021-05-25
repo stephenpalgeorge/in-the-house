@@ -10,15 +10,24 @@ export interface ToggleProps {
 
 export function Toggle({ label, description, initial, handleApiCall }: ToggleProps) {
   const [isOn, setIsOn] = React.useState<boolean>(initial);
-  const handleToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const [isDisabled, setIsDisabled] = React.useState<boolean>(false);
+  const handleToggle = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsOn(!isOn);
-    handleApiCall(e);
+    if (handleApiCall) {
+      setIsDisabled(true);
+      await handleApiCall(e);
+      setIsDisabled(false);
+    }
   }
+
+  React.useEffect(() => {
+    setIsOn(initial);
+  }, [initial]);
 
   const inputName: string = label.split(' ').join('-').toLowerCase();
   return (
-    <div className="toggle">
-      <input type="checkbox" name={inputName} id={inputName} onChange={handleToggle} checked={isOn} />
+    <div className={`toggle ${isDisabled ? 'disabled' : ''}`}>
+      <input type="checkbox" name={inputName} id={inputName} onChange={handleToggle} checked={isOn} disabled={isDisabled} />
       <label htmlFor={inputName}>
         <span className="name">{label}</span>
         <span className="description">{description}</span>
