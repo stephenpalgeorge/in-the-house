@@ -326,17 +326,17 @@ export async function deleteProject(userId: string, projectId: string): Promise<
  * do nothing, otherwise, push it onto the array.
  *
  */
-export async function updateNotifications(userId: string, notification: string): Promise<boolean | undefined> {
+export async function updateNotifications(userId: string, notification: string): Promise<string[] | undefined> {
   try {
     const user: IUser = await User.findById(userId);
     if (!user) return undefined;
     // if the notification already exists in the array, bail and return `true`:
-    if (user.notifications.includes(notification)) return true;
+    if (user.notifications.includes(notification)) return user.notifications;
     // otherwise, add it to the array and update the db:
     else {
       user.notifications.push(notification);
       await user.save();
-      return true;
+      return user.notifications;
     }
   } catch (err) {
     console.error(err);

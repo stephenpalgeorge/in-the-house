@@ -351,7 +351,7 @@ router.delete(
  * 'auth/user/:id/notifications'
  */
 router.put(
-  'user/:id/notifications',
+  '/user/:id/notifications',
   [authMiddleware.accessMiddleware, authMiddleware.refreshMiddleware],
   async (req: IDataRequest, res: Response) => {
     const { id: userId } = req.params;
@@ -361,7 +361,7 @@ router.put(
       const error: IErrorObject = { type: 'Not found', message: 'could not update that user.' };
       res.status(404).json(error);
     } else {
-      const data: IAuthPropReturn = { id: userId };
+      const data: IAuthPropReturn = { notifications: response };
       auth.sendAuthResponse(req, res, data);
     }
   }
