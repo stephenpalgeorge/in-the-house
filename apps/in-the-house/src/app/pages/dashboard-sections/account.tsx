@@ -5,7 +5,7 @@ import { IUserProfile } from '@in-the-house/api-interfaces';
 
 import { AuthContext } from '../../contexts/auth.context';
 import { ModalsContext } from '../../contexts/modals.context';
-import { updateUserPassword, updateUserProfile } from '../../fetch';
+import { updateNotifications, updateUserPassword, updateUserProfile } from '../../fetch';
 import toggles from '../../config/email-notifications';
 
 export interface AccountProps {
@@ -110,32 +110,20 @@ export function Account({
   }
 
   const handleToggle = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    // turning on a notification
-    if (e.target.checked) {
-      const response = await window.fetch(`/auth/user/${authContext.userId}/notifications`, {
-        method: 'PUT',
-        headers: {
-          'content-type': 'application/json',
-          authorization: `Bearer ${authContext.accessToken}`,
-        },
-        credentials: 'same-origin',
-        body: JSON.stringify({ notification: e.target.id }),
+    const method = e.target.checked ? 'PUT' : 'DELETE';
+    const notifications: string[] | undefined = await updateNotifications(authContext.userId, authContext.accessToken, e.target.id, method);
+    if (!notifications) {
+      // handle error
+      modalsContext.addModal({
+        name: 'Update notification error',
+        code: 400,
+        type: 'error',
+        message: 'We could not update your email preferences...',
+        isDismissible: true,
       });
-
-      if (!response.ok) {
-        // handle error
-        modalsContext.addModal({
-          name: 'Add notification error',
-          code: 400,
-          type: 'error',
-          message: 'We could not update your email preferences...',
-          isDismissible: true,
-        });
-      } else {
-        // success
-        const data = await response.json();
-        setEmailNotifications(data.notifications);
-      }
+    } else {
+      // success
+      setEmailNotifications(notifications);
     }
   }
 
