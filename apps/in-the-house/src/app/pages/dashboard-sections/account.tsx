@@ -124,6 +124,13 @@ export function Account({
 
       if (!response.ok) {
         // handle error
+        modalsContext.addModal({
+          name: 'Add notification error',
+          code: 400,
+          type: 'error',
+          message: 'We could not update your email preferences...',
+          isDismissible: true,
+        });
       } else {
         // success
         const data = await response.json();

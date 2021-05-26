@@ -48,6 +48,14 @@ export const DashboardPage = React.memo(({ user }: DashboardPageProps) => {
         if (authResponse.data.user) {
           authContext.setUser(authResponse.data.user);
           authContext.setUserId(authResponse.data.user._id);
+          if (!authResponse.data.user.verified) {
+            modalsContext.addModal({
+              name: 'Verification warning',
+              type: 'warning',
+              message: 'Your account isn\'t verified yet. Click the link in the email you got from us, or, if you need a new link, go to https://inthehouse.dev/verify',
+              isDismissible: false,
+            });
+          }
         }
       }
     }
