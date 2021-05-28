@@ -330,7 +330,8 @@ export async function updateNotifications(userId: string, notification: string):
   try {
     const user: IUser = await User.findById(userId);
     if (!user) return undefined;
-    // if the notification already exists in the array, bail and return `true`:
+    // if the notification already exists in the array, bail and return the `notifications`. In theory this should never
+    // happen as this end point only gets hit when the user is `checking` an empty checkbox.
     if (user.notifications.includes(notification)) return user.notifications;
     // otherwise, add it to the array and update the db:
     else {
@@ -338,6 +339,36 @@ export async function updateNotifications(userId: string, notification: string):
       await user.save();
       return user.notifications;
     }
+  } catch (err) {
+    console.error(err);
+    return undefined;
+  }
+}
+
+/**
+ * DELETE NOTIFICATION
+ * -----------
+ * Query the database for a single document, filtered by id,
+ * check the `notifications` array for that user. If it currently contains
+ * the given notification, delete it, otherwise return undefined.
+ * 
+ */
+export async function deleteNotification(userId: string, notification: string): Promise<string[] | undefined> {
+  try {
+    const user: IUser = await User.findById(userId);
+    if (!user) return undefined;
+    // if the notification doesn't exist in the array, baild and return the `notifications`. In theory this should never
+    // happen as this end point only gets hit when the user is `unchecking` a checked checkbox.
+    if (!user.notifications.includes(notification)) return user.notifications;
+    // otherwise, remove the notification from the array:
+    const notificationIndex: number = user.notifications.indexOf(notification);
+    user.notifications = [
+      ...user.notifications.slice(0, notificationIndex),
+      ...user.notifications.slice(notificationIndex + 1),
+    ];
+
+    await user.save();
+    return user.notifications;
   } catch (err) {
     console.error(err);
     return undefined;

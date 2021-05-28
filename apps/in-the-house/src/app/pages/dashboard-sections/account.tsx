@@ -121,6 +121,7 @@ export function Account({
         message: 'We could not update your email preferences...',
         isDismissible: true,
       });
+      setEmailNotifications([...emailNotifications]);
     } else {
       // success
       setEmailNotifications(notifications);

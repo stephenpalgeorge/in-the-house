@@ -11,6 +11,7 @@ import {
   IDataRequest,
   IErrorObject,
 } from '@in-the-house/api-interfaces';
+import { User } from '../models';
 
 const router = Router();
 
@@ -176,7 +177,7 @@ router.put(
       res.status(500).json(error);
     } else {
       // send password-change email:
-      mail.send(EmailTemplates.passwordChange, user);
+      if (user.notifications.includes("password-changed")) mail.send(EmailTemplates.passwordChange, user);
       // send response
       const data: IAuthRouteReturn = { user };
       auth.sendAuthResponse(req, res, data);
@@ -267,7 +268,7 @@ router.post(
       res.status(500).json(error);
     } else {
       // send notification email:
-      mail.send(EmailTemplates.newApiKey, response.user);
+      if (response.user.notifications.includes('new-api-key')) mail.send(EmailTemplates.newApiKey, response.user);
       // send response
       const data: IAuthPropReturn = { apiKey: response.key };
       auth.sendAuthResponse(req, res, data);
@@ -337,7 +338,7 @@ router.delete(
       res.status(400).json(error);
     } else {
       // send notification email:
-      mail.send(EmailTemplates.projectDelete, response.user, { projectName: response.targetProject });
+      if (response.user.notifications.includes('project-deletion')) mail.send(EmailTemplates.projectDelete, response.user, { projectName: response.targetProject });
       // send response:
       const data: IAuthPropReturn = { projects: response.projects };
       auth.sendAuthResponse(req, res, data);
@@ -348,7 +349,7 @@ router.delete(
 /**
  * UPDATE NOTIFICATIONS
  * ----------
- * 'auth/user/:id/notifications'
+ * '/auth/user/:id/notifications'
  */
 router.put(
   '/user/:id/notifications',
@@ -365,6 +366,29 @@ router.put(
       auth.sendAuthResponse(req, res, data);
     }
   }
-)
+);
+
+/**
+ * ----------
+ * DELETE NOTIFICATION
+ * ----------
+ * '/auth/user/:id/notifications'
+ */
+router.delete(
+  '/user/:id/notifications',
+  [authMiddleware.accessMiddleware, authMiddleware.refreshMiddleware],
+  async (req: IDataRequest, res: Response) => {
+    const { id: userId } = req.params;
+    const { notification } = req.body;
+    const response = await userService.deleteNotification(userId, notification);
+    if (!response) {
+      const error: IErrorObject = { type: 'Not found', message: 'could not update that user.' };
+      res.status(404).json(error);
+    } else {
+      const data: IAuthPropReturn = { notifications: response };
+      auth.sendAuthResponse(req, res, data);
+    }
+  }
+);
 
 export default router;
