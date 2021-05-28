@@ -1,17 +1,19 @@
 import * as React from 'react';
-import { PasswordForm, EditUserForm, Stack } from '@in-the-house/ui';
+import { Link } from 'react-router-dom';
+import { PasswordForm, EditUserForm, Toggle, Stack } from '@in-the-house/ui';
 import { IUserProfile } from '@in-the-house/api-interfaces';
 
 import { AuthContext } from '../../contexts/auth.context';
 import { ModalsContext } from '../../contexts/modals.context';
-import { updateUserPassword, updateUserProfile } from '../../fetch';
-import { Link } from 'react-router-dom';
+import { updateNotifications, updateUserPassword, updateUserProfile } from '../../fetch';
+import toggles from '../../config/email-notifications';
 
 export interface AccountProps {
   email?: string,
   firstName?: string,
   lastName?: string,
   username?: string,
+  notifications?: string[],
   accountType?: [number, number],
 }
 
@@ -20,6 +22,7 @@ export function Account({
   firstName = '',
   lastName = '',
   username = '',
+  notifications = [],
   accountType = [0, 0],
 }: AccountProps) {
   const authContext = React.useContext(AuthContext);
@@ -27,8 +30,9 @@ export function Account({
 
   const [editPassword, setEditPassword] = React.useState<boolean>(false);
   const [editable, setEditable] = React.useState<boolean>(false);
+  const [emailNotifications, setEmailNotifications] = React.useState<string[]>(notifications);
   const [accountInfo, setAccountInfo] = React.useState<AccountProps>({
-    email, firstName, lastName, username
+    email, firstName, lastName, username,
   });
 
   const accountLevel = accountType[0] === 0 ? 'limited' : accountType[0] === 1 ? 'standard' : 'unlimited';
@@ -36,7 +40,8 @@ export function Account({
 
   React.useEffect(() => {
     setAccountInfo({ email, firstName, lastName, username });
-  }, [email, firstName, lastName, username]);
+    setEmailNotifications(notifications);
+  }, [email, firstName, lastName, username, notifications]);
 
   const handleEditSubmission = async (updates: IUserProfile) => {
     // check keys.length on updates object, if none, set modal and return
@@ -104,6 +109,25 @@ export function Account({
     }
   }
 
+  const handleToggle = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const method = e.target.checked ? 'PUT' : 'DELETE';
+    const notifications: string[] | undefined = await updateNotifications(authContext.userId, authContext.accessToken, e.target.id, method);
+    if (!notifications) {
+      // handle error
+      modalsContext.addModal({
+        name: 'Update notification error',
+        code: 400,
+        type: 'error',
+        message: 'We could not update your email preferences...',
+        isDismissible: true,
+      });
+      setEmailNotifications([...emailNotifications]);
+    } else {
+      // success
+      setEmailNotifications(notifications);
+    }
+  }
+
   return (
     <Stack sectionName="dashboard-account">
       <div className="account-header">
@@ -126,6 +150,16 @@ export function Account({
       {
         (firstName.length <= 0 && lastName.length > 0) &&
         <p className="user-info">Your <span>last name</span> is <mark>{lastName}</mark></p>
+      }
+
+      <div>
+        <h3>Email Notifications</h3>
+        <p>Turn off any emails that you don't want to receive by unchecking the relevant box below.</p>
+      </div>
+      {
+        toggles.map(t => {
+          return <Toggle label={t.label} description={t.description} handleApiCall={handleToggle} initial={emailNotifications.includes(t.slug)} key={t.id} />
+        })
       }
 
       <div className="account-controls">

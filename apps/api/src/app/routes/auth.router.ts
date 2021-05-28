@@ -1,15 +1,17 @@
 import { Request, Router, Response } from 'express';
 import { check, validationResult } from 'express-validator';
-import { auth } from '../helpers';
+import { auth, mail } from '../helpers';
 import { authMiddleware } from '../middleware';
 import { userService } from '../services';
 import {
+  EmailTemplates,
   IAuthPropReturn,
   IAuthRouteReturn,
   IBasicResponse,
   IDataRequest,
   IErrorObject,
 } from '@in-the-house/api-interfaces';
+import { User } from '../models';
 
 const router = Router();
 
@@ -53,8 +55,13 @@ router.post('/signup', [
     const { email, password, username } = req.body;
     const newUser: IBasicResponse = await userService.createUser(email, password, username);
     if (newUser.status === 'error') throw newUser.payload;
-    // payload will be the userId in this scenario:
-    else res.status(201).json({ user: newUser.payload });
+    else {
+      // send welcome and verification emails:
+      mail.send(EmailTemplates.welcome, newUser.context);
+      mail.send(EmailTemplates.verify, newUser.context);
+      // payload will be the user object in this scenario:
+      res.status(201).json({ user: newUser.payload });
+    }
   } catch (err) {
     const error: IErrorObject = { type: 'Unprocessable Entity', message: err };
     res.status(422).json({ error });
@@ -169,11 +176,56 @@ router.put(
       const error: IErrorObject = { type: 'Internal server error', message: 'could not update the user password - check you correctly entered your current password.' }
       res.status(500).json(error);
     } else {
+      // send password-change email:
+      if (user.notifications.includes("password-changed")) mail.send(EmailTemplates.passwordChange, user);
+      // send response
       const data: IAuthRouteReturn = { user };
       auth.sendAuthResponse(req, res, data);
     }
   }
 );
+
+/**
+ * VERIFY USER
+ * ----------
+ * 'auth/user/:id/verify' - where :id is a user's unique id.
+ * This route is solely for updating the 'verification' property of a single user.
+ * 
+ */
+router.put('/user/:id/verify', async (req: Request, res: Response) => {
+  const { id: userId } = req.params;
+  const { hash } = req.body;
+  const user = await userService.verifyUser(userId, hash);
+  if (!user) {
+    const error: IErrorObject = { type: 'Bad request', message: 'Could not verify this user account' };
+    res.status(400).json(error);
+  } else {
+    res.status(200).json({ user });
+  }
+});
+
+/**
+ * VERIFY RESEND
+ * ----------
+ * 'auth/verify-resend'.
+ * This route should expect an email address in the request body. It is responsible
+ * for then generating a new verification hash and emailing the user with an updated link.
+ * 
+ */
+router.put('/verify-resend', async (req: Request, res: Response) => {
+  console.log(req.body);
+  const { email } = req.body;
+  const user = await userService.verifyResend(email);
+  if (!user) {
+    const error: IErrorObject = { type: 'Unauthorized', message: 'Could not find a user with that email address.' };
+    res.status(401).json(error);
+  } else {
+    // send verification email:
+    mail.send(EmailTemplates.verify, user);
+    // send response:
+    res.status(200).json({ user });
+  }
+});
 
 /**
  * FETCH API KEY
@@ -210,12 +262,15 @@ router.post(
   [authMiddleware.accessMiddleware, authMiddleware.refreshMiddleware],
   async (req: IDataRequest, res: Response) => {
     const { id: userId } = req.params;
-    const apiKey = await userService.generateApiKey(userId);
-    if (!apiKey) {
+    const response = await userService.generateApiKey(userId);
+    if (!response) {
       const error: IErrorObject = { type: 'Server error', message: 'Could not create an API Key' };
       res.status(500).json(error);
     } else {
-      const data: IAuthPropReturn = { apiKey };
+      // send notification email:
+      if (response.user.notifications.includes('new-api-key')) mail.send(EmailTemplates.newApiKey, response.user);
+      // send response
+      const data: IAuthPropReturn = { apiKey: response.key };
       auth.sendAuthResponse(req, res, data);
     }
   }
@@ -277,15 +332,63 @@ router.delete(
   async (req: IDataRequest, res: Response) => {
     const { id: userId } = req.params;
     const { projId } = req.body;
-    const projects = await userService.deleteProject(userId, projId);
-    if (!projects) {
+    const response = await userService.deleteProject(userId, projId);
+    if (!response) {
       const error: IErrorObject = { type: 'Bad request', message: 'could not delete your project.' }
       res.status(400).json(error);
     } else {
-      const data: IAuthPropReturn = { projects };
+      // send notification email:
+      if (response.user.notifications.includes('project-deletion')) mail.send(EmailTemplates.projectDelete, response.user, { projectName: response.targetProject });
+      // send response:
+      const data: IAuthPropReturn = { projects: response.projects };
       auth.sendAuthResponse(req, res, data);
     }
   }
-)
+);
+
+/**
+ * UPDATE NOTIFICATIONS
+ * ----------
+ * '/auth/user/:id/notifications'
+ */
+router.put(
+  '/user/:id/notifications',
+  [authMiddleware.accessMiddleware, authMiddleware.refreshMiddleware],
+  async (req: IDataRequest, res: Response) => {
+    const { id: userId } = req.params;
+    const { notification } = req.body;
+    const response = await userService.updateNotifications(userId, notification);
+    if (!response) {
+      const error: IErrorObject = { type: 'Not found', message: 'could not update that user.' };
+      res.status(404).json(error);
+    } else {
+      const data: IAuthPropReturn = { notifications: response };
+      auth.sendAuthResponse(req, res, data);
+    }
+  }
+);
+
+/**
+ * ----------
+ * DELETE NOTIFICATION
+ * ----------
+ * '/auth/user/:id/notifications'
+ */
+router.delete(
+  '/user/:id/notifications',
+  [authMiddleware.accessMiddleware, authMiddleware.refreshMiddleware],
+  async (req: IDataRequest, res: Response) => {
+    const { id: userId } = req.params;
+    const { notification } = req.body;
+    const response = await userService.deleteNotification(userId, notification);
+    if (!response) {
+      const error: IErrorObject = { type: 'Not found', message: 'could not update that user.' };
+      res.status(404).json(error);
+    } else {
+      const data: IAuthPropReturn = { notifications: response };
+      auth.sendAuthResponse(req, res, data);
+    }
+  }
+);
 
 export default router;

@@ -1,6 +1,6 @@
 import { User } from '../models';
-import { keys, tokens } from '../helpers';
-import { IBasicResponse, ILoginResponse, IProject, IUser, IUserProfile } from '@in-the-house/api-interfaces';
+import { keys, mail, tokens } from '../helpers';
+import { IBasicResponse, IDeleteProjectResponse, ILoginResponse, IProject, IUser, IUserProfile } from '@in-the-house/api-interfaces';
 
 /**
  * CREATE USER
@@ -17,9 +17,10 @@ export async function createUser(email: string, password: string, username: stri
     const user: IUser = await User.findOne({ email }).exec();
     if (user) return { status: 'error', payload: 'this email address already has an account.' };
     // create new user:
-    const newUser: IUser = new User({ email, password, username });
+    const verificationHash: string = keys.generateKey(16);
+    const newUser: IUser = new User({ email, password, username, verification_hash: verificationHash, verified: false });
     await newUser.save();
-    return { status: 'success', payload: newUser.id };
+    return { status: 'success', payload: newUser.id, context: newUser };
   } catch (err) {
     return { status: 'error', payload: err };
   }
@@ -136,6 +137,51 @@ export async function updateUserPassword(userId: string, updates: { current: str
 }
 
 /**
+ * VERIFY USER
+ * ----------
+ * Query the database for a single user document, filtered by id,
+ * update the user's `verify` property to `true` and return the given user.
+ * @param userId {String} teh unique identifier for the user that should be updated
+ * 
+ */
+export async function verifyUser(userId: string, hash: string): Promise<IUser | undefined> {
+  try {
+    const user: IUser = await User.findById(userId);
+    if (!user) return undefined;
+    if (user.verification_hash !== hash) return undefined;
+    user.verified = true;
+    await user.save();
+    return user;
+  } catch (err) {
+    console.log(err);
+    return undefined;
+  }
+}
+
+/**
+ * VERIFY RESEND
+ * ----------
+ * Query the database for a single user, filtered by email address,
+ * update the user's verification hash to a new, random, string and send a new email!
+ * @param email {String} the email address for the user in question
+ */
+export async function verifyResend(email: string): Promise<IUser | undefined> {
+  try {
+    const user: IUser = await User.findOne({ email });
+    if (!user) return undefined;
+
+    // new verification hash:
+    const hash: string = keys.generateKey(16);
+    user.verification_hash = hash;
+    await user.save();
+    return user;
+  } catch (err) {
+    console.error(err);
+    return undefined;
+  }
+}
+
+/**
  * FETCH API KEY
  * ----------
  * Query the database for a single user document, filtered by id,
@@ -164,7 +210,7 @@ export async function fetchApiKey(userId: string): Promise<string | undefined> {
  * @param userId {String} the unique identifier for the user that should be updated
  * 
  */
-export async function generateApiKey(userId: string): Promise<string | undefined> {
+export async function generateApiKey(userId: string): Promise<{ user: IUser, key: string } | undefined> {
   try {
     const user: IUser = await User.findById(userId);
     if (!user) return undefined;
@@ -172,7 +218,10 @@ export async function generateApiKey(userId: string): Promise<string | undefined
     const newKey = keys.generateKey();
     user.api_key = newKey;
     user.save();
-    return newKey;
+    return {
+      user,
+      key: newKey,
+    };
   } catch (err) {
     console.error(err);
     return undefined;
@@ -244,17 +293,82 @@ export async function addProject(userId: string, origin: string): Promise<IProje
  * of the projectId. Return the updated list of projects.
  * 
  */
-export async function deleteProject(userId: string, projectId: string): Promise<IProject[] | undefined> {
+export async function deleteProject(userId: string, projectId: string): Promise<IDeleteProjectResponse | undefined> {
   try {
     const user: IUser = await User.findById(userId);
     if (!user) return undefined;
     // get the index of the projectId from the user.projects array.
     const index = user.projects.map(p => p.id).indexOf(projectId);
     if (index === -1) return undefined;
+    // store a reference to the project that is to be deleted. We need it's name for the notification email:
+    const targetProject = user.projects[index];
+    // set the projects to a copy of the projects array that doesn't include the target project:
     user.projects = [...user.projects.slice(0, index), ...user.projects.slice(index + 1)];
+    // only keep usage records that DON'T pertain to the target project:
     user.usage = user.usage.filter(record => record.project !== projectId);
     await user.save();
-    return user.projects;
+    return {
+      projects: user.projects,
+      user,
+      targetProject: targetProject.origin,
+    };
+  } catch (err) {
+    console.error(err);
+    return undefined;
+  }
+}
+
+/**
+ * UPDATE NOTIFICATIONS
+ * ----------
+ * Query the database for a single document, filtered by id,
+ * check for a notification name in the notifications array. If it exists,
+ * do nothing, otherwise, push it onto the array.
+ *
+ */
+export async function updateNotifications(userId: string, notification: string): Promise<string[] | undefined> {
+  try {
+    const user: IUser = await User.findById(userId);
+    if (!user) return undefined;
+    // if the notification already exists in the array, bail and return the `notifications`. In theory this should never
+    // happen as this end point only gets hit when the user is `checking` an empty checkbox.
+    if (user.notifications.includes(notification)) return user.notifications;
+    // otherwise, add it to the array and update the db:
+    else {
+      user.notifications.push(notification);
+      await user.save();
+      return user.notifications;
+    }
+  } catch (err) {
+    console.error(err);
+    return undefined;
+  }
+}
+
+/**
+ * DELETE NOTIFICATION
+ * -----------
+ * Query the database for a single document, filtered by id,
+ * check the `notifications` array for that user. If it currently contains
+ * the given notification, delete it, otherwise return undefined.
+ * 
+ */
+export async function deleteNotification(userId: string, notification: string): Promise<string[] | undefined> {
+  try {
+    const user: IUser = await User.findById(userId);
+    if (!user) return undefined;
+    // if the notification doesn't exist in the array, baild and return the `notifications`. In theory this should never
+    // happen as this end point only gets hit when the user is `unchecking` a checked checkbox.
+    if (!user.notifications.includes(notification)) return user.notifications;
+    // otherwise, remove the notification from the array:
+    const notificationIndex: number = user.notifications.indexOf(notification);
+    user.notifications = [
+      ...user.notifications.slice(0, notificationIndex),
+      ...user.notifications.slice(notificationIndex + 1),
+    ];
+
+    await user.save();
+    return user.notifications;
   } catch (err) {
     console.error(err);
     return undefined;

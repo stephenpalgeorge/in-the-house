@@ -34,8 +34,11 @@ export interface IUser extends Document {
   password: string,
   api_key?: string,
   projects?: IProject[],
+  notifications?: string[],
   usage?: IRecord[],
   usage_count?: number,
+  verification_hash: string,
+  verified: boolean,
   encryptPassword(pw: string): string,
   comparePassword(pw: string): boolean,
 }
@@ -68,6 +71,8 @@ export interface IAuthPropReturn {
   apiKey?: string,
   accessToken?: string,
   projects?: IProject[],
+  id?: string,
+  notifications?: string[],
 }
 
 // if 'success', the payload will be the user,
@@ -75,6 +80,7 @@ export interface IAuthPropReturn {
 export interface IBasicResponse {
   status: 'success' | 'error',
   payload: string,
+  context?: IUser,
 }
 
 export interface ILoginResponse {
@@ -82,4 +88,10 @@ export interface ILoginResponse {
   userId: string | undefined,
   accessToken: string | undefined,
   refreshToken: string | undefined,
+}
+
+export interface IDeleteProjectResponse {
+  projects: IProject[],
+  user: IUser,
+  targetProject: string,
 }

@@ -5,7 +5,11 @@
   "scripts": {
     "nx": "nx",
     "start": "nx serve",
+    "start:app": "npx nx run in-the-house:serve",
+    "start:api": "npx nx run api:serve",
     "build": "nx build",
+    "build:app": "npx nx run in-the-house:build",
+    "build:api": "npx nx run api:build",
     "test": "nx test",
     "lint": "nx workspace-lint && nx lint",
     "e2e": "nx e2e",

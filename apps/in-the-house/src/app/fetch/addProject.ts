@@ -5,7 +5,7 @@ export default async function addProject(userId: string, accessToken: string, or
       'content-type': 'application/json',
       authorization: `Bearer ${accessToken}`,
     },
-    body: JSON.stringify({origin}),
+    body: JSON.stringify({ origin }),
     credentials: 'same-origin',
   });
 
