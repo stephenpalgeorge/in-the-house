@@ -18,6 +18,7 @@ export enum EmailSender {
 }
 
 export enum EmailTemplates {
+  goodbye = 'goodbye',
   newApiKey = 'new-api-key',
   passwordChange = 'password-change',
   projectDelete = 'project-delete',
