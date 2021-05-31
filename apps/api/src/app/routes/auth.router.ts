@@ -69,6 +69,34 @@ router.post('/signup', [
 });
 
 /**
+ * DELETE ACCOUNT
+ * ----------
+ * @method 'DELETE'
+ * '/auth/user/:id'
+ * Find a user and remove the account, requires auth and password validation.
+ * 
+ */
+router.delete(
+  '/user/:id',
+  [authMiddleware.accessMiddleware, authMiddleware.refreshMiddleware],
+  async (req: IDataRequest, res: Response) => {
+    const { id: userId } = req.params;
+    const { password } = req.body;
+    const user = await userService.deleteUser(userId, password);
+
+    if (!user) {
+      const error: IErrorObject = { type: 'Not found', message: 'Couldn\'t delete this user.' };
+      res.status(404).json(error);
+    } else {
+      // send goodbye email:
+      mail.send(EmailTemplates.goodbye, user);
+      // return the user id:
+      res.status(200).json({ userId: user.id });
+    }
+  }
+);
+
+/**
  * LOGIN - AUTHENTICATE USER
  * ----------
  * @method 'POST'
@@ -136,6 +164,7 @@ router.get(
 /**
  * UPDATE SINGLE USER
  * ----------
+ * @method 'PUT'
  * '/auth/user/:id' - where :id is a user's unique id.
  * The res includes the updated user data and, if the auth tokens were resigned,
  * the new access token to be stored on the front end.
@@ -160,6 +189,7 @@ router.put(
 /**
  * UPDATE USER PASSWORD
  * ----------
+ * @method 'PUT'
  * '/auth/user/:id/change-password' - where :id is a user's unique id.
  * This route is solely for updating the password of a single user. As this 
  * requires extra checks and auth, it makes sense to separate it from the general
@@ -188,6 +218,7 @@ router.put(
 /**
  * VERIFY USER
  * ----------
+ * @method 'PUT'
  * 'auth/user/:id/verify' - where :id is a user's unique id.
  * This route is solely for updating the 'verification' property of a single user.
  * 
@@ -207,6 +238,7 @@ router.put('/user/:id/verify', async (req: Request, res: Response) => {
 /**
  * VERIFY RESEND
  * ----------
+ * @method 'PUT'
  * 'auth/verify-resend'.
  * This route should expect an email address in the request body. It is responsible
  * for then generating a new verification hash and emailing the user with an updated link.
@@ -230,6 +262,7 @@ router.put('/verify-resend', async (req: Request, res: Response) => {
 /**
  * FETCH API KEY
  * ----------
+ * @method 'POST'
  * '/auth/user/:id/fetch-key' - where :id is a user's unique id.
  * We have a dedicated route for retrieving the api_key. As this is sensitive
  * information, we never send it back with the rest of the user data and should only
@@ -255,6 +288,7 @@ router.post(
 /**
  * GENERATE API KEY
  * ----------
+ * @method 'POST'
  * '/auth/user/:id/generate-key',
  */
 router.post(
@@ -279,6 +313,7 @@ router.post(
 /**
  * FETCH PROJECTS
  * ----------
+ * @method 'POST'
  * '/auth/user/:id/projects',
  */
 router.post(
@@ -300,6 +335,7 @@ router.post(
 /**
  * ADD PROJECT
  * ----------
+ * @method 'POST'
  * '/auth/user/:id/project',
  * 
  */
@@ -323,6 +359,7 @@ router.post(
 /**
  * DELETE PROJECT
  * ----------
+ * @method 'DELETE'
  * '/auth/user/:id/project'
  * 
  */
@@ -349,6 +386,7 @@ router.delete(
 /**
  * UPDATE NOTIFICATIONS
  * ----------
+ * @method 'PUT'
  * '/auth/user/:id/notifications'
  */
 router.put(
@@ -372,6 +410,7 @@ router.put(
  * ----------
  * DELETE NOTIFICATION
  * ----------
+ * @method 'DELETE'
  * '/auth/user/:id/notifications'
  */
 router.delete(
