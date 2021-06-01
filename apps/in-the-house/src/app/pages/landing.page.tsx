@@ -12,7 +12,7 @@ import { AuthContext } from '../contexts/auth.context';
 import { ModalsContext } from '../contexts/modals.context';
 
 export interface LandingPageProps {
-  version: string,
+  version: "beta" | "production",
 }
 
 export function LandingPage({ version }: LandingPageProps) {
@@ -65,7 +65,7 @@ export function LandingPage({ version }: LandingPageProps) {
     }
   }
   return (
-    <BasicPage handleSignup={handleSignup} navItems={navItems} pageName="landing" version="production" formIcons={BetaFormIcons}>
+    <BasicPage handleSignup={handleSignup} navItems={navItems} pageName="landing" version={version} formIcons={BetaFormIcons}>
       <Helmet>
         <title>Welcome - In the House</title>
         <meta name="description" content="The 'In the House' API provides political data from the UK government for easy querying, analysis or integration into your own app. Create your account, or login." />
