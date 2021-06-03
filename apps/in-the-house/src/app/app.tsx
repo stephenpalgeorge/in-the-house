@@ -71,7 +71,7 @@ export const App = () => {
         </Route>
 
         <Route path="/" exact>
-          <LandingPage version="production" />
+          <LandingPage version="beta" />
         </Route>
 
         <Route component={NotFound} />
