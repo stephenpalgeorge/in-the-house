@@ -1,11 +1,10 @@
-import { EmailAccount, EmailSender, IEmailTemplate, ITemplateFuncSignature } from '@in-the-house/api-interfaces';
+import { EmailSender, IEmailTemplate, ITemplateFuncSignature } from '@in-the-house/api-interfaces';
 import template from './emailTemplate';
 
 export function passwordChangeEmail(info: ITemplateFuncSignature): IEmailTemplate {
   const { user } = info;
 
   return {
-    account: EmailAccount.admin,
     sender: EmailSender.admin,
     subject: "Your password has been changed",
     contents: template('New Password', `

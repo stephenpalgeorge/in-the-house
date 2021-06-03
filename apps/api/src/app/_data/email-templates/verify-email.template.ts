@@ -1,11 +1,10 @@
-import { EmailAccount, EmailSender, IEmailTemplate, ITemplateFuncSignature } from '@in-the-house/api-interfaces';
+import { EmailSender, IEmailTemplate, ITemplateFuncSignature } from '@in-the-house/api-interfaces';
 import template from './emailTemplate';
 
 export function verifyEmail(info: ITemplateFuncSignature): IEmailTemplate {
   const { user } = info;
 
   return {
-    account: EmailAccount.admin,
     sender: EmailSender.admin,
     subject: "Verify your email address",
     contents: template('Verify your email address', `

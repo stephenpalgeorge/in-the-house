@@ -1,11 +1,10 @@
-import { EmailAccount, EmailSender, ITemplateFuncSignature, IEmailTemplate } from '@in-the-house/api-interfaces';
+import { EmailSender, ITemplateFuncSignature, IEmailTemplate } from '@in-the-house/api-interfaces';
 import template from './emailTemplate';
 
 export function projectDeleteEmail(info: ITemplateFuncSignature): IEmailTemplate {
   const { user, data } = info;
 
   return {
-    account: EmailAccount.admin,
     sender: EmailSender.admin,
     subject: "Project deleted",
     contents: template('Project deleted', `
