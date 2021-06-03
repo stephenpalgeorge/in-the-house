@@ -7,7 +7,11 @@ import { defaultNav } from '../config/nav-items';
 import { signUp } from '../fetch';
 import { ModalsContext } from '../contexts/modals.context';
 
-export function GoodbyePage() {
+export interface GoodbyePageProps {
+  version?: 'production' | 'beta',
+}
+
+export function GoodbyePage({ version }: GoodbyePageProps) {
   const modalsContext = React.useContext(ModalsContext);
   const history = useHistory();
   const location = useLocation();
@@ -37,7 +41,7 @@ export function GoodbyePage() {
     }
   }
   return (
-    <BasicPage navItems={navItems} pageName="not-found" contentsWidth="narrow" handleSignup={handleSignup}>
+    <BasicPage navItems={navItems} pageName="not-found" contentsWidth="narrow" version={version} handleSignup={handleSignup}>
       <Helmet>
         <title>Goodbye - In the House</title>
         <meta property="og:title" content="Goodbye - In the House" />

@@ -1,11 +1,10 @@
-import { EmailAccount, EmailSender, ITemplateFuncSignature, IEmailTemplate } from '@in-the-house/api-interfaces';
+import { EmailSender, ITemplateFuncSignature, IEmailTemplate } from '@in-the-house/api-interfaces';
 import template from './emailTemplate';
 
 export function newApiKeyEmail(info: ITemplateFuncSignature): IEmailTemplate {
   const { user } = info;
 
   return {
-    account: EmailAccount.admin,
     sender: EmailSender.admin,
     subject: "New API Key",
     contents: template('New API Key', `

@@ -1,10 +1,9 @@
-import { EmailAccount, EmailSender, IEmailTemplate, ITemplateFuncSignature } from '@in-the-house/api-interfaces';
+import { EmailSender, IEmailTemplate, ITemplateFuncSignature } from '@in-the-house/api-interfaces';
 import template from './emailTemplate';
 
 export function goodbyeEmail(info: ITemplateFuncSignature): IEmailTemplate {
   const { user } = info;
   return {
-    account: EmailAccount.hello,
     sender: EmailSender.hello,
     subject: "We're sorry to see you go.",
     contents: template('Goodbye', `

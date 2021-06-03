@@ -1,10 +1,9 @@
-import { EmailAccount, EmailSender, IEmailTemplate, ITemplateFuncSignature } from '@in-the-house/api-interfaces';
+import { EmailSender, IEmailTemplate, ITemplateFuncSignature } from '@in-the-house/api-interfaces';
 import template from './emailTemplate';
 
 export function welcomeEmail(info: ITemplateFuncSignature): IEmailTemplate {
   const { user } = info;
   return {
-    account: EmailAccount.hello,
     sender: EmailSender.hello,
     subject: "Welcome, you're In the House.",
     contents: template('Welcome', `

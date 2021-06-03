@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 .toggle {
   $checkbox-size: 1.5rem;
   $spacing: 1rem;
@@ -45,8 +47,8 @@
       content: "";
       position: absolute;
       top: 0.6rem;
-      left: $checkbox-size / 2;
-      width: $checkbox-size / 3;
+      left: math.div($checkbox-size, 2);
+      width: math.div($checkbox-size, 3);
       height: $checkbox-size * .8;
       border: 3px solid $color--light;
       transform-origin: center;
