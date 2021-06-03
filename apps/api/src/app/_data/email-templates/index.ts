@@ -6,7 +6,7 @@ import { verifyEmail } from './verify-email.template';
 import { welcomeEmail } from './welcome.template';
 
 export default {
-  goodbyeEmail: goodbyeEmail,
+  goodbye: goodbyeEmail,
   'new-api-key': newApiKeyEmail,
   'password-change': passwordChangeEmail,
   'project-delete': projectDeleteEmail,

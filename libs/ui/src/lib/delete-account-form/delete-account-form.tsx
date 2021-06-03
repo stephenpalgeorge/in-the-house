@@ -18,6 +18,7 @@ export function DeleteAccountForm({ deleteHandler }: DeleteAccountFormProps) {
       if (deleteHandler) await deleteHandler(password);
     }}>
       <div className="form__form-field">
+        <label htmlFor="delete-account-password">Enter your password:</label>
         <input
           ref={passwordInputRef}
           type="password"
@@ -26,7 +27,6 @@ export function DeleteAccountForm({ deleteHandler }: DeleteAccountFormProps) {
           value={password}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
         />
-        <label htmlFor="delete-account-password">Enter your password:</label>
       </div>
 
       <button type="submit">Delete</button>

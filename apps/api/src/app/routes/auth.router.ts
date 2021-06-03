@@ -88,6 +88,7 @@ router.delete(
       const error: IErrorObject = { type: 'Not found', message: 'Couldn\'t delete this user.' };
       res.status(404).json(error);
     } else {
+      console.log('account deleted');
       // send goodbye email:
       mail.send(EmailTemplates.goodbye, user);
       // return the user id:

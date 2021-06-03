@@ -66,7 +66,7 @@ export const App = () => {
         </Route>
 
         <Route path="/" exact>
-          <LandingPage version="0.0.1" />
+          <LandingPage version="production" />
         </Route>
 
         <Route component={NotFound} />

@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
-import { PasswordForm, EditUserForm, Toggle, Stack } from '@in-the-house/ui';
+import { Link, useHistory } from 'react-router-dom';
+import { DeleteAccountForm, PasswordForm, EditUserForm, Toggle, Stack } from '@in-the-house/ui';
 import { IUserProfile } from '@in-the-house/api-interfaces';
 
 import { AuthContext } from '../../contexts/auth.context';
 import { ModalsContext } from '../../contexts/modals.context';
-import { updateNotifications, updateUserPassword, updateUserProfile } from '../../fetch';
+import { deleteUserAccount, updateNotifications, updateUserPassword, updateUserProfile } from '../../fetch';
 import toggles from '../../config/email-notifications';
 
 export interface AccountProps {
@@ -25,10 +25,12 @@ export function Account({
   notifications = [],
   accountType = [0, 0],
 }: AccountProps) {
+  const history = useHistory();
   const authContext = React.useContext(AuthContext);
   const modalsContext = React.useContext(ModalsContext);
 
   const [editPassword, setEditPassword] = React.useState<boolean>(false);
+  const [deleteAccount, setDeleteAccount] = React.useState<boolean>(false);
   const [editable, setEditable] = React.useState<boolean>(false);
   const [emailNotifications, setEmailNotifications] = React.useState<string[]>(notifications);
   const [accountInfo, setAccountInfo] = React.useState<AccountProps>({
@@ -128,6 +130,24 @@ export function Account({
     }
   }
 
+  const handleDeleteAccount = async (pass: string) => {
+    const confirm = window.confirm('You are about to delete your account and all your data. This cannot be undone. Are you sure you want to continue?');
+    if (!confirm) return;
+    const response = await deleteUserAccount(authContext.userId, authContext.accessToken, pass);
+    if (!response) {
+      modalsContext.addModal({
+        name: 'Deletion error',
+        code: 400,
+        type: 'error',
+        message: 'We could not delete your account...are you sure you typed the right password?',
+        isDismissible: true,
+      });
+    } else {
+      console.log('account deleted');
+      history.push('/logout', { destination: '/goodbye' });
+    }
+  }
+
   return (
     <Stack sectionName="dashboard-account">
       <div className="account-header">
@@ -192,6 +212,14 @@ export function Account({
           username={accountInfo.username}
           submit={handleEditSubmission}
         />
+      }
+
+      <button id="delete-link" onClick={() => setDeleteAccount(!deleteAccount)}>
+        {deleteAccount ? 'Hide form' : 'Delete my account'}
+      </button>
+      {
+        deleteAccount &&
+        <DeleteAccountForm deleteHandler={handleDeleteAccount} />
       }
     </Stack>
   )
