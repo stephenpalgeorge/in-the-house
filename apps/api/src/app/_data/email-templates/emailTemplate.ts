@@ -19,6 +19,7 @@ export default function emailTemplate(title: string, contents: string) {
             font-family: "Open Sans", Arial, sans-serif;
             font-size: 1rem;
             line-height: 1.4;
+            max-width: 60ch;
           }
 
           a {
@@ -26,6 +27,10 @@ export default function emailTemplate(title: string, contents: string) {
             font-weight: 900;
             line-height: 1.4;
             color: #fe26af !important;
+          }
+
+          #sign-off {
+            font-style: italic;
           }
         </style>
       </head>
