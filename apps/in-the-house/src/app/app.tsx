@@ -10,6 +10,7 @@ import { menuNav } from './config/nav-items';
 import {
   BuildingPage,
   DashboardPage,
+  GoodbyePage,
   LandingPage,
   LoginPage,
   LogoutPage,
@@ -59,6 +60,10 @@ export const App = () => {
               We're also working on similar libraries for Vue, Svelte and web-components.
             </p>
           </BuildingPage>
+        </Route>
+
+        <Route path="/goodbye">
+          <GoodbyePage />
         </Route>
 
         <Route path="/verify">
