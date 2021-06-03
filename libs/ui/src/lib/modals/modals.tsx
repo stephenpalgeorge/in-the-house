@@ -11,7 +11,7 @@ export function Modal({ modal, closeModal }: ModalProps) {
   React.useEffect(() => {
     let timeout = setTimeout(() => {
       if (modal.isDismissible) closeModal(modal.name);
-    }, 6000);
+    }, 4000);
 
     const handleKeyup = e => {
       if (e.keyCode === 27) closeModal(modal.name);

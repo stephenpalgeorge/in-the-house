@@ -1,3 +1,4 @@
+export * from './lib/delete-account-form/delete-account-form';
 export * from './lib/toggle/toggle';
 export * from './lib/footer/footer';
 export * from './lib/project-form/project-form';

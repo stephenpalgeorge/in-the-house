@@ -31,6 +31,7 @@ export const DashboardPage = React.memo(({ user }: DashboardPageProps) => {
 
   React.useEffect(() => {
     const authenticateUser = async (id: string, accessToken: string) => {
+      if (!id || id.length === 0) return;
       const authResponse = await fetchFromUser(accessToken, `/auth/user/${id}`);
       if (authResponse.status === 'error') {
         // handle error -> redirect to login page with modal

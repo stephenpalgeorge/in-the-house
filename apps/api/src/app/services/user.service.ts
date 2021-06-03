@@ -26,7 +26,30 @@ export async function createUser(email: string, password: string, username: stri
   }
 }
 
-export async function authenticate(username, password): Promise<ILoginResponse> {
+/**
+ * DELETE USER
+ * ----------
+ * Query the database for a single user, filtered by ID, validate the password and then
+ * delete the user, assuming auth passes.
+ * 
+ */
+export async function deleteUser(userId: string, password: string): Promise<IUser | undefined> {
+  try {
+    const user: IUser = await User.findById(userId);
+    if (!user) return undefined;
+    const isValidPassword: boolean = await user.comparePassword(password);
+    if (!isValidPassword) return undefined;
+
+    // if we've found a user and the password checks out, delete the user:
+    const deletedUser: IUser = await User.findByIdAndDelete(user.id);
+    return deletedUser;
+  } catch (err) {
+    console.error(err);
+    return undefined;
+  }
+}
+
+export async function authenticate(username: string, password: string): Promise<ILoginResponse> {
   try {
     // find user by username, error if no document is found:
     const user: IUser = await User.findOne({ username }).exec();

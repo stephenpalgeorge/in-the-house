@@ -12,7 +12,7 @@ import { AuthContext } from '../contexts/auth.context';
 import { ModalsContext } from '../contexts/modals.context';
 
 export interface LandingPageProps {
-  version: string,
+  version: "beta" | "production",
 }
 
 export function LandingPage({ version }: LandingPageProps) {

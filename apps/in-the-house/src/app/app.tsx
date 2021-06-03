@@ -10,6 +10,7 @@ import { menuNav } from './config/nav-items';
 import {
   BuildingPage,
   DashboardPage,
+  GoodbyePage,
   LandingPage,
   LoginPage,
   LogoutPage,
@@ -61,12 +62,16 @@ export const App = () => {
           </BuildingPage>
         </Route>
 
+        <Route path="/goodbye">
+          <GoodbyePage />
+        </Route>
+
         <Route path="/verify">
           <VerifyPage />
         </Route>
 
         <Route path="/" exact>
-          <LandingPage version="0.0.1" />
+          <LandingPage version="production" />
         </Route>
 
         <Route component={NotFound} />
