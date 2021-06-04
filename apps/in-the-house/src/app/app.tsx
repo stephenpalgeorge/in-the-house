@@ -7,16 +7,7 @@ import { ModalsContext } from './contexts/modals.context';
 import { Modals } from '@in-the-house/ui';
 import { menuNav } from './config/nav-items';
 
-import {
-  BuildingPage,
-  DashboardPage,
-  GoodbyePage,
-  LandingPage,
-  LoginPage,
-  LogoutPage,
-  NotFound,
-  VerifyPage,
-} from './pages';
+import * as Pages from './pages';
 
 export const App = () => {
   const authContext = React.useContext(AuthContext);
@@ -27,19 +18,19 @@ export const App = () => {
       <Modals modals={modalsContext.modals} closeModal={modalsContext.deleteModal} />
       <Switch>
         <Route path="/dashboard/:userId">
-          <DashboardPage user={authContext.user} />
+          <Pages.DashboardPage user={authContext.user} />
         </Route>
 
         <Route path="/login">
-          <LoginPage />
+          <Pages.LoginPage />
         </Route>
 
         <Route path="/logout">
-          <LogoutPage />
+          <Pages.LogoutPage />
         </Route>
 
         <Route path="/docs">
-          <BuildingPage navItems={menuNav}>
+          <Pages.BuildingPage navItems={menuNav}>
             <figure>
               <figcaption>Full docs will be coming soon. For now, here's an example of the kind of endpoints you can hit:</figcaption>
               <pre>
@@ -47,11 +38,11 @@ export const App = () => {
                 <span>https://www.inthehouse.dev/api/v1/search/single/boris+matt</span>
               </pre>
             </figure>
-          </BuildingPage>
+          </Pages.BuildingPage>
         </Route>
 
         <Route path="/demo">
-          <BuildingPage navItems={menuNav}>
+          <Pages.BuildingPage navItems={menuNav}>
             <p style={{ marginTop: '1rem' }} className="font-family--sans-serif font-weight--light">
               This page will demo the <span className="font-weight--heavy color--primary font-family--serif">In the House API</span> with a small React application. The app
               will use the <a href="https://github.com/stephenpalgeorge/ith-ui-react" className="color--secondary--darkened">In the House UI - React Library</a>, a small set of components (still in development)
@@ -59,22 +50,26 @@ export const App = () => {
               <br /><br />
               We're also working on similar libraries for Vue, Svelte and web-components.
             </p>
-          </BuildingPage>
+          </Pages.BuildingPage>
         </Route>
 
         <Route path="/goodbye">
-          <GoodbyePage />
+          <Pages.GoodbyePage />
+        </Route>
+
+        <Route>
+          <Pages.RoadMapPage />
         </Route>
 
         <Route path="/verify">
-          <VerifyPage />
+          <Pages.VerifyPage />
         </Route>
 
         <Route path="/" exact>
-          <LandingPage version="beta" />
+          <Pages.LandingPage version="beta" />
         </Route>
 
-        <Route component={NotFound} />
+        <Route component={Pages.NotFound} />
       </Switch>
     </div>
   );
