@@ -5,6 +5,7 @@ import { LandingPage } from './landing.page';
 import { LoginPage } from './login.page';
 import { LogoutPage } from './logout.page';
 import { NotFound } from './not-found.page';
+import { RoadMapPage } from './roadmap.page';
 import { VerifyPage } from './verify.page';
 
 export {
@@ -15,5 +16,6 @@ export {
   LoginPage,
   LogoutPage,
   NotFound,
+  RoadMapPage,
   VerifyPage,
 };
